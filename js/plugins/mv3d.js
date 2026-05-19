@@ -1,405 +1,78 @@
 /*:
-@plugindesc
-3D rendering for RPG Maker MV, 
-version 0.6.8.2 (Demo)
+@plugindesc 3D rendering in RPG Maker MV with babylon.js
+version 0.6.4.2
 @author Cutievirus
-
 @help
-Requires RPG Maker MV
-	
-This is a demo version of MV3D. The full version is available at
-itch.io or patreon.
 
-https://cutievirus.itch.io/mv3d
-https://www.patreon.com/cutievirus
+Requires version 1.6 of RPG Maker MV.  
+
+If you are making a game with this plugin, please consider supporting my
+patreon.  
+https://www.patreon.com/cutievirus  
+You can also unlock some patron-only features by becoming a patron, such as
+Dynamic Shadows.  
+
+Discord: http://cutievirus.com/discord
+
+## Getting started
+
+To use the plugin on a new or existing project, download [plugin.zip] and
+extract the files into your project directory.
+Then, load `mv3d.js` in the plugin manager.
+
+Now when you run your game, the map should be rendered in 3D.
+
+For full documentation, please see the [wiki].
 
 
-For assistance with the plugin, please join the discord:
+[plugin.zip]:
+https://github.com/Dread-chan/MV3D/blob/master/plugin.zip
 
-Discord: http://cutievirus.com/discord  
-
-
-For full documentation, please see the wiki:
-
-https://mv3d.cutievirus.com/documentation
-
+[wiki]:https://mv3d.cutievirus.com/documentation
 
 
 ## Patron Heroes:
 
-- Rikyu
 - AMemoryofEternity 
-- Fyoha
+- Fyoha 
 - 冬空 橙
+- AmalgamAsh
+- Goatse Man
+- Kaine Lowe
 - Anthony Xue
+- Kaibris
+- Galatic Acid
 - Ricky Smith
-- Lynn Grant
-- kim marberry
-- Samuel LESPES CARDILLO
-- Ham
-- Brendan Belton
-- Mark Toman
-- Decayingdev
-- Donald Purvis
-- Brandi K
-- WeakWasabi 
-- Logan Swartz
+- james gray
+- Bird Man
+- Matthias Herrmann
+- OneDrive
 
 ## Patron Knights:
 
 - CattleDog
 - hsumi1 .
-- AmalgamAsh
+- Whitely
 - L
 - Nemo Ma
 - Clumsydemonwithfire 
 - Matteo Calbi
 - RetroChaos
-- noone
+- Collin
+- Trick
+- Christian Cano
+- MageisHero
 - Rareica
 - Jimmy McCarney
-- JosephSeraph 
+- Jesse 
+- sef 
+- Man Meat
+- Jovon Hampton
 - Joseph Reyes
 - Brendan Lundy
-- stevens tavares
-- SuperNick
-- Harmless 
-- Miolhr 
-- Marcel Ka
+- moxri 
+- ManaBomb
 - + 1 hidden
-
-
-
-
-@command command
-@text Legacy Command
-@desc Use the old command syntax
-
-@arg command
-@text Command
-@desc Enter the command without the mv3d/mz3d prefix.
-
-
-@command animation
-@text Play Animation
-@desc 
-
-@arg id
-@text Animation
-@type animation
-@default 1
-
-@arg target
-@text Target
-@desc Enter the event id or "player". Blank for current event.
-
-@arg scale
-@text Scale
-@type number
-@decimals 4
-@min 0.0001
-@default 1
-
-@arg rot
-@text Rotation
-@desc The rotation angle of the animation. If "auto", matches camera rotation.
-@type number
-@decimals 0
-@min 0 @max 360
-@default auto
-
-@arg depth
-@text Depth
-@desc If enabled, postprocessing will be disabled while the animation is playing.
-@type boolean
-@default false
-
-@arg height
-@text Height Offset
-@desc Offsets the z position of the animation.
-@type number
-@decimals 4
-@min -9999 @max 9999
-@default 0
-
-
-@command camera
-@text Camera
-@desc Change the camera settings.
-
-@arg pitch
-@text Pitch
-@desc Aims the camera up and down
-@type number
-@decimals 0
-@min 0
-@max 180
-
-@arg yaw
-@text Yaw
-@desc Rotates the camera around the target
-@type number
-@decimals 0
-@min 0
-@max 360
-
-@arg roll
-@text Roll
-@desc Tilts the camera side to side
-@type number
-@decimals 0
-@min -360
-@max 360
-
-@arg dist
-@text Distance
-@desc The distance of the camera to the target (0=first person)
-@type number
-@decimals 3
-@min 0
-
-@arg zoom
-@text Zoom
-@desc Modifies the FOV to zoom the camera.
-@type number
-@decimals 4
-@min -9999
-@max 9999
-
-@arg height
-@text Height
-@desc The height of the camera.
-@type number
-@decimals 3
-
-@arg mode
-@text Mode
-@desc Switch between perspective mode and orthographic mode.
-@type select
-@option perspective
-@option orthographic
-
-@arg follow
-@text Follow Target
-@desc Which character should the camera follow?
-(enter the event id, or the word "player")
-
-@arg pan
-@text Pan
-@desc Pan the camera away from the target
-@type struct<XY>
-
-@arg time
-@text Time
-@desc Time in seconds to complete transition
-@type number
-@decimals 3
-@min 0
-@default 1
-
-
-@command cameraTrack
-@text Camera Tracking
-@desc Automatically rotate the camera to face the tracking target.
-
-@arg target
-@text Target
-@desc Enter the event id or "player". Leave blank to disable.
-
-@arg trackYaw
-@text Track Yaw
-@type boolean
-@default true
-
-@arg trackPitch
-@text Track Pitch
-@type boolean
-@default true
-
-@arg time
-@text Smoothness
-@desc How smoothly the target will be tracked. Higher number = slower.
-@type number
-@decimals 3
-@default 0
-
-
-@command fog
-@text Fog
-@desc Change fog settings.
-
-@arg color
-@text Fog Color
-
-@arg near
-@text Start Distance
-@type number
-@decimals 3
-
-@arg far
-@text End Distance
-@type number
-@decimals 3
-
-@arg time
-@text Time
-@type number
-@decimals 3
-@default 1
-
-
-@command light
-@text Lighting
-@desc Change light settings.
-
-@arg color
-@text Ambient Color
-@desc The ambient light lights everything in the scene.
-
-@arg time
-@text Time
-@type number
-@decimals 0
-@default 1
-
-
-@command lamp
-@text Lamp
-@desc Add a lamp lightsource to a character.
-
-@arg target
-@text Target
-@desc Enter the event id or "player". Blank for current event.
-
-@arg color
-@text Color
-
-@arg intensity
-@text Intensity
-@type number
-@decimals 3
-@min 0
-
-@arg dist
-@text Distance
-@desc How far the light will travel.
-@type number
-@decimals 3
-@min 0
-
-@arg time
-@text Time
-@type number
-@decimals 3
-@default 1
-
-
-@command flashlight
-@text Flashlight
-@desc Add a flashlight lightsource to a character.
-
-@arg target
-@text Target
-@desc Enter the event id or "player". Blank for current event.
-
-@arg color
-@text Color
-
-@arg intensity
-@text Intensity
-@type number
-@decimals 3
-@min 0
-
-@arg dist
-@text Distance
-@desc How far the light will travel.
-@type number
-@decimals 3
-@min 0
-
-@arg angle
-@text Beam Width
-@desc An angle that describes the width of the beam.
-@type number
-@min 0 @max 360
-
-@arg yaw
-@text Yaw
-@desc The horizontal angle of the flashlight beam.
-@type number
-@decimals 0
-@min 0
-@max 360
-
-@arg pitch
-@text Pitch
-@desc The vertical angle of the flashlight beam.
-@type number
-@decimals 0
-@min 0
-@max 180
-
-@arg time
-@text Time
-@type number
-@decimals 3
-@default 1
-
-
-@command resolution
-@text Resolution Scale
-@desc Scale the resolution for a pixellated effect.
-
-@arg scale
-@text Scale
-@desc Should be between 0 and 1.
-@type number
-@decimals 4
-@min 0 @max 1
-@default 1.0000
-
-@arg time
-@text Time
-@type number
-@decimals 3
-@default 1
-
-
-@command configure
-@text Configure
-@desc Change the target event's configuration
-
-@arg target
-@text Target
-@desc Enter the event id or "player". Blank for current event.
-
-@arg config
-@text Configuration
-@type note
-
-
-@command set
-@text Set Property
-@desc Change the value of one of these properties
-
-@arg property
-@text Property
-@type select
-@option lockCamera
-@option allowRotation
-@option allowPitch
-@option diagonalMovement
-@option turnIncrement
-@option turnSpeed
-@option instantMovement
-@option inputCameraMouse
-@option inputCameraGamepad
-@option cameraCollision
-@option airshipHeight
-
-@arg value
-@text Value
 
 
 
@@ -410,7 +83,7 @@ https://mv3d.cutievirus.com/documentation
 @text 3D Options Menu
 @desc Whether 3D options will be in a submenu, regular options menu, or disabled.
 @parent options
-@type select
+@type Select
 @option SUBMENU
 @option ENABLE
 @option DISABLE
@@ -421,14 +94,14 @@ https://mv3d.cutievirus.com/documentation
 @text Render Distance Option Name
 @desc symbol name: mv3d-renderDist
 @parent options
-@type text
+@type Text
 @default Render Distance
 
 @param renderDist
 @text Render Distance Default
 @desc The maximum distance that can be rendered by the camera.
 @parent renderDistOptionName
-@type number
+@type Number
 @default 25
 @min 0
 
@@ -436,20 +109,20 @@ https://mv3d.cutievirus.com/documentation
 @text Render Distance Option
 @desc Should Render Distance appear on options menu?
 @parent renderDistOptionName
-@type boolean
+@type Boolean
 @default true
 
 @param renderDistMin
 @text Render Distance Min
 @parent renderDistOptionName
-@type number
+@type Number
 @default 10
 @min 0
 
 @param renderDistMax
 @text Render Distance Max
 @parent renderDistOptionName
-@type number
+@type Number
 @default 100
 @min 0
 
@@ -458,20 +131,20 @@ https://mv3d.cutievirus.com/documentation
 #text Mipmapping Option Name
 #desc symbol name: mv3d-mipmap
 #parent options
-#type text
+#type Text
 #default Mipmapping
 
 #param mipmap
 #text Mipmapping Default
 #parent mipmapOptionName
-#type boolean
+#type Boolean
 #default false
 
 #param mipmapOption
 #text Mipmapping Option
 #desc Should Mipmapping appear on options menu?
 #parent mipmapOptionName
-#type boolean
+#type Boolean
 #default true
 
 
@@ -479,34 +152,34 @@ https://mv3d.cutievirus.com/documentation
 @text FOV Option Name
 @desc symbol name: mv3d-fov
 @parent options
-@type text
+@type Text
 @default FOV
 
 @param fov
 @text FOV Default
 @parent fovOptionName
-@type number
-@default 70
+@type Number
+@default 65
 @min 0 @max 180
 
 @param fovOption
 @text FOV Option
 @desc Should FOV appear on options menu?
 @parent fovOptionName
-@type boolean
+@type Boolean
 @default false
 
 @param fovMin
 @text FOV Min
 @parent fovOptionName
-@type number
+@type Number
 @default 50
 @min 0 @max 180
 
 @param fovMax
 @text FOV Max
 @parent fovOptionName
-@type number
+@type Number
 @default 100
 @min 0 @max 180
 
@@ -514,28 +187,28 @@ https://mv3d.cutievirus.com/documentation
 @text Invert Y Axis Option Name
 @desc symbol name: mv3d-inverty
 @parent options
-@type text
+@type Text
 @default Invert Y Axis
 
 @param invertYOption
 @text Invert Y Axis Option
 @desc Should invert Y axis appear on options menu?
 @parent invertYOptionName
-@type boolean
+@type Boolean
 @default true
 
 @param lookSensitivityOptionName
 @text Look Sensitivity Option Name
 @desc symbol name: mv3d-looksensitivity
 @parent options
-@type text
+@type Text
 @default Look Sensitivity
 
 @param lookSensitivityOption
 @text Look Sensitivity Option
 @desc Should look sensitivity appear in options menu
 @parent lookSensitivityOptionName
-@type boolean
+@type Boolean
 @default true
 
 @param spacer|graphics @text‏‏‎ ‎@desc ===============================================
@@ -546,14 +219,14 @@ https://mv3d.cutievirus.com/documentation
 @param antialiasing
 @text Antialiasing
 @parent graphics
-@type boolean
+@type Boolean
 @default true
 
 @param edgefix
 @text Edge Fix
 @desc Fixes rendering issues at the edges of tiles.
 @parent graphics
-@type number
+@type Number
 @decimals 1
 @default 0.5
 
@@ -561,7 +234,7 @@ https://mv3d.cutievirus.com/documentation
 @text Alpha Cutoff
 @desc Pixels with alpha below this value will not be rendered.
 @parent graphics
-@type number
+@type Number
 @decimals 2
 @min 0.01 @max 1
 @default 0.51
@@ -569,20 +242,20 @@ https://mv3d.cutievirus.com/documentation
 @param lightLimit
 @text Lights Per Mesh
 @parent graphics
-@type number
+@type Number
 @min 4
 @default 8
 
 @param backfaceCulling
 @text Backface Culling
 @parent graphics
-@type boolean
+@type Boolean
 @default true
 
 @param cameraCollision
 @text Camera Collision
 @parent graphics
-@type combo
+@type Combo
 @option Off
 @option Type1
 @option Type2
@@ -594,7 +267,7 @@ https://mv3d.cutievirus.com/documentation
 @text Resolution Scale
 @desc Scale the resolution
 @parent graphics
-@type number
+@type Number
 @decimals 2
 @min 0 @max 1
 @default 1
@@ -608,28 +281,28 @@ https://mv3d.cutievirus.com/documentation
 @text Cell Size
 @desc The size of the chunks the map is divided into.
 @parent map
-@type number
+@type Number
 @default 10
 
 @param unloadCells
 @text Unload Far Cells
 @desc Unload cells outside the render distance.
 @parent map
-@type boolean
+@type Boolean
 @default false
 
 @param eventsUpdateNear
 @text Update All Events in Render Distance
 @parent map
-@type boolean
+@type Boolean
 @default true
 
 @param mapDefaults
 @text Map Defaults
 @parent map
-@type note
+@type Note
 @default
-"enable(true)\nsun(white)\nambient(default)\nfog(black|20,100)\nceiling(backface:true)"
+"enable(true)\nsun(white)\nambient(default)\nfog(black|20,30)\nceiling(backface:true)"
 
 
 @param spacer|input @text‏‏‎ ‎@desc ===============================================
@@ -640,19 +313,19 @@ https://mv3d.cutievirus.com/documentation
 @param inputCameraMouse
 @text Mouse Camera Control
 @parent input
-@type boolean
+@type Boolean
 @default false
 
 @param inputCameraGamepad
 @text Gamepad Camera Control
 @parent input
-@type boolean
+@type Boolean
 @default true
 
 @param inputGamepadTurnButton
 @text Gamepad Turn Button
 @parent input
-@type select
+@type Select
 @option Bumpers
 @option Triggers
 @option Unchanged
@@ -661,14 +334,14 @@ https://mv3d.cutievirus.com/documentation
 @param WASD
 @text WASD
 @parent input
-@type boolean
+@type Boolean
 @default true
 
 @param dir8Movement
 @text Diagonal Movement
 @desc In smart mode, when diagonal movement fails, try moving straight.
 @parent input
-@type combo
+@type Combo
 @option Off
 @option Diagonal Basic
 @option Diagonal Basic 3D Only
@@ -680,14 +353,14 @@ https://mv3d.cutievirus.com/documentation
 @text Control Pitch
 @parent input
 @desc Allow player to change pitch with pageup & pagedown.
-@type boolean
+@type Boolean
 @default true
 
 @param keyboardTurn
 @text Allow Turning
 @parent input
 @desc Allows rotating camera with keyboard in 3rd person. Rotating is always allowed in 1st person.
-@type select
+@type Select
 @option Turn with Q+E (requires WASD) @value QE
 @option Turn with A+D and left+right @value AD
 @option disabled
@@ -697,7 +370,7 @@ https://mv3d.cutievirus.com/documentation
 @text Allow Strafing
 @parent input
 @desc Allows strafing in 1st person mode.
-@type select
+@type Select
 @option Strafe with Q+E (requires WASD) @value QE
 @option Strafe with A+D and left+right @value AD
 @option disabled
@@ -707,7 +380,7 @@ https://mv3d.cutievirus.com/documentation
 @text Turn Increment
 @parent input
 @desc How many degrees the camera will turn when you press the turn button. Other numbers may also be entered.
-@type combo
+@type Combo
 @option 90
 @option 45
 @option SMOOTH
@@ -717,14 +390,14 @@ https://mv3d.cutievirus.com/documentation
 @text Turn Speed
 @parent input
 @desc Speed when turning with keyboard (in degrees per second).
-@type number
+@type Number
 @default 180
 
 @param pitchSpeed
 @text Pitch Speed
 @parent input
 @desc Speed when changing pitch with keyboard (in degrees per second).
-@type number
+@type Number
 @default 90
 
 
@@ -732,27 +405,27 @@ https://mv3d.cutievirus.com/documentation
 @text Stair Threshold
 @desc If the distance in height between two tiles is less than this, they will be passable.
 @parent input
-@type number
+@type Number
 @decimals 2
 @default 0.1
 
 @param walkOffEdge
 @text Walk off Edge
 @parent input
-@type boolean
+@type Boolean
 @default false
 
 @param walkOnEvents
 @text Walk on Events
 @parent input
-@type boolean
+@type Boolean
 @default true
 
 @param gravity
 @text Gravity
 @desc The speed characters will fall, in tiles per second.
 @parent input
-@type number
+@type Number
 @decimals 2
 @default 8
 
@@ -761,51 +434,47 @@ https://mv3d.cutievirus.com/documentation
 @param tileconfig
 @text Tile Config
 
-@param wallTileSettings
-@text Wall Tile Settings
-@desc The default tile settings for wall tiles.
+@param wallHeight
+@text Wall Height
+@desc The default height for wall tiles
 @parent tileconfig
-@type note
-@default "height(2)"
+@type Number
+@min -9999 @max 9999
+@decimals 1
+@default 2.0
 
-@param tableTileSettings
-@text Table Tile Settings
-@desc The default tile settings for table tiles.
+@param tableHeight
+@text Table Height
+@desc The default height for table tiles
 @parent tileconfig
-@type note
-@default "height(0.33)"
+@type Number
+@min -9999 @max 9999
+@decimals 2
+@default 0.33
 
-@param starTileSettings
-@text Star Tile Settings
-@desc The default tile settings for star tiles.
+@param fringeHeight
+@text Fringe Height
 @parent tileconfig
-@type note
-@default "fringe(2)\npass(*)"
+@type Number
+@min -9999 @max 9999
+@decimals 1
+@default 2.0
 
 @param ceilingHeight
 @text Ceiling Height
 @desc Default height of ceiling for maps with ceiling enabled.
 @parent tileconfig
-@type number
+@type Number
 @min -9999 @max 9999
-@decimals 3
+@decimals 1
 @default 2.0
-
-@param baseHeight
-@text Base Height
-@desc Extra height added to every tile on the map.
-@parent tileconfig
-@type number
-@min 0 @max 1
-@decimals 3
-@default 0.25
 
 @param layerDist
 @text Layering Distance
 @desc The distance between tile layers. If this is too small
 there may be z-fighting issues. (default: 0.0100)
 @parent tileconfig
-@type number
+@type Number
 @decimals 4
 @default 0.0100
 
@@ -813,7 +482,7 @@ there may be z-fighting issues. (default: 0.0100)
 @text Animation Speed
 @desc The number of milliseconds between each frame in tile animations.
 @parent tileconfig
-@type number
+@type Number
 @default 333
 
 @param regions
@@ -839,31 +508,31 @@ there may be z-fighting issues. (default: 0.0100)
 @text Event Trigger Height
 @desc If true, events will need to be at the same elevation as the player to be triggered.
 @parent characters
-@type boolean
+@type Boolean
 @default true
 
 @param eventCharDefaults
 @text Character Event Settings
 @parent characters
-@type note
+@type Note
 @default "shadow(0.8,4)\nshape(sprite)\nscale(1)"
 
 @param eventObjDefaults
 @text Object Event Settings
 @parent characters
-@type note
+@type Note
 @default "shadow(0)\nshape(sprite)\nscale(1)"
 
 @param eventTileDefaults
 @text Tile Event Settings
 @parent characters
-@type note
+@type Note
 @default "shadow(0)\nshape(flat)\nscale(1)"
 
 @param eventHeight
 @text Event "Above Characters" Default Height
 @parent characters
-@type number
+@type Number
 @decimals 1
 @default 2.0
 
@@ -889,13 +558,13 @@ there may be z-fighting issues. (default: 0.0100)
 @text Allow Glide
 @desc If true, collision detection for flying characters will use only current elevation and not target elevation.
 @parent characters
-@type boolean
+@type Boolean
 @default true
 
 @param spriteOffset
 @text Sprite Offset
 @parent characters
-@type number
+@type Number
 @min 0 @max 1
 @decimals 2
 @default 0.9
@@ -909,7 +578,7 @@ there may be z-fighting issues. (default: 0.0100)
 @text Diagonal Sprite Symbol
 @desc Character sheets with this symbol contain diagonal sprites. Leave blank to use diagonal sprites with all images.
 @parent assets
-@type text
+@type Text
 @default {d}
 
 @param shadowTexture
@@ -943,41 +612,39 @@ there may be z-fighting issues. (default: 0.0100)
 @type file[]
 @dir img/MV3D
 @require 1
-
-
 */
 /*~struct~RegionHeight:
 @param regionId
 @text Region Id
-@type number
+@type Number
 @min 1 @max 255
 @default 1
 
 @param conf
 @text Configuration Functions
 @desc See tileset configuration for list of functions
-@type text
+@type Text
 @default height(2)
 */
 
 /*~struct~TTagHeight:
 @param terrainTag
 @text Terrain Tag
-@type number
+@type Number
 @min 1 @max 7
 @default 1
 
 @param conf
 @text Configuration Functions
 @desc See tileset configuration for list of functions
-@type text
+@type Text
 @default shape(flat),height(0)
 */
 
 /*~struct~BoatStruct:
 @param conf
 @text Settings
-@type text
+@type Text
 @default shadow(0.8,4),shape(sprite),scale(1),bush(false)
 
 */
@@ -985,35 +652,20 @@ there may be z-fighting issues. (default: 0.0100)
 /*~struct~AirshipStruct:
 @param conf
 @text Settings
-@type text
+@type Text
 @default shadow(1,6),shape(sprite),scale(1),bush(false)
 
 @param height
 @text Elevation
-@type number
+@type Number
 @decimals 1
 @default 2.0
 
 @param bushLanding
 @text Land on Bush Tiles
 @desc Whether the airship can land on bush tiles.
-@type boolean
+@type Boolean
 @default false
-
-*/
-
-/*~struct~XY:
-@param x
-@text X
-@type number
-@decimals 3
-@default 0
-
-@param y
-@text Y
-@type number
-@decimals 3
-@default 0
 
 */
 
@@ -1101,7 +753,7 @@ there may be z-fighting issues. (default: 0.0100)
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1109,247 +761,17 @@ there may be z-fighting issues. (default: 0.0100)
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeColor", function() { return makeColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hexNumber", function() { return hexNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relativeNumber", function() { return relativeNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relativeBlend", function() { return relativeBlend; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "booleanNumber", function() { return booleanNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "booleanString", function() { return booleanString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "falseString", function() { return falseString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sleep", function() { return sleep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "degtorad", function() { return degtorad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "radtodeg", function() { return radtodeg; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pointtorad", function() { return pointtorad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pointtodeg", function() { return pointtodeg; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sin", function() { return sin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cos", function() { return cos; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unround", function() { return unround; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "minmax", function() { return minmax; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tileSize", function() { return tileSize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tileWidth", function() { return tileWidth; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tileHeight", function() { return tileHeight; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "optimalFrustrumWidth", function() { return optimalFrustrumWidth; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "optimalFrustrumHeight", function() { return optimalFrustrumHeight; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "file", function() { return file; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filename", function() { return filename; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "foldername", function() { return foldername; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deprecated", function() { return deprecated; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "throttle", function() { return throttle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dirtoh", function() { return dirtoh; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dirtov", function() { return dirtov; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hvtodir", function() { return hvtodir; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overload", function() { return overload; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "override", function() { return override; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "assign", function() { return assign; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XAxis", function() { return XAxis; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YAxis", function() { return YAxis; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZAxis", function() { return ZAxis; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v2origin", function() { return v2origin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v3origin", function() { return v3origin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PI", function() { return PI; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PI2", function() { return PI2; });
-/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-
-
-const {Vector2,Vector3,Color3,Color4} = window.BABYLON;
-
-const makeColor = color=>{
-	if (typeof color === 'number'){
-		return {
-			r: (color>>16)/255,
-			g: (color>>8&255)/255,
-			b: (color&255)/255,
-			a: 1,
-		};
-	}else if(color instanceof Color3){
-		return color.toColor4();
-	}else if(color instanceof Color4){
-		return color;
-	}else{
-		const canvas = document.createElement('canvas');
-		canvas.width=1; canvas.height=1;
-		const context = canvas.getContext('2d');
-		context.fillStyle = color; context.fillRect(0,0,1,1);
-		const bytes = context.getImageData(0,0,1,1).data;
-		return new Color4(bytes[0]/255,bytes[1]/255,bytes[2]/255,bytes[3]/255);
-	}
-}
-
-
-const hexNumber=n=>{
-	n=String(n);
-	if(n.startsWith('#')){
-		n=n.substr(1);
-	}
-	return Number.parseInt(n,16);
-};
-
-const relativeNumber=(current,n)=>{
-	if(n===''){ return +current; }
-	const relative = /^[+]/.test(n);
-	if(relative){n=n.substr(1);}
-	n=Number(n);
-	if(Number.isNaN(n)){ return +current; }
-	if(relative){
-		return +current+n;
-	}else{
-		return +n;
-	}
-};
-
-const relativeBlend=(blender,n,time)=>{
-	const relative = String(n).startsWith('+');
-	blender.setValue(relativeNumber(blender.targetValue(),n),Number(time),!relative);
-};
-
-const booleanNumber=s=>{
-	if(!isNaN(s)){return Number(s);}
-	return booleanString(s);
-};
-const booleanString=s=>{
-	return Boolean(falseString(s));
-};
-const falseString=s=>{
-	if(!s){ return false; }
-	if(typeof s !=='string'){ s=String(s); }
-	const S=s.toUpperCase();
-	if(falseString.values.includes(S)){
-		return false;
-	}
-	return s;
-};
-falseString.values=['OFF','FALSE','UNDEFINED','NULL','DISABLE','DISABLED','CLEAR','CLEARED','0'];
-
-const sleep=(ms=0)=>new Promise(resolve=>setTimeout(resolve,ms));
-const degtorad=deg=>deg*Math.PI/180;
-const radtodeg=rad=>rad*180/Math.PI;
-
-const pointtorad=(x,y)=>Math.atan2(-y,x)-Math.PI/2;
-const pointtodeg=(x,y)=>radtodeg(pointtorad(x,y));
-
-const sin=r=>unround(Math.sin(r),1e15);
-const cos=r=>unround(Math.cos(r),1e15);
-
-const unround=(n,m=1e15)=>Math.round(n*m)/m;
-
-const minmax=(min,max,v)=>Math.min(max,Math.max(min,v));
-
-const tileSize=()=>tileWidth();
-const tileWidth=()=>Game_Map.prototype.tileWidth();
-const tileHeight=()=>Game_Map.prototype.tileHeight();
-const optimalFrustrumWidth=()=>Graphics.width/48;
-const optimalFrustrumHeight=()=>Graphics.height/48;
-
-const file=(folder=_main_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].MV3D_FOLDER,name,ext)=>{
-	if(ext && !filename(name).contains('.')){ name=name+(ext.startsWith('.')?'':'.')+ext; }
-	if(name.startsWith('/')){ return '.'+name; }
-	else if(name.startsWith('./')){ return name; }
-	if(folder.startsWith('/')){ folder='.'+folder; }
-	else if(!folder.startsWith('./')&&folder!=='.'){ folder='./'+folder; }
-	return `${folder}${folder.endsWith('/')?'':'/'}${name}`;
-};
-
-const filename=path=>{path=path.split('/');return path[path.length-1];}
-const foldername=path=>{path=path.split('/');path.pop();return path.join('/')+'/';}
-
-const issuedWarnings={};
-const deprecated=message=>{
-	if(message in issuedWarnings){ return; }
-	issuedWarnings[message]=true;
-	console.warn(message);
-};
-
-const throttle=(func,interval=100)=>{
-	let last_call = 0;
-	return function(){
-		if(Date.now()-last_call>interval){
-			func.apply(this,arguments);
-			last_call = Date.now();
-		}
-	};
-}
-
-// directions
-
-const dirtoh=d=>5 + ((d-1)%3-1);
-const dirtov=d=>5 + (Math.floor((d-1)/3)-1)*3;
-const hvtodir=(h,v)=>5 + (Math.floor((v-1)/3)-1)*3 + ((h-1)%3-1);
-
-// overloading
-
-const overload=funcs=>{
-	const overloaded = function(){
-		const l=arguments.length;
-		if(typeof funcs[l] === 'function'){
-			return funcs[l].apply(this,arguments);
-		}else if(typeof funcs.default === 'function'){
-			return funcs.default.apply(this,arguments);
-		}else{ console.warn("Unsupported number of arguments."); }
-	}
-	for(const key in funcs){
-		overloaded[key]=funcs[key].bind
-	}
-	return overloaded;
-};
-
-// override
-const _override_default_condition=()=>!_main_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled();
-const override=(obj,methodName,getNewMethod,condition=_override_default_condition)=>{
-	const oldMethod = obj[methodName];
-	const newMethod = getNewMethod(oldMethod);
-	const overrider = function(){
-		if(!(typeof condition==='function'?condition():condition)){ return oldMethod.apply(this,arguments); }
-		return newMethod.apply(this,arguments);
-	};
-	Object.defineProperty(overrider,'name',{value:`${methodName}<mv3d_override>`});
-	Object.defineProperty(newMethod,'name',{value:`${methodName}<mv3d>`});
-	overrider.oldMethod=oldMethod; overrider.newMethod=newMethod;
-	return obj[methodName] = overrider;
-};
-
-// assign
-const assign=(obj,methods)=>{
-	for (const key in methods){
-		const descriptor = Object.getOwnPropertyDescriptor(methods,key);
-		if (descriptor.get||descriptor.set){
-			Object.defineProperty(obj,key,descriptor);
-		}else if(methods[key] instanceof _main_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Attribute){
-			const attribute = methods[key];
-			Object.defineProperty(obj,key,attribute.descriptor);
-		}else{
-			obj[key]=methods[key];
-		}
-	}
-};
-
-// useful consts
-const XAxis = new Vector3(1,0,0);
-const YAxis = new Vector3(0,1,0);
-const ZAxis = new Vector3(0,0,1);
-const v2origin = new Vector2(0,0);
-const v3origin = new Vector3(0,0,0);
-
-const PI = Math.PI;
-const PI2 = Math.PI*2;
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mod_babylon_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
 
 
 
-const mz3d = {
+const mv3d = {
 	util:_util_js__WEBPACK_IMPORTED_MODULE_2__,
 
 	setup(){
@@ -1357,13 +779,9 @@ const mz3d = {
 		Object(_mod_babylon_js__WEBPACK_IMPORTED_MODULE_1__[/* setupBabylonMods */ "i"])();
 
 		this.canvas = document.createElement('canvas');
-		this.texture = PIXI.Texture.from(this.canvas);
-		this.texture.destroy = function(){};
+		this.texture = PIXI.Texture.fromCanvas(this.canvas);
 		this.texture.baseTexture.scaleMode=PIXI.SCALE_MODES.NEAREST;
-		this.engine = new babylonjs__WEBPACK_IMPORTED_MODULE_0__["Engine"](this.canvas,this.ANTIALIASING,{
-			//premultipliedAlpha:false, 
-		});
-		this.context = this.engine._gl;
+		this.engine = new babylonjs__WEBPACK_IMPORTED_MODULE_0__["Engine"](this.canvas,this.ANTIALIASING);
 		this.scene = new babylonjs__WEBPACK_IMPORTED_MODULE_0__["Scene"](this.engine);
 		//this.scene.clearColor.a=0;
 		this.scene.clearColor.set(0,0,0,0);
@@ -1375,7 +793,7 @@ const mz3d = {
 		this.cameraNode.parent=this.cameraStick;
 		this.camera = new babylonjs__WEBPACK_IMPORTED_MODULE_0__["FreeCamera"]("camera",new babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0,0,0),this.scene);
 		this.camera.parent=this.cameraNode;
-		this.camera.fov=Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["degtorad"])(mz3d.FOV);
+		this.camera.fov=Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["degtorad"])(mv3d.FOV);
 		/*
 		this.camera.orthoLeft=-Graphics.width/2/tileSize();
 		this.camera.orthoRight=Graphics.width/2/tileSize();
@@ -1405,15 +823,14 @@ const mz3d = {
 	},
 
 	updateCanvas(){
-		this.canvas.width = Graphics._width*mz3d.RES_SCALE;
-		this.canvas.height = Graphics._height*mz3d.RES_SCALE;
+		this.canvas.width = Graphics._width*mv3d.RES_SCALE;
+		this.canvas.height = Graphics._height*mv3d.RES_SCALE;
 	},
 
 	render(){
-		if(!this.texture.baseTexture){ return; }
 		this.scene.render();
-		this.callFeatures('render');
 		this.texture.update();
+		//this.callFeatures('render');
 	},
 
 	lastMapUpdate:0,
@@ -1481,74 +898,55 @@ const mz3d = {
 		this.updateBlenders(true);
 	},
 
-	get hasBackground(){
-		return window.$gameMap&&$gameMap.parallaxName()||mv3d.hasSkybox;
-	},
-
-	get hasAlphaPostProcess(){
-		return (this.hasAlphaFog || mz3d.alphaFixPostProcess) && mz3d.scene.postProcessesEnabled;
-	},
-
 	is1stPerson(useCurrent){
 		const k = useCurrent?'currentValue':'targetValue';
-		return $gamePlayer && (mz3d.getCameraTarget()===$gamePlayer||mz3d.getCameraTarget()===$gamePlayer.vehicle()) && mz3d.blendCameraTransition[k]()<=0
-		&& mz3d.blendCameraDist[k]()<=0 && mz3d.blendPanX[k]()===0 && mz3d.blendPanY[k]()===0;
-	},
-
-	isVR(){
-		return false;
-	},
-
-	is3D(){
-		return !mz3d.isDisabled() && SceneManager._scene instanceof Scene_Map;
+		return this.getCameraTarget()===$gamePlayer && this.blendCameraTransition[k]()<=0
+		&& this.blendCameraDist[k]()<=0 && this.blendPanX[k]()===0 && this.blendPanY[k]()===0;
 	},
 
 	isDisabled(){
-		return mz3d.loadData('disabled', mz3d.getMapConfig('disabled', false ));
+		return this.loadData('disabled', this.getMapConfig('disabled', false ));
 	},
 	disable(fadeType=2){
-		mz3d.saveData('disabled',true);
+		mv3d.saveData('disabled',true);
 		//SceneManager.goto(Scene_Map);
 		$gamePlayer.reserveTransfer($gameMap.mapId(),$gamePlayer.x,$gamePlayer.y,$gamePlayer.direction(),fadeType);
 	},
 	enable(fadeType=2){
-		mz3d.saveData('disabled',false);
+		mv3d.saveData('disabled',false);
 		//SceneManager.goto(Scene_Map);
 		$gamePlayer.reserveTransfer($gameMap.mapId(),$gamePlayer.x,$gamePlayer.y,$gamePlayer.direction(),fadeType);
-		mz3d.createCharacters();
+		mv3d.createCharacters();
 	},
 
 	loopCoords(x,y){
 		if(this.loopHorizontal()){
-			const mapWidth=mz3d.mapWidth();
+			const mapWidth=mv3d.mapWidth();
 			const ox = this.cameraStick.x - mapWidth/2;
 			x=(x-ox).mod(mapWidth)+ox;
 		}
 		if(this.loopVertical()){
-			const mapHeight=mz3d.mapHeight();
+			const mapHeight=mv3d.mapHeight();
 			const oy = this.cameraStick.y - mapHeight/2;
 			y=(y-oy).mod(mapHeight)+oy;
 		}
 		return new babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector2"](x,y);
 	},
 
-	getFieldSize(dist=mz3d.blendCameraDist.currentValue()){
-		const size = Math.tan(mz3d.camera.fov/2)*dist*2;
+	getFieldSize(dist=mv3d.blendCameraDist.currentValue()){
+		const size = Math.tan(mv3d.camera.fov/2)*dist*2;
 		return {
-			width:size*mz3d.engine.getAspectRatio(mz3d.camera),
+			width:size*mv3d.engine.getAspectRatio(mv3d.camera),
 			height:size,
 		};
 	},
-	getScaleForDist(dist=mz3d.blendCameraDist.currentValue()){
+	getScaleForDist(dist=mv3d.blendCameraDist.currentValue()){
 		return Graphics.height/this.getFieldSize(dist).height/48;
 	},
-	getFovForDist(dist=mz3d.blendCameraDist.currentValue(),height=Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["optimalFrustrumHeight"])()){
+	getFovForDist(dist=mv3d.blendCameraDist.currentValue(),height=Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["optimalFrustrumHeight"])()){
 		return 2*Math.atan(height/2/dist);
 	},
-	getDistForFov(fov=mz3d.camera.fov,height=Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["optimalFrustrumHeight"])()){
-		return height/2/Math.tan(fov/2);
-	},
-	getFrustrumHeight(dist=mz3d.blendCameraDist.currentValue(),fov=mz3d.camera.fov){
+	getFrustrumHeight(dist=mv3d.blendCameraDist.currentValue(),fov=mv3d.camera.fov){
 		return 2*dist*Math.tan(fov/2);
 	},
 
@@ -1556,7 +954,7 @@ const mz3d = {
 	getScreenPosition(node,offset=babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"].Zero()){
 		const matrix = node.parent ? node.parent.getWorldMatrix() : babylonjs__WEBPACK_IMPORTED_MODULE_0__["Matrix"].Identity();
 		const pos = node instanceof babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"] ? node.add(offset) : node.position.add(offset);
-		const projected = babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"].Project(pos,matrix,mz3d.scene.getTransformMatrix(),mz3d.camera.viewport);
+		const projected = babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"].Project(pos,matrix,mv3d.scene.getTransformMatrix(),mv3d.camera.viewport);
 		return {x:projected.x*Graphics.width, y:projected.y*Graphics.height, behindCamera:projected.z>1};
 	},
 	
@@ -1569,8 +967,8 @@ const mz3d = {
 	getTranslationMatrix(mesh){
 		const matrix = mesh.getWorldMatrix();
 		const vrot=babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"].Zero(), vtrans=new babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
-		vrot.y=-Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["degtorad"])(mz3d.blendCameraYaw.currentValue());
-		vrot.x=-Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["degtorad"])(mz3d.blendCameraPitch.currentValue()-90);
+		vrot.y=-Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["degtorad"])(mv3d.blendCameraYaw.currentValue());
+		vrot.x=-Object(_util_js__WEBPACK_IMPORTED_MODULE_2__["degtorad"])(mv3d.blendCameraPitch.currentValue()-90);
 		matrix.decompose(null,null,vtrans);
 		return babylonjs__WEBPACK_IMPORTED_MODULE_0__["Matrix"].Compose(babylonjs__WEBPACK_IMPORTED_MODULE_0__["Vector3"].One(),vrot.toQuaternion(),vtrans);
 	},
@@ -1587,8 +985,232 @@ const mz3d = {
 	},
 
 }
-window.mv3d=window.mz3d=mz3d;
-/* harmony default export */ __webpack_exports__["a"] = (mz3d);
+window.mv3d=mv3d;
+/* harmony default export */ __webpack_exports__["a"] = (mv3d);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeColor", function() { return makeColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hexNumber", function() { return hexNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relativeNumber", function() { return relativeNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "booleanNumber", function() { return booleanNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "booleanString", function() { return booleanString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "falseString", function() { return falseString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sleep", function() { return sleep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "degtorad", function() { return degtorad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "radtodeg", function() { return radtodeg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pointtorad", function() { return pointtorad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pointtodeg", function() { return pointtodeg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sin", function() { return sin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cos", function() { return cos; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unround", function() { return unround; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "minmax", function() { return minmax; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tileSize", function() { return tileSize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tileWidth", function() { return tileWidth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tileHeight", function() { return tileHeight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "optimalFrustrumWidth", function() { return optimalFrustrumWidth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "optimalFrustrumHeight", function() { return optimalFrustrumHeight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "file", function() { return file; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filename", function() { return filename; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "foldername", function() { return foldername; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deprecated", function() { return deprecated; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "throttle", function() { return throttle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dirtoh", function() { return dirtoh; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dirtov", function() { return dirtov; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hvtodir", function() { return hvtodir; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overload", function() { return overload; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "override", function() { return override; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "assign", function() { return assign; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XAxis", function() { return XAxis; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YAxis", function() { return YAxis; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZAxis", function() { return ZAxis; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v2origin", function() { return v2origin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v3origin", function() { return v3origin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PI", function() { return PI; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PI2", function() { return PI2; });
+/* harmony import */ var _mv3d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+const {Vector2,Vector3,Color3,Color4} = window.BABYLON;
+
+const makeColor = color=>{
+	if (typeof color === 'number'){
+		return {
+			r: (color>>16)/255,
+			g: (color>>8&255)/255,
+			b: (color&255)/255,
+			a: 1,
+		};
+	}else if(color instanceof Color3){
+		return color.toColor4();
+	}else if(color instanceof Color4){
+		return color;
+	}else{
+		const canvas = document.createElement('canvas');
+		canvas.width=1; canvas.height=1;
+		const context = canvas.getContext('2d');
+		context.fillStyle = color; context.fillRect(0,0,1,1);
+		const bytes = context.getImageData(0,0,1,1).data;
+		return new Color4(bytes[0]/255,bytes[1]/255,bytes[2]/255,bytes[3]/255);
+	}
+}
+
+
+const hexNumber=n=>{
+	n=String(n);
+	if(n.startsWith('#')){
+		n=n.substr(1);
+	}
+	return Number.parseInt(n,16);
+};
+
+const relativeNumber=(current,n)=>{
+	if(n===''){ return +current; }
+	const relative = /^[+]/.test(n);
+	if(relative){n=n.substr(1);}
+	n=Number(n);
+	if(Number.isNaN(n)){ return +current; }
+	if(relative){
+		return +current+n;
+	}else{
+		return +n;
+	}
+};
+
+const booleanNumber=s=>{
+	if(!isNaN(s)){return Number(s);}
+	return booleanString(s);
+};
+const booleanString=s=>{
+	return Boolean(falseString(s));
+};
+const falseString=s=>{
+	if(!s){ return false; }
+	if(typeof s !=='string'){ s=String(s); }
+	const S=s.toUpperCase();
+	if(falseString.values.includes(S)){
+		return false;
+	}
+	return s;
+};
+falseString.values=['OFF','FALSE','UNDEFINED','NULL','DISABLE','DISABLED'];
+
+const sleep=(ms=0)=>new Promise(resolve=>setTimeout(resolve,ms));
+const degtorad=deg=>deg*Math.PI/180;
+const radtodeg=rad=>rad*180/Math.PI;
+
+const pointtorad=(x,y)=>Math.atan2(-y,x)-Math.PI/2;
+const pointtodeg=(x,y)=>radtodeg(pointtorad(x,y));
+
+const sin=r=>unround(Math.sin(r),1e15);
+const cos=r=>unround(Math.cos(r),1e15);
+
+const unround=(n,m=1e15)=>Math.round(n*m)/m;
+
+const minmax=(min,max,v)=>Math.min(max,Math.max(min,v));
+
+const tileSize=()=>tileWidth();
+const tileWidth=()=>Game_Map.prototype.tileWidth();
+const tileHeight=()=>Game_Map.prototype.tileHeight();
+const optimalFrustrumWidth=()=>Graphics.width/48;
+const optimalFrustrumHeight=()=>Graphics.height/48;
+
+const file=(folder=_mv3d__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].MV3D_FOLDER,name)=>{
+	if(name.startsWith('/')){ return '.'+name; }
+	else if(name.startsWith('./')){ return name; }
+	if(folder.startsWith('/')){ folder='.'+folder; }
+	else if(!folder.startsWith('./')&&folder!=='.'){ folder='./'+folder; }
+	return `${folder}${folder.endsWith('/')?'':'/'}${name}`;
+};
+
+const filename=path=>{path=path.split('/');return path[path.length-1];}
+const foldername=path=>{path=path.split('/');path.pop();return path.join('/')+'/';}
+
+const issuedWarnings={};
+const deprecated=message=>{
+	if(message in issuedWarnings){ return; }
+	issuedWarnings[message]=true;
+	console.warn(message);
+};
+
+const throttle=(func,interval=100)=>{
+	let last_call = 0;
+	return function(){
+		if(Date.now()-last_call>interval){
+			func.apply(this,arguments);
+			last_call = Date.now();
+		}
+	};
+}
+
+// directions
+
+const dirtoh=d=>5 + ((d-1)%3-1);
+const dirtov=d=>5 + (Math.floor((d-1)/3)-1)*3;
+const hvtodir=(h,v)=>5 + (Math.floor((v-1)/3)-1)*3 + ((h-1)%3-1);
+
+// overloading
+
+const overload=funcs=>{
+	const overloaded = function(){
+		const l=arguments.length;
+		if(typeof funcs[l] === 'function'){
+			return funcs[l].apply(this,arguments);
+		}else if(typeof funcs.default === 'function'){
+			return funcs.default.apply(this,arguments);
+		}else{ console.warn("Unsupported number of arguments."); }
+	}
+	for(const key in funcs){
+		overloaded[key]=funcs[key].bind
+	}
+	return overloaded;
+};
+
+// override
+const _override_default_condition=()=>!_mv3d__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled();
+const override=(obj,methodName,getNewMethod,condition=_override_default_condition)=>{
+	const oldMethod = obj[methodName];
+	const newMethod = getNewMethod(oldMethod);
+	const overrider = function(){
+		if(!(typeof condition==='function'?condition():condition)){ return oldMethod.apply(this,arguments); }
+		return newMethod.apply(this,arguments);
+	};
+	Object.defineProperty(overrider,'name',{value:`${methodName}<mv3d_override>`});
+	Object.defineProperty(newMethod,'name',{value:`${methodName}<mv3d>`});
+	overrider.oldMethod=oldMethod; overrider.newMethod=newMethod;
+	return obj[methodName] = overrider;
+};
+
+// assign
+const assign=(obj,methods)=>{
+	for (const key in methods){
+		const descriptor = Object.getOwnPropertyDescriptor(methods,key);
+		if (descriptor.get||descriptor.set){
+			Object.defineProperty(obj,key,descriptor);
+		}else if(methods[key] instanceof _mv3d__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Attribute){
+			const attribute = methods[key];
+			Object.defineProperty(obj,key,attribute.descriptor);
+		}else{
+			obj[key]=methods[key];
+		}
+	}
+};
+
+
+// useful consts
+const XAxis = new Vector3(1,0,0);
+const YAxis = new Vector3(0,1,0);
+const ZAxis = new Vector3(0,0,1);
+const v2origin = new Vector2(0,0);
+const v3origin = new Vector3(0,0,0);
+
+const PI = Math.PI;
+const PI2 = Math.PI*2;
+
 
 /***/ }),
 /* 2 */
@@ -1617,24 +1239,11 @@ var n=function(e,t){return(n=Object.setPrototypeOf||{__proto__:[]}instanceof Arr
 
 "use strict";
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "d", function() { return /* binding */ FRONTSIDE; });
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ BACKSIDE; });
-__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ DOUBLESIDE; });
-__webpack_require__.d(__webpack_exports__, "g", function() { return /* binding */ PERSPECTIVE_CAMERA; });
-__webpack_require__.d(__webpack_exports__, "f", function() { return /* binding */ ORTHOGRAPHIC_CAMERA; });
-__webpack_require__.d(__webpack_exports__, "c", function() { return /* binding */ FOGMODE_LINEAR; });
-__webpack_require__.d(__webpack_exports__, "h", function() { return /* binding */ WORLDSPACE; });
-__webpack_require__.d(__webpack_exports__, "e", function() { return /* binding */ LOCALSPACE; });
-__webpack_require__.d(__webpack_exports__, "i", function() { return /* binding */ setupBabylonMods; });
-
-// UNUSED EXPORTS: FOGMODE_NONE, FOGMODE_EXP, FOGMODE_EXP2, BONESPACE
-
-// EXTERNAL MODULE: ./src/main.js
-var main = __webpack_require__(1);
+// EXTERNAL MODULE: ./src/mv3d.js
+var src_mv3d = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./src/util.js
-var util = __webpack_require__(0);
+var util = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./src/shaders.js
 
@@ -1682,6 +1291,19 @@ var babylon = __webpack_require__(2);
 var babylonjs_loaders_min = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./src/mod_babylon.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return FRONTSIDE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BACKSIDE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DOUBLESIDE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return PERSPECTIVE_CAMERA; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ORTHOGRAPHIC_CAMERA; });
+/* unused harmony export FOGMODE_NONE */
+/* unused harmony export FOGMODE_EXP */
+/* unused harmony export FOGMODE_EXP2 */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return FOGMODE_LINEAR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return WORLDSPACE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return LOCALSPACE; });
+/* unused harmony export BONESPACE */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return setupBabylonMods; });
 
 
 
@@ -1715,7 +1337,7 @@ babylon["Texture"].prototype.crop=function(x=0,y=0,w=0,h=0){
 	const { width, height } = this.getBaseSize();
 	if(!w)w=width-x;
 	if(!h)h=height-y;
-	if(main["a" /* default */].EDGE_FIX){ x+=main["a" /* default */].EDGE_FIX;y+=main["a" /* default */].EDGE_FIX;w-=main["a" /* default */].EDGE_FIX*2;h-=main["a" /* default */].EDGE_FIX*2; }
+	if(src_mv3d["a" /* default */].EDGE_FIX){ x+=src_mv3d["a" /* default */].EDGE_FIX;y+=src_mv3d["a" /* default */].EDGE_FIX;w-=src_mv3d["a" /* default */].EDGE_FIX*2;h-=src_mv3d["a" /* default */].EDGE_FIX*2; }
 	this.uScale=w/width;
 	this.vScale=h/height;
 	this.uOffset=x/width;
@@ -1793,10 +1415,48 @@ babylon["StandardMaterial"].prototype._shouldTurnAlphaTestOn=function(mesh){
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(16);
-module.exports = __webpack_require__(15);
+"use strict";
+/* unused harmony export Feature */
+/* harmony import */ var _mv3d_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].features={};
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].callFeature=function(name,method,...args){
+	if(!this.featureEnabled(name)){ return; }
+	const feature = this.features[name];
+	if(method in feature.methods){
+		feature.methods[method](...args);
+	}
+}
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].callFeatures=function(method,...args){
+	for(const name in this.features){
+		this.callFeature(name,method,...args);
+	}
+}
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].featureEnabled=function(name){
+	if( !(name in this.features) ){ return false; }
+	if(!this.features[name].enabled()){ return false; }
+	return true;
+}
+
+class Feature{
+	constructor(name,methods,condition=true){
+		Object.assign(this,{name,condition,methods});
+		_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].features[name]=this;
+	}
+	enabled(){
+		if(typeof this.condition==='function'){
+			return this.condition();
+		}
+		return Boolean(this.condition);
+	}
+}
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Feature = Feature;
 
 
 /***/ }),
@@ -1822,185 +1482,11 @@ var r=function(e,t){return(r=Object.setPrototypeOf||{__proto__:[]}instanceof Arr
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports) {
-
-const mz3d = window.mz3d;
-
-//setup was here	
-
-const _graphics_updateAllElements=Graphics._updateAllElements;
-Graphics._updateAllElements = function() {
-	_graphics_updateAllElements.apply(this,arguments);
-	if(mz3d.canvas){
-		mz3d.updateCanvas();
-	}
-};
-
-const _sceneMap_update=Scene_Map.prototype.update;
-Scene_Map.prototype.update = function(){
-	_sceneMap_update.apply(this,arguments);
-	if(!mz3d.isDisabled()){
-		mz3d.update();
-		mz3d.render();
-	}
-}
-
-const _createTilemap=Spriteset_Map.prototype.createTilemap;
-Spriteset_Map.prototype.createTilemap=function(){
-	_createTilemap.apply(this,arguments);
-	mz3d.mapDisabled = mz3d.isDisabled();
-	mz3d.pixiSprite=new PIXI.Sprite(mz3d.texture);
-	mz3d.pixiSprite.scale.set(1/mz3d.RES_SCALE,1/mz3d.RES_SCALE);
-	mz3d.pixiContainer=new PIXI.Container();
-	mz3d.viewContainer=new PIXI.Container();
-	mz3d.pixiContainer.addChild( mz3d.viewContainer );
-	mz3d.viewContainer.addChild( mz3d.pixiSprite );
-	mz3d.mv_baseSprite = this._baseSprite;
-	if(!mz3d.mapDisabled){
-		this._tilemap.visible=false;
-		this._baseSprite.addChild( mz3d.pixiContainer );
-	}
-};
-
-const _sprite_char_setchar = Sprite_Character.prototype.setCharacter;
-Sprite_Character.prototype.setCharacter = function(character) {
-	_sprite_char_setchar.apply(this,arguments);
-	Object.defineProperty(character,'mv_sprite',{
-		value:this,
-		configurable:true,
-		enumerable:false,
-	});
-};
-
-// Player Transfer
-
-const _performTransfer=Game_Player.prototype.performTransfer;
-Game_Player.prototype.performTransfer = function() {
-	const newmap = this._newMapId !== $gameMap.mapId();
-	_performTransfer.apply(this,arguments);
-	if(mz3d.is1stPerson()){
-		mz3d.blendCameraYaw.setValue(mz3d.dirToYaw($gamePlayer.direction(),0));
-	}
-	if(!newmap){
-		this.z = mz3d.getWalkHeight(this.x,this.y);
-		for ( const follower of this._followers._data){
-			follower.z=this.z;
-		}
-	}
-};
-
-// On Map Load
-
-let tilesetLoaded = false;
-
-const _onMapLoaded=Scene_Map.prototype.onMapLoaded;
-Scene_Map.prototype.onMapLoaded=function(){
-	const newmap = this._transfer && ( $gamePlayer._newMapId !== $gameMap.mapId() );
-	Input.clear();
-	if(newmap || mz3d.needClearMap){
-		mz3d.clearMap();
-		mz3d.needClearMap=false;
-	}else if(mz3d.needReloadMap&&mz3d.mapLoaded){
-		mz3d.reloadMap();
-	}
-	mz3d.needReloadMap=false;
-	tilesetLoaded = false;
-	if(!mz3d.mapLoaded){
-		mz3d.beforeMapLoad(newmap);
-		mz3d.loadMapSettings();
-	}
-	_onMapLoaded.apply(this,arguments);
-	if(!tilesetLoaded){ mz3d.loadTilesetSettings(); }
-	if(!mz3d.mapLoaded){
-		if(newmap){ mz3d.applyMapSettings(); }
-		mz3d.afterMapLoad(newmap);
-		if(mz3d.isDisabled()){
-			mz3d.mapReady=true;
-			//mv3d.createCharacters();
-		}else{
-			mz3d.mapReady=false;
-			//mv3d.mapReady=true;
-			mz3d.loadMap();
-		}
-	}
-	mz3d.updateBlenders(true);
-};
-
-// onMapLoaded > performTransfer > map setup
-// hook into map setup before Qmovement's setup.
-const _map_battleback_Setup = Game_Map.prototype.setupBattleback;
-Game_Map.prototype.setupBattleback=function(){
-	_map_battleback_Setup.apply(this,arguments);
-	mz3d.loadTilesetSettings();
-	tilesetLoaded = true;
-};
-
-const _onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
-Scene_Load.prototype.onLoadSuccess = function() {
-	_onLoadSuccess.apply(this,arguments);
-	mz3d.needClearMap=true;
-};
-
-const _map_isReady = Scene_Map.prototype.isReady;
-Scene_Map.prototype.isReady = function() {
-	let ready = _map_isReady.apply(this,arguments);
-	return ready && mz3d.mapReady;
-};
-
-// Title
-
-const _title_start=Scene_Title.prototype.start;
-Scene_Title.prototype.start = function() {
-	_title_start.apply(this,arguments);
-	mz3d.clearMap();
-	mz3d.clearCameraTarget();
-};
-
-const _initGraphics = SceneManager.initGraphics;
-SceneManager.initGraphics = function() {
-	_initGraphics.apply(this,arguments);
-	if(mz3d.isMV && !Graphics.isWebGL()){
-		throw new Error("MV3D requires WebGL");
-	}
-};
-
-// force webgl
-SceneManager.preferableRendererType = function() {
-    if (Utils.isOptionValid('canvas')) {
-        return 'canvas';
-    } else if (Utils.isOptionValid('webgl')) {
-        return 'webgl';
-    } else {
-		if(Graphics.hasWebGL()){ return 'webgl'; }
-        return 'auto';
-    }
-};
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-const mv3d = window.mv3d;
-
-mv3d.blendModes={
-	[PIXI.BLEND_MODES.NORMAL]: BABYLON.Engine.ALPHA_COMBINE,
-	[PIXI.BLEND_MODES.ADD]: BABYLON.Engine.ALPHA_ADD,
-	[PIXI.BLEND_MODES.MULTIPLY]: BABYLON.Engine.ALPHA_MULTIPLY,
-	[PIXI.BLEND_MODES.SCREEN]: BABYLON.Engine.ALPHA_SCREENMODE,
-	
-	NORMAL:BABYLON.Engine.ALPHA_COMBINE,
-	ADD:BABYLON.Engine.ALPHA_ADD,
-	MULTIPLY:BABYLON.Engine.ALPHA_MULTIPLY,
-	SCREEN:BABYLON.Engine.ALPHA_SCREENMODE,
-};
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
+__webpack_require__(7);
 __webpack_require__(9);
-__webpack_require__(11);
 
 if(window.Imported&&Imported.YEP_SaveCore){
 	const _onLoadSuccess = Scene_File.prototype.onLoadSuccess;
@@ -2011,80 +1497,84 @@ if(window.Imported&&Imported.YEP_SaveCore){
 }
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const mv3d = window.mv3d;
-
-mv3d['option-store']={}
-
-mv3d.options={};
-
-if(mv3d.OPTION_RENDER_DIST) mv3d.options['mv3d-renderDist']={
-	name:mv3d.OPTION_NAME_RENDER_DIST,
-	min:mv3d.OPTION_RENDER_DIST_MIN, max:mv3d.OPTION_RENDER_DIST_MAX,
-	increment:5,
-	wrap:false,
-	apply(v){ mv3d.RENDER_DIST=v; },
-	default:mv3d.RENDER_DIST,
-};
-
-if(mv3d.OPTION_FOV) mv3d.options['mv3d-fov']={
-	name:mv3d.OPTION_NAME_FOV,
-	min:mv3d.OPTION_FOV_MIN, max:mv3d.OPTION_FOV_MAX,
-	increment:5,
-	apply(v){ mv3d.FOV=v; },
-	default:mv3d.FOV,
-};
-
-if(mv3d.OPTION_MIPMAP) mv3d.options['mv3d-mipmap']={
-	name:mv3d.OPTION_NAME_MIPMAP,
-	type:'bool',
-	apply(v){ mv3d.MIPMAP=v; mv3d.needReloadMap=true; },
-	default:mv3d.MIPMAP,
-};
-
-mv3d.invertY=false;
-if(mv3d.OPTION_INVERTY) mv3d.options['mv3d-inverty']={
-	name: mv3d.OPTION_NAME_INVERTY,
-	type:'bool',
-	apply(v){ mv3d.invertY=v; },
-	default: false,
-};
-
-mv3d.lookSensitivity=1.0;
-if(mv3d.OPTION_LOOKSENSITIVITY) mv3d.options['mv3d-looksensitivity']={
-	name: mv3d.OPTION_NAME_LOOKSENSITIVITY,
-	min:10, max:400,
-	increment:10,
-	wrap:false,
-	apply(v){ mv3d.lookSensitivity=v/100; },
-	default:100,
-};
-
-if(mv3d.ENABLE_3D_OPTIONS){
-	__webpack_require__(10);
-}
-
-/***/ }),
-/* 10 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-const mv3d = window.mv3d;
+/* harmony import */ var _mv3d_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]['option-store']={}
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options={};
+
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_RENDER_DIST) _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options['mv3d-renderDist']={
+	name:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_NAME_RENDER_DIST,
+	min:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_RENDER_DIST_MIN, max:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_RENDER_DIST_MAX,
+	increment:5,
+	wrap:false,
+	apply(v){ _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].RENDER_DIST=v; },
+	default:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].RENDER_DIST,
+};
+
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_FOV) _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options['mv3d-fov']={
+	name:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_NAME_FOV,
+	min:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_FOV_MIN, max:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_FOV_MAX,
+	increment:5,
+	apply(v){ _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].FOV=v; },
+	default:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].FOV,
+};
+
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_MIPMAP) _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options['mv3d-mipmap']={
+	name:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_NAME_MIPMAP,
+	type:'bool',
+	apply(v){ _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].MIPMAP=v; _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].needReloadMap=true; },
+	default:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].MIPMAP,
+};
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].invertY=false;
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_INVERTY) _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options['mv3d-inverty']={
+	name: _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_NAME_INVERTY,
+	type:'bool',
+	apply(v){ _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].invertY=v; },
+	default: false,
+};
+
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].lookSensitivity=1.0;
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_LOOKSENSITIVITY) _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options['mv3d-looksensitivity']={
+	name: _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].OPTION_NAME_LOOKSENSITIVITY,
+	min:10, max:400,
+	increment:10,
+	wrap:false,
+	apply(v){ _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].lookSensitivity=v/100; },
+	default:100,
+};
+
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].ENABLE_3D_OPTIONS){
+	__webpack_require__(8);
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mv3d_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
 
 
 
 const _option_command_list = Window_Options.prototype.makeCommandList;
 Window_Options.prototype.makeCommandList = function() {
 	_option_command_list.apply(this,arguments);
-	if(mv3d.ENABLE_3D_OPTIONS===mv3d.enumOptionModes.SUBMENU && Object.keys(mv3d.options).length){
+	if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].ENABLE_3D_OPTIONS===_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].enumOptionModes.SUBMENU && Object.keys(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options).length){
 		this.addCommand("3D Options", 'mv3d-options');
-	}else if(mv3d.ENABLE_3D_OPTIONS===mv3d.enumOptionModes.ENABLE){
-		for (const key in mv3d.options){
-			this.addCommand(mv3d.options[key].name,key);
+	}else if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].ENABLE_3D_OPTIONS===_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].enumOptionModes.ENABLE){
+		for (const key in _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options){
+			this.addCommand(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[key].name,key);
 		}
 	}
 };
@@ -2107,19 +1597,19 @@ Object.defineProperty(ConfigManager, 'mv3d-options', {
 const _config_makeData=ConfigManager.makeData;
 ConfigManager.makeData = function() {
 	const config = _config_makeData.apply(this,arguments);
-	Object.assign(config,mv3d['option-store']);
+	Object.assign(config,_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]['option-store']);
 	return config;
 };
 const _config_applyData=ConfigManager.applyData;
 ConfigManager.applyData = function(config) {
 	_config_applyData.apply(this,arguments);
-	for(const key in mv3d.options){
+	for(const key in _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options){
 		if(key in config){
-			mv3d['option-store'][key]=config[key];
-			mv3d.options[key].apply(config[key]);
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]['option-store'][key]=config[key];
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[key].apply(config[key]);
 		}
 	}
-	mv3d.updateParameters();
+	_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].updateParameters();
 };
 
 
@@ -2132,32 +1622,32 @@ class Scene_3D_Options extends Scene_Options{
 	}
 	terminate(){
 		super.terminate();
-		mv3d.updateParameters();
+		_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].updateParameters();
 	}
 }
 
 class Window_3D_Options extends Window_Options{
 	makeCommandList(){
-		for (const key in mv3d.options){
-			this.addCommand(mv3d.options[key].name,key);
+		for (const key in _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options){
+			this.addCommand(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[key].name,key);
 		}
 	}
 }
 
-if(mv3d.ENABLE_3D_OPTIONS===1) Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Scene_Options.prototype,'terminate',o=>function(){
+if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].ENABLE_3D_OPTIONS===1) Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Scene_Options.prototype,'terminate',o=>function(){
 	o.apply(this,arguments);
-	mv3d.updateParameters();
+	_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].updateParameters();
 },true);
 
 Window_Options.prototype._is_mv3d_option=function(symbol){
-	return symbol in mv3d.options;
+	return symbol in _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options;
 }
 
 Window_Options.prototype._mv3d_cursor=function(wrap,direction){
 	const index = this.index();
 	const symbol = this.commandSymbol(index);
 	let value = this.getConfigValue(symbol);
-	const option = mv3d.options[symbol];
+	const option = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[symbol];
 	if(!option) { return; }
 	if(option.type==='bool'){
 		this.changeValue(symbol, direction>0);
@@ -2176,11 +1666,11 @@ Window_Options.prototype._mv3d_cursor=function(wrap,direction){
 }
 
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototype,'statusText',o=>function(index){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Window_Options.prototype,'statusText',o=>function(index){
     const symbol = this.commandSymbol(index);
     if(!this._is_mv3d_option(symbol)){ return o.apply(this,arguments); }
     const value = this.getConfigValue(symbol);
-    const option = mv3d.options[symbol];
+    const option = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[symbol];
     if(option.type==='bool'){
         return this.booleanStatusText(value);
     }else if(option.values){
@@ -2189,22 +1679,22 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototy
     return String(value);
 },true);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototype,'setConfigValue',o=>function(symbol, value){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Window_Options.prototype,'setConfigValue',o=>function(symbol, value){
     if(!this._is_mv3d_option(symbol)){ return o.apply(this,arguments); }
-    mv3d['option-store'][symbol]=value;
-    const option = mv3d.options[symbol];
+    _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]['option-store'][symbol]=value;
+    const option = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[symbol];
     if(option.apply){ option.apply(value); }
 },true);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototype,'getConfigValue',o=>function(symbol){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Window_Options.prototype,'getConfigValue',o=>function(symbol){
     if(!this._is_mv3d_option(symbol)){ return o.apply(this,arguments); }
-    const option = mv3d.options[symbol];
-    let value = mv3d['option-store'][symbol];
+    const option = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[symbol];
+    let value = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]['option-store'][symbol];
     if(value==null){ value=option.default||option.min||0; }
     return value;
 },true);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototype,'cursorLeft',o=>function(wrap){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Window_Options.prototype,'cursorLeft',o=>function(wrap){
     const symbol = this.commandSymbol(this.index());
     if(this._is_mv3d_option(symbol)){
         return this._mv3d_cursor(wrap,-1);
@@ -2213,7 +1703,7 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototy
     }
 },true);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototype,'cursorRight',o=>function(wrap){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Window_Options.prototype,'cursorRight',o=>function(wrap){
     const symbol = this.commandSymbol(this.index());
     if(this._is_mv3d_option(symbol)){
         return this._mv3d_cursor(wrap,1);
@@ -2222,14 +1712,14 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototy
     }
 },true);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototype,'processOk',o=>function(){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Window_Options.prototype,'processOk',o=>function(){
     const index = this.index();
     const symbol = this.commandSymbol(index);
     if(!this._is_mv3d_option(symbol)){
         return o.apply(this,arguments);
     }
     let value = this.getConfigValue(symbol);
-    const option = mv3d.options[symbol];
+    const option = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].options[symbol];
     if(option.type==='bool'){
         this.changeValue(symbol, !value);
     }else{
@@ -2239,70 +1729,70 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Window_Options.prototy
 
 
 /***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-const mv3d = window.mv3d;
+/* harmony import */ var _mv3d_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
-Object.assign(mv3d,{
+
+Object.assign(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"],{
 	vehicleObstructed(vehicle,...args){
 		return vehicleObstructed.apply(vehicle,args);
 	},
 	tileCollision(char,x,y,useStairThresh=false,useTargetZ=false){
-		if(!(char instanceof mv3d.Character)){if(!char.mv3d_sprite){return false;}char=char.mv3d_sprite;}
+		if(!(char instanceof _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Character)){if(!char.mv3d_sprite){return false;}char=char.mv3d_sprite;}
 		const z = typeof useTargetZ==='number'? useTargetZ
 		:useTargetZ?char.getTargetElevation(x,y):char.z;
 		const cc = char.getCollisionHeight(z);
 		const tcs = this.getCollisionHeights(x,y);
-		if(useStairThresh==2){ cc.z1+=mv3d.STAIR_THRESH; cc.z2+=mv3d.STAIR_THRESH; }
+		if(useStairThresh==2){ cc.z1+=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH; cc.z2+=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH; }
 		for (const tc of tcs){
 			if(cc.z1<tc.z2&&cc.z2>tc.z1){
-				if(useStairThresh==1&&mv3d.STAIR_THRESH){ return this.tileCollision(char,x,y,2,useTargetZ); }
+				if(useStairThresh==1&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH){ return this.tileCollision(char,x,y,2,useTargetZ); }
 				return true;
 			}
 		}
 		return false;
 	},
 	charCollision(char1,char2,useStairThresh=false,useTargetZ1=false,useTargetZ2=useTargetZ1,triggerMode=false){
-		if(!(char1 instanceof mv3d.Character)){if(!char1.mv3d_sprite){return false;}char1=char1.mv3d_sprite;}
-		if(!(char2 instanceof mv3d.Character)){if(!char2.mv3d_sprite){return false;}char2=char2.mv3d_sprite;}
+		if(!(char1 instanceof _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Character)){if(!char1.mv3d_sprite){return false;}char1=char1.mv3d_sprite;}
+		if(!(char2 instanceof _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Character)){if(!char2.mv3d_sprite){return false;}char2=char2.mv3d_sprite;}
 		if(!triggerMode&&(!char1.char._mv3d_hasCollide()||!char2.char._mv3d_hasCollide())){ return false; } 
 		const c1z = typeof useTargetZ1==='number'? useTargetZ1 : useTargetZ1?char1.getTargetElevation(char2.x,char2.y):char1.z;
 		const c2z = typeof useTargetZ2==='number'? useTargetZ2 : useTargetZ2?char2.targetElevation:char2.z;
 		const cc1 = char1.getCollisionHeight(c1z);
 		const cc2 = triggerMode ? char2.getTriggerHeight(c2z) : char2.getCollisionHeight(c2z);
-		if(useStairThresh==2){ cc1.z1+=mv3d.STAIR_THRESH; cc1.z2+=mv3d.STAIR_THRESH; }
+		if(useStairThresh==2){ cc1.z1+=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH; cc1.z2+=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH; }
 		if(!triggerMode&&cc1.z1<cc2.z2&&cc1.z2>cc2.z1 || triggerMode&&cc1.z1<=cc2.z2&&cc1.z2>=cc2.z1){
-			if(useStairThresh==1&&mv3d.STAIR_THRESH){ return this.charCollision(char1,char2,2,useTargetZ1,useTargetZ2); }
+			if(useStairThresh==1&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH){ return this.charCollision(char1,char2,2,useTargetZ1,useTargetZ2); }
 			return true;
 		}
 		return false;
 	},
 	getPlatformFloatForCharacter(char,x,y,opts={}){
-		if(!(char instanceof mv3d.Character)){if(!char.mv3d_sprite){return 0;}char=char.mv3d_sprite;}
-		let z = mv3d.getPlatformForCharacter(char,x,y,opts).z2;
+		if(!(char instanceof _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Character)){if(!char.mv3d_sprite){return 0;}char=char.mv3d_sprite;}
+		let z = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(char,x,y,opts).z2;
 		if(char.hasFloat){
 			const cHeight = char.getCHeight();
-			z += mv3d.getFloatHeight(x,y,char.z+Math.max(cHeight,mv3d.STAIR_THRESH),mv3d.STAIR_THRESH>=cHeight);
+			z += _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getFloatHeight(x,y,char.z+Math.max(cHeight,_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH),_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH>=cHeight);
 		}
 		return z;
 	},
 	getPlatformForCharacter(char,x,y,opts={}){
-		if(!(char instanceof mv3d.Character)){if(!char.mv3d_sprite){return false;}char=char.mv3d_sprite;}
+		if(!(char instanceof _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Character)){if(!char.mv3d_sprite){return false;}char=char.mv3d_sprite;}
 		const cHeight = char.getCHeight();
-		const useStairThresh = mv3d.STAIR_THRESH>=cHeight;
+		const useStairThresh = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH>=cHeight;
 		Object.assign(opts,{char:char,gte:useStairThresh});
-		return this.getPlatformAtLocation(x,y,char.z+Math.max(cHeight,mv3d.STAIR_THRESH),opts);
+		return this.getPlatformAtLocation(x,y,char.z+Math.max(cHeight,_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH),opts);
 	},
 	getPlatformAtLocation(x,y,z,opts={}){
 		const char = opts.char;
-		//if(!('onlyPlatforms' in opts)){ opts.onlyPlatforms=true; }
 		const cs = this.getCollisionHeights(x,y,opts);
-		cs.push(...mv3d.getEventsAt(x,y)
+		cs.push(..._mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getEventsAt(x,y)
 			.filter(event=>{
 				if(!(event.mv3d_sprite&&event._mv3d_isPlatform()&&event._mv3d_hasCollide()&&event.mv3d_sprite.visible)){ return false; }
 				if(char){
@@ -2346,22 +1836,22 @@ Object.assign(mv3d,{
 	},
 
 	getRampData(x,y,l,conf=null){
-		const tileId = mv3d.getTileId(x,y,l);
+		const tileId = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getTileId(x,y,l);
 		if(!conf){ conf = this.getTileConfig(tileId,x,y,l); }
 		if(conf.shape!==this.enumShapes.SLOPE){ return false; }
-		const height = mv3d.getStackHeight(x,y,l);
+		const height = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getStackHeight(x,y,l);
 		const slopeHeight = conf.slopeHeight||1;
 		return { id:tileId, x,y,l,conf, z1:height-slopeHeight, z2:height };
 	},
 
 	canPassRamp(d,slope,opts={}){
 		if(d===5||d<=0||d>=10){ return true; }
-		const {dir:sd} = mv3d.getSlopeDirection(slope.x,slope.y,slope.l,true);
+		const {dir:sd} = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getSlopeDirection(slope.x,slope.y,slope.l,true);
 		const x2 = $gameMap.roundXWithDirection(slope.x,d);
 		const y2 = $gameMap.roundYWithDirection(slope.y,d);
 		const slope2 = this.isRampAt(x2,y2,sd===d?slope.z1:sd===10-d?slope.z2:(slope.z1+slope.z2)/2);
 		if(slope2){
-			const  {dir:sd2} = mv3d.getSlopeDirection(x2,y2,slope2.l,true);
+			const  {dir:sd2} = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getSlopeDirection(x2,y2,slope2.l,true);
 			if(sd!==d&&sd!==10-d){
 				if(sd===sd2&&slope.z1===slope2.z1&&slope.z2===slope2.z2){ return true; }
 				return false;
@@ -2369,14 +1859,14 @@ Object.assign(mv3d,{
 			return sd===sd2 && (sd===d?(slope.z1===slope2.z2):(slope.z2===slope2.z1));
 		}
 		if(sd!==d&&sd!==10-d){ return false; }
-		const dh = this.getPlatformAtLocation(x2,y2, (opts.z!=null?opts.z:sd===d?slope.z1:slope.z2)+mv3d.STAIR_THRESH ).z2;
-		return Math.abs(dh-(sd===d?slope.z1:slope.z2))<=mv3d.STAIR_THRESH;
+		const dh = this.getPlatformAtLocation(x2,y2, (opts.z!=null?opts.z:sd===d?slope.z1:slope.z2)+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH ).z2;
+		return Math.abs(dh-(sd===d?slope.z1:slope.z2))<=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH;
 	}
 });
 
 Game_CharacterBase.prototype._mv3d_isFlying=function(){
 	if(!this.mv3d_sprite){ return false;}
-	return this.mv3d_sprite.blendElevation.currentValue()>0||this.mv3d_sprite.hasConfig('zlock')||!this.mv3d_sprite.getConfig('gravity',mv3d.GRAVITY);
+	return this.mv3d_sprite.blendElevation.currentValue()>0||this.mv3d_sprite.hasConfig('zlock')||!this.mv3d_sprite.getConfig('gravity',_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].GRAVITY);
 };
 Game_Vehicle.prototype._mv3d_isFlying=function(){
 	return this.isAirship()||Game_CharacterBase.prototype._mv3d_isFlying.apply(this,arguments);
@@ -2387,7 +1877,7 @@ Game_Player.prototype._mv3d_isFlying=function(){
 };
 
 Game_CharacterBase.prototype._mv3d_isPlatform=function(){
-	return this.mv3d_sprite&&this.mv3d_sprite.getConfig('platform',mv3d.WALK_ON_EVENTS);
+	return this.mv3d_sprite&&this.mv3d_sprite.getConfig('platform',_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].WALK_ON_EVENTS);
 };
 
 Game_CharacterBase.prototype._mv3d_hasCollide=function(){
@@ -2397,35 +1887,38 @@ Game_CharacterBase.prototype._mv3d_hasCollide=function(){
 };
 
 if(window.Imported&&Imported.QMovement){
-	__webpack_require__(12);
+	__webpack_require__(10);
 }else if(PluginManager._scripts.includes("AltimitMovement")&&Game_CharacterBase.prototype.moveVector){
-	__webpack_require__(13);
+	__webpack_require__(11);
 }else{
-	__webpack_require__(14);
+	__webpack_require__(12);
 }
 
 // jump
 const _charBase_jump = Game_CharacterBase.prototype.jump;
 Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
-	if (mv3d.isDisabled()){ return _charBase_jump.apply(this,arguments); }
-	this.mv3d_jumpHeightStart = this.z!=null?this.z:mv3d.getWalkHeight(this.x,this.y);
-	this.mv3d_jumpHeightEnd = mv3d.getWalkHeight(this.x+xPlus,this.y+yPlus);
+	if (_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled()){ return _charBase_jump.apply(this,arguments); }
+	this.mv3d_jumpHeightStart = this.z!=null?this.z:_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getWalkHeight(this.x,this.y);
+	this.mv3d_jumpHeightEnd = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getWalkHeight(this.x+xPlus,this.y+yPlus);
 	_charBase_jump.apply(this,arguments);
 };
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Map.prototype,'allTiles',o=>function(x,y){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Map.prototype,'allTiles',o=>function(x,y){
 	return this.layeredTiles(x, y);
 });
 
 /***/ }),
-/* 12 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _mv3d__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+/* harmony import */ var _features__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 
-const mv3d = window.mv3d;
+
+
 
 Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(ColliderManager,'update',o=>function(){
 	this.hide();
@@ -2436,7 +1929,7 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(ColliderManager.container
 },true);
 
 let _tileColliders={};
-mv3d.getQTileColliders=()=>_tileColliders;
+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getQTileColliders=()=>_tileColliders;
 
 function mv3d_makeTileCollider(x,y,zcollider,extra){
 	const tc=new Box_Collider($gameMap.tileWidth(),$gameMap.tileHeight());
@@ -2456,8 +1949,8 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Map.prototype,'setup
 	for (let y = 0; y < this.height(); y++) {
 		const px = x * this.tileWidth(), py = y * this.tileHeight();
 		const flags = this.tilesetFlags();
-		const tiles = mv3d.getTileData(x, y);
-		const zColliders = mv3d.getCollisionHeights(x,y,{layers:true,slopeMin:true});
+		const tiles = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getTileData(x, y);
+		const zColliders = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getCollisionHeights(x,y,{layers:true,slopeMin:true});
 		const tileCollider_list = _tileColliders[[x,y]]=[];
 		for (let i=0; i<zColliders.length; ++i) {
 			tileCollider_list[i]=mv3d_makeTileCollider(x,y,zColliders[i],'mv3d');
@@ -2465,18 +1958,18 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Map.prototype,'setup
 		_tileColliders[[x,y,'x']]=mv3d_makeTileCollider(x,y,infiniteHeightCollider,'mv3d_x');
 		for (let l = 0; l < tiles.length; ++l) {
 			const flag = flags[tiles[l]];
-			const passage = mv3d.getTilePassage(tiles[l],x,y,l);
-			if(passage===mv3d.enumPassage.THROUGH){ continue; }
-			const conf = mv3d.getTileConfig(x,y,l);
-			if(conf.shape===mv3d.enumShapes.SLOPE){
-				const rampData = mv3d.getRampData(x,y,l,conf);
+			const passage = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getTilePassage(tiles[l],x,y,l);
+			if(passage===_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].enumPassage.THROUGH){ continue; }
+			const conf = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getTileConfig(x,y,l);
+			if(conf.shape===_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].enumShapes.SLOPE){
+				const rampData = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getRampData(x,y,l,conf);
 				let dcol=0;
-				if(!mv3d.canPassRamp(2,rampData)){ dcol|=0b0001; }
-				if(!mv3d.canPassRamp(4,rampData)){ dcol|=0b0010; }
-				if(!mv3d.canPassRamp(6,rampData)){ dcol|=0b0100; }
-				if(!mv3d.canPassRamp(8,rampData)){ dcol|=0b1000; }
+				if(!_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].canPassRamp(2,rampData)){ dcol|=0b0001; }
+				if(!_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].canPassRamp(4,rampData)){ dcol|=0b0010; }
+				if(!_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].canPassRamp(6,rampData)){ dcol|=0b0100; }
+				if(!_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].canPassRamp(8,rampData)){ dcol|=0b1000; }
 				dcol+=1536;
-				const slopeZ2 = mv3d.getStackHeight(x,y,l);
+				const slopeZ2 = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getStackHeight(x,y,l);
 				const slopeZ1 = slopeZ2-(conf.slopeHeight||1);
 				//const data = Array.from(QMovement.tileBoxes[flag]);
 				let data = QMovement.tileBoxes[dcol];
@@ -2560,7 +2053,7 @@ function QzCollidersOverlap(c1,c2){
 	return zCollidersOverlap(c1,c2);
 }
 function zCollidersOverlap(c1,c2){
-	if(c1.z1<c2.z2&&c1.z2>c2.z1 && c1.z1+mv3d.STAIR_THRESH<c2.z2&&c1.z2+mv3d.STAIR_THRESH>c2.z1){
+	if(c1.z1<c2.z2&&c1.z2>c2.z1 && c1.z1+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].STAIR_THRESH<c2.z2&&c1.z2+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].STAIR_THRESH>c2.z1){
 		return true;
 	}
 	return false;
@@ -2582,7 +2075,7 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(ColliderManager,'getColli
 			}
 			if(c.mv3d_collider){
 				// ignore Q colliders not on current layer
-				const tileLayers = mv3d.getTileLayers(cx,cy,collider.mv3d_collider.z1+mv3d.STAIR_THRESH);
+				const tileLayers = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getTileLayers(cx,cy,collider.mv3d_collider.z1+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].STAIR_THRESH);
 				if(!tileLayers.includes(c.mv3d_collider.l)){ return false; }
 			}
 		}
@@ -2605,9 +2098,9 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(ColliderManager,'getColli
 		const xCollider = _tileColliders[[tx,ty,'x']];
 		let slopeColliders = null;
 		let isWall=false;
-		const tileLayers = mv3d.getTileLayers(tx,ty,collider.mv3d_collider.z1+mv3d.STAIR_THRESH);
+		const tileLayers = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getTileLayers(tx,ty,collider.mv3d_collider.z1+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].STAIR_THRESH);
 		for(const l of tileLayers){
-			if( mv3d.getTilePassage(tx,ty,l)===mv3d.enumPassage.WALL ){ isWall=true; }
+			if( _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getTilePassage(tx,ty,l)===_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].enumPassage.WALL ){ isWall=true; }
 			const slopeKey = [tx,ty,l,'slope'].toString();
 			if(slopeKey in _tileColliders){ slopeColliders = _tileColliders[slopeKey]; }
 		}
@@ -2626,7 +2119,7 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(ColliderManager,'getColli
 			// collide slopes
 			else if (slopeColliders && !char.platform.char && !platform.char){
 				for (const c of slopeColliders){
-					if(mv3d.WALK_OFF_EDGE && char.z>c.slopeZ1){ continue; }
+					if(_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].WALK_OFF_EDGE && char.z>c.slopeZ1){ continue; }
 					let value=true;
 					if(only){ value = only(c); }
 					if(value!==false){
@@ -2637,8 +2130,8 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(ColliderManager,'getColli
 				}
 			}
 			// collide ledges
-			else if(!mv3d.WALK_OFF_EDGE && !char.char._mv3d_isFlying() && (!char.platform||!char.platform.isSlope)
-			&& Object(_util__WEBPACK_IMPORTED_MODULE_0__["unround"])(Math.abs(char.getPlatformFloat(tx,ty,opts)-char.targetElevation))>mv3d.STAIR_THRESH){
+			else if(!_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].WALK_OFF_EDGE && !char.char._mv3d_isFlying() && (!char.platform||!char.platform.isSlope)
+			&& Object(_util__WEBPACK_IMPORTED_MODULE_0__["unround"])(Math.abs(char.getPlatformFloat(tx,ty,opts)-char.targetElevation))>_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].STAIR_THRESH){
 				shouldCollide=true;
 			}
 			
@@ -2686,7 +2179,7 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'st
 	$gameTemp._mv3d_Q_getCharactersTriggerHeight=false;
 });
 
-mv3d.Character.prototype.getPlatform=function(x=this.char._realX,y=this.char._realY,opts={}){
+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].Character.prototype.getPlatform=function(x=this.char._realX,y=this.char._realY,opts={}){
 	const px = (x-0.5)*QMovement.tileSize;
 	const py = (y-0.5)*QMovement.tileSize;
 	const collider = this.char.collider();
@@ -2698,15 +2191,15 @@ mv3d.Character.prototype.getPlatform=function(x=this.char._realX,y=this.char._re
 	
 	const platform = [
 		//mv3d.getPlatformForCharacter(this,x,y),
-		mv3d.getPlatformForCharacter(this,x1,y1,opts),
-		mv3d.getPlatformForCharacter(this,x2,y1,opts),
-		mv3d.getPlatformForCharacter(this,x2,y2,opts),
-		mv3d.getPlatformForCharacter(this,x1,y2,opts),
+		_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getPlatformForCharacter(this,x1,y1,opts),
+		_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getPlatformForCharacter(this,x2,y1,opts),
+		_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getPlatformForCharacter(this,x2,y2,opts),
+		_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getPlatformForCharacter(this,x1,y2,opts),
 	].reduce((a,b)=>a.z2>=b.z2?a:b);
 	return platform;
 };
 
-mv3d.getEventsAt=function(x,y){
+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].getEventsAt=function(x,y){
 	let events;
 	try{
 		events = ColliderManager._characterGrid[Math.round(x)][Math.round(y)];
@@ -2720,7 +2213,7 @@ mv3d.getEventsAt=function(x,y){
 	});
 };
 
-mv3d.setDestination=function(x,y){
+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].setDestination=function(x,y){
 	$gameTemp.setPixelDestination(Math.round(x*$gameMap.tileWidth()), Math.round(y*$gameMap.tileHeight()));
 };
 
@@ -2742,7 +2235,7 @@ const _QMoveVH=o=>function(dir) {
 		this.mv3d_QMoveRadian(dir);
 		return;
 	}
-	dir=mv3d.transformDirection(dir);
+	dir=_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].transformDirection(dir);
 	if(dir%2){
 		const diag = _QdiagMap[dir];
 		this.moveDiagonally(diag[0], diag[1]);
@@ -2756,13 +2249,13 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'mo
 Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'moveInputDiagonal',_QMoveVH);
 
 Game_Player.prototype.mv3d_QMoveRadian=function(dir,dist=this.moveTiles()){
-	this.moveRadian(-Object(_util__WEBPACK_IMPORTED_MODULE_0__["degtorad"])(mv3d.blendCameraYaw.currentValue()+90+mv3d.dirToYaw(dir)),dist);
+	this.moveRadian(-Object(_util__WEBPACK_IMPORTED_MODULE_0__["degtorad"])(_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].blendCameraYaw.currentValue()+90+_mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].dirToYaw(dir)),dist);
 	//this.mv3d_setDirection(mv3d.transformDirection(dir));
 };
 
 Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Character.prototype,'moveRadian',o=>function(radian, dist){
 	o.apply(this,arguments);
-	const d = mv3d.yawToDir(Object(_util__WEBPACK_IMPORTED_MODULE_0__["radtodeg"])(-radian)-90,true);
+	const d = _mv3d__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].yawToDir(Object(_util__WEBPACK_IMPORTED_MODULE_0__["radtodeg"])(-radian)-90,true);
 	this.mv3d_setDirection(d);
 });
 
@@ -2781,32 +2274,33 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Follower.prototype,'
 });
 
 /***/ }),
-/* 13 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-const mv3d = window.mv3d;
+/* harmony import */ var _mv3d_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'moveByInput',o=>function(){
+
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'moveByInput',o=>function(){
 	$gameTemp._mv3d_altimit_moveByInput=true;
 	o.apply(this,arguments);
 	$gameTemp._mv3d_altimit_moveByInput=false;
 });
 
-mv3d.getInputDirection=function(){
-	let dir = mv3d.DIR8MOVE ? Input.dir8 : Input.dir4;
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getInputDirection=function(){
+	let dir = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].DIR8MOVE ? Input.dir8 : Input.dir4;
 	return dir;
 };
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'moveVector',o=>function(vx,vy){
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'moveVector',o=>function(vx,vy){
 	if($gameTemp._mv3d_altimit_moveByInput && !this._touchTarget){
 		const _vx=vx,_vy=vy;
-		const yaw = Object(_util__WEBPACK_IMPORTED_MODULE_0__["degtorad"])(mv3d.blendCameraYaw.currentValue());
-		vx=Object(_util__WEBPACK_IMPORTED_MODULE_0__["cos"])(yaw)*_vx + Object(_util__WEBPACK_IMPORTED_MODULE_0__["sin"])(yaw)*_vy;
-		vy=-Object(_util__WEBPACK_IMPORTED_MODULE_0__["sin"])(yaw)*_vx + Object(_util__WEBPACK_IMPORTED_MODULE_0__["cos"])(yaw)*_vy;
+		const yaw = Object(_util__WEBPACK_IMPORTED_MODULE_1__["degtorad"])(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].blendCameraYaw.currentValue());
+		vx=Object(_util__WEBPACK_IMPORTED_MODULE_1__["cos"])(yaw)*_vx + Object(_util__WEBPACK_IMPORTED_MODULE_1__["sin"])(yaw)*_vy;
+		vy=-Object(_util__WEBPACK_IMPORTED_MODULE_1__["sin"])(yaw)*_vx + Object(_util__WEBPACK_IMPORTED_MODULE_1__["cos"])(yaw)*_vy;
 		//console.log(_vx,_vy,vx,vy);
 	}
 	if(this.mv3d_sprite && this.mv3d_sprite.platform && this.mv3d_sprite.platform.isSlope){
@@ -2826,11 +2320,11 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'mo
 	o.call(this,vx,vy);
 });
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'setDirectionVector',o=>function(vx,vy){
-	this.mv3d_setDirection(mv3d.yawToDir(Object(_util__WEBPACK_IMPORTED_MODULE_0__["pointtodeg"])(vx,vy),true));
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'setDirectionVector',o=>function(vx,vy){
+	this.mv3d_setDirection(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].yawToDir(Object(_util__WEBPACK_IMPORTED_MODULE_1__["pointtodeg"])(vx,vy),true));
 });
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'moveVectorMap',o=>function(owner, collider, bboxTests, move, vx, vy){
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'moveVectorMap',o=>function(owner, collider, bboxTests, move, vx, vy){
 	o.apply(this,arguments);
 	const sprite = owner.mv3d_sprite;
 	if(!sprite){ return; }
@@ -2849,24 +2343,24 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.protot
 		//if(tx===x&&ty===y){continue;}
 		let slope;
 		let realign = false;
-		if(slope=mv3d.isRampAt(tx,ty,sprite.z)){
-			if(mv3d.canPassRamp(10-d,slope,{z:sprite.z})){ continue; }
+		if(slope=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isRampAt(tx,ty,sprite.z)){
+			if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].canPassRamp(10-d,slope,{z:sprite.z})){ continue; }
 		}
 		const tx2 = $gameMap.roundXWithDirection(tx, 10-d);
 		const ty2 = $gameMap.roundYWithDirection(ty, 10-d);
-		if(slope=mv3d.isRampAt(tx2,ty2,sprite.z)){
-			if(mv3d.canPassRamp(d,slope)){ continue; }
+		if(slope=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isRampAt(tx2,ty2,sprite.z)){
+			if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].canPassRamp(d,slope)){ continue; }
 		}
 
 		let collided = false;
 		if(this._mv3d_isFlying()){
-			if(!mv3d.allowGlide&&mv3d.tileCollision(this,tx,ty,true,true)||mv3d.tileCollision(this,tx,ty,true,false)){ collided=true; }
+			if(!_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].allowGlide&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,tx,ty,true,true)||_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,tx,ty,true,false)){ collided=true; }
 		}else{
 			if(sprite.falling){ collided=true; }
-			else if(mv3d.tileCollision(this,tx,ty,true,true)){ collided=true; }
-			else if(!mv3d.WALK_OFF_EDGE){
-				const platformz = mv3d.getPlatformFloatForCharacter(this,tx,ty);
-				if(Object(_util__WEBPACK_IMPORTED_MODULE_0__["unround"])(Math.abs(platformz-sprite.targetElevation))>mv3d.STAIR_THRESH){
+			else if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,tx,ty,true,true)){ collided=true; }
+			else if(!_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].WALK_OFF_EDGE){
+				const platformz = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformFloatForCharacter(this,tx,ty);
+				if(Object(_util__WEBPACK_IMPORTED_MODULE_1__["unround"])(Math.abs(platformz-sprite.targetElevation))>_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH){
 					collided=true;
 				}
 			}
@@ -2878,7 +2372,7 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.protot
 	}
 });
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'moveVectorCharacters',o=>function(owner, collider, characters, loopMap, move){
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'moveVectorCharacters',o=>function(owner, collider, characters, loopMap, move){
 	const spr1=this.mv3d_sprite; if(!spr1){ return o.apply(this,arguments); }
 	const zcol1=spr1.getCollisionHeight();
 	characters=characters.filter(character=>{
@@ -2889,25 +2383,25 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.protot
 	return o.call(this,owner,collider,characters,loopMap,move);
 });
 
-mv3d.Character.prototype.getPlatform=function(x=this.char._realX,y=this.char._realY,opts={}){
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Character.prototype.getPlatform=function(x=this.char._realX,y=this.char._realY,opts={}){
 	const collider = this.char.collider();
 	if(collider.type===0){
 		x+=collider.x-0.5; y+=collider.y-0.5;
 		const r = collider.radius*0.95;
 		
 		const platform = [
-			mv3d.getPlatformForCharacter(this,x,y),
-			mv3d.getPlatformForCharacter(this,x,y-r,opts),
-			mv3d.getPlatformForCharacter(this,x-r,y,opts),
-			mv3d.getPlatformForCharacter(this,x,y+r,opts),
-			mv3d.getPlatformForCharacter(this,x+r,y,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x,y),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x,y-r,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x-r,y,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x,y+r,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+r,y,opts),
 		]
 		const diagPlatforms = [
 			-Infinity,
-			mv3d.getPlatformForCharacter(this,x-r*Math.SQRT1_2,y-r*Math.SQRT1_2,opts),
-			mv3d.getPlatformForCharacter(this,x-r*Math.SQRT1_2,y+r*Math.SQRT1_2,opts),
-			mv3d.getPlatformForCharacter(this,x+r*Math.SQRT1_2,y+r*Math.SQRT1_2,opts),
-			mv3d.getPlatformForCharacter(this,x+r*Math.SQRT1_2,y-r*Math.SQRT1_2,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x-r*Math.SQRT1_2,y-r*Math.SQRT1_2,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x-r*Math.SQRT1_2,y+r*Math.SQRT1_2,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+r*Math.SQRT1_2,y+r*Math.SQRT1_2,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+r*Math.SQRT1_2,y-r*Math.SQRT1_2,opts),
 		].filter(c=>c.z2<=this.z);
 		return platform.concat(diagPlatforms).reduce((a,b)=>a.z2>=b.z2?a:b);
 	}else{
@@ -2919,17 +2413,17 @@ mv3d.Character.prototype.getPlatform=function(x=this.char._realX,y=this.char._re
 			b:collider.aabbox.bottom*0.99,
 		};
 		const platform = [
-			mv3d.getPlatformForCharacter(this,x,y),
-			mv3d.getPlatformForCharacter(this,x+b.l,y+b.t,opts),
-			mv3d.getPlatformForCharacter(this,x+b.l,y+b.b,opts),
-			mv3d.getPlatformForCharacter(this,x+b.r,y+b.t,opts),
-			mv3d.getPlatformForCharacter(this,x+b.r,y+b.b,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x,y),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+b.l,y+b.t,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+b.l,y+b.b,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+b.r,y+b.t,opts),
+			_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(this,x+b.r,y+b.b,opts),
 		].reduce((a,b)=>a.z2>=b.z2?a:b);
 		return platform;
 	}
 };
 
-mv3d.getEventsAt=function(x,y){
+_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getEventsAt=function(x,y){
 	x=Math.round(x); y=Math.round(y);
 	return $gameMap.events().filter( character=>{
 		if(character.isThrough()){ return false; }
@@ -2955,7 +2449,7 @@ function zCollidersOverlap(s1,s2){
 	return s1.z1<s2.z2&&s1.z2>s2.z1;
 }
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Map.prototype,'events',o=>function(){
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Map.prototype,'events',o=>function(){
 	const events = o.apply(this,arguments);
 	if(!$gameTemp._mv3d_altimit_eventsHeightFilter){ return events; }
 	delete $gameTemp._mv3d_altimit_eventsHeightFilter;
@@ -2968,7 +2462,7 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Map.prototype,'event
 	});
 });
 
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Event.prototype,'checkEventTriggerTouch',o=>function(){
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Event.prototype,'checkEventTriggerTouch',o=>function(){
 	const sprite = this.mv3d_sprite, player=$gamePlayer.mv3d_sprite;
 	if(sprite&&player){
 		if(!zCollidersOverlap(sprite,player)){ return false; }
@@ -2980,17 +2474,18 @@ const _eventsHeightFilter=o=>function(){
 	$gameTemp._mv3d_altimit_eventsHeightFilter=true;
 	return o.apply(this,arguments);
 };
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'checkEventTriggerHere',_eventsHeightFilter);
-Object(_util__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'checkEventTriggerThere',_eventsHeightFilter);
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'checkEventTriggerHere',_eventsHeightFilter);
+Object(_util__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'checkEventTriggerThere',_eventsHeightFilter);
 
 /***/ }),
-/* 14 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-const mv3d = window.mv3d;
+/* harmony import */ var _mv3d_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
 
 
 const _characterBase_canPass = Game_CharacterBase.prototype.canPass
@@ -2999,7 +2494,7 @@ Game_CharacterBase.prototype.canPass = function(x, y, d) {
 	if(!_characterBase_canPass.apply(this,arguments)){
 		return false;
 	}
-	if (mv3d.isDisabled()||this.isDebugThrough()||this.isThrough()){return true; }
+	if (_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled()||this.isDebugThrough()||this.isThrough()){return true; }
 
 	return true;
 };
@@ -3007,11 +2502,11 @@ Game_CharacterBase.prototype.canPass = function(x, y, d) {
 function charCollidesWithChars(char1,charlist,x,y){
 	return charlist.some(char2=>{
 		const isPlatform = char2._mv3d_isPlatform();
-		if(mv3d.WALK_OFF_EDGE&&!isPlatform){
-			const platformHeight = mv3d.getPlatformForCharacter(char1,x,y).z2;
-			if(mv3d.charCollision(char1,char2,false,platformHeight)){ return true; }
+		if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].WALK_OFF_EDGE&&!isPlatform){
+			const platformHeight = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(char1,x,y).z2;
+			if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(char1,char2,false,platformHeight)){ return true; }
 		}
-		return mv3d.charCollision(char1,char2,isPlatform,true);
+		return _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(char1,char2,isPlatform,true);
 	});
 }
 
@@ -3019,20 +2514,20 @@ const _isCollidedWithEvents=o=>function(x,y){
 	return charCollidesWithChars(this,$gameMap.eventsXyNt(x,y),x,y);
 };
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'isCollidedWithEvents',_isCollidedWithEvents);
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'isCollidedWithEvents',_isCollidedWithEvents);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Event.prototype,'isCollidedWithEvents',_isCollidedWithEvents);
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Event.prototype,'isCollidedWithEvents',_isCollidedWithEvents);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Event.prototype,'isCollidedWithPlayerCharacters',o=>function(x,y){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Event.prototype,'isCollidedWithPlayerCharacters',o=>function(x,y){
 	if($gamePlayer.isThrough()){ return false; }
 	const chars = [$gamePlayer,...$gamePlayer.followers()._data.filter(f=>f.isVisible()&&f.mv3d_sprite&&f.mv3d_sprite.visible)]
 	.filter(char=>char.pos(x,y));
 	return charCollidesWithChars(this,chars,x,y);
 });
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'isCollidedWithVehicles',o=>function(x,y){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'isCollidedWithVehicles',o=>function(x,y){
 	const boat=$gameMap.boat(), ship=$gameMap.ship();
-	return boat.posNt(x,y)&&mv3d.charCollision(this,boat,boat._mv3d_isPlatform(),true) || ship.posNt(x,y)&&mv3d.charCollision(this,ship,ship._mv3d_isPlatform(),true);
+	return boat.posNt(x,y)&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(this,boat,boat._mv3d_isPlatform(),true) || ship.posNt(x,y)&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(this,ship,ship._mv3d_isPlatform(),true);
 });
 
 const _isMapPassable=o=>function(x,y,d){
@@ -3046,26 +2541,26 @@ const _isMapPassable=o=>function(x,y,d){
 
 
 	let slope;
-	if(slope=mv3d.isRampAt(x,y,sprite.z)){
-		if(mv3d.canPassRamp(d,slope)){ return true; }
+	if(slope=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isRampAt(x,y,sprite.z)){
+		if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].canPassRamp(d,slope)){ return true; }
 	}
 
 	var x2 = $gameMap.roundXWithDirection(x, d);
 	var y2 = $gameMap.roundYWithDirection(y, d);
 	
-	if(slope=mv3d.isRampAt(x2,y2,sprite.z)){
-		if(mv3d.canPassRamp(10-d,slope,{z:sprite.z})){ return true; }
+	if(slope=_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isRampAt(x2,y2,sprite.z)){
+		if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].canPassRamp(10-d,slope,{z:sprite.z})){ return true; }
 	}
 	
 	if(this._mv3d_isFlying()){
-		if(!mv3d.allowGlide&&mv3d.tileCollision(this,x2,y2,true,sprite.targetElevation)||mv3d.tileCollision(this,x2,y2,true,false)){ return false; }
+		if(!_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].allowGlide&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,x2,y2,true,sprite.targetElevation)||_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,x2,y2,true,false)){ return false; }
 	}else{
-		if(mv3d.tileCollision(this,x2,y2,true,false)){ return false; }
+		if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,x2,y2,true,false)){ return false; }
 		
 		if(sprite.falling){ return false; }
-		if(!mv3d.WALK_OFF_EDGE){
-			const platformz = mv3d.getPlatformFloatForCharacter(this,x2,y2);
-			if(Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["unround"])(Math.abs(platformz-sprite.targetElevation))>mv3d.STAIR_THRESH){
+		if(!_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].WALK_OFF_EDGE){
+			const platformz = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformFloatForCharacter(this,x2,y2);
+			if(Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["unround"])(Math.abs(platformz-sprite.targetElevation))>_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH){
 				return false; 
 			}
 		}
@@ -3073,14 +2568,14 @@ const _isMapPassable=o=>function(x,y,d){
 	return true;
 };
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'isMapPassable',_isMapPassable);
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'isMapPassable',_isMapPassable);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Vehicle.prototype,'isMapPassable',_isMapPassable);
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Vehicle.prototype,'isMapPassable',_isMapPassable);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'startMapEvent',o=>function(x,y,triggers,normal){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'startMapEvent',o=>function(x,y,triggers,normal){
 	if ($gameMap.isEventRunning()) { return; }
 	$gameMap.eventsXy(x,y)
-	.filter(event=>mv3d.charCollision(this,event,false,false,false,true))
+	.filter(event=>_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(this,event,false,false,false,true))
 	.forEach(event=>{
 		if (event.isTriggerIn(triggers) && event.isNormalPriority() === normal) {
 			event.start();
@@ -3095,22 +2590,22 @@ Game_Map.prototype.checkPassage = function(x, y, bit) {
 	}
 	const char = $gameTemp._mv3d_collision_char;
 	const cHeight = char.getCHeight();
-	const z = char.z+Math.max(cHeight,mv3d.STAIR_THRESH);
-	const platform = mv3d.getPlatformForCharacter(char,x,y);
+	const z = char.z+Math.max(cHeight,_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH);
+	const platform = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter(char,x,y);
 	if(platform.char){ return true; }
 	var flags = this.tilesetFlags();
 	//var tiles = this.allTiles(x, y);
-	const layers = mv3d.getTileLayers(x,y,z,mv3d.STAIR_THRESH>=cHeight);
-	const tiles = mv3d.getTileData(x,y);
+	const layers = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getTileLayers(x,y,z,_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].STAIR_THRESH>=cHeight);
+	const tiles = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getTileData(x,y);
 	for (var i = layers.length-1; i>=0; --i) {
 		const l=layers[i];
 		if(bit&0x0f){
-			const conf = mv3d.getTileConfig(x,y,l);
+			const conf = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getTileConfig(x,y,l);
 			if('pass' in conf){
 				//const passage = mv3d.getTilePassage(x,y,l);
-				if(conf.pass===mv3d.enumPassage.THROUGH){ continue; }
-				if(conf.pass===mv3d.enumPassage.FLOOR){ return true; }
-				if(conf.pass===mv3d.enumPassage.WALL){ return false; }
+				if(conf.pass===_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].enumPassage.THROUGH){ continue; }
+				if(conf.pass===_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].enumPassage.FLOOR){ return true; }
+				if(conf.pass===_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].enumPassage.WALL){ return false; }
 			}
 		}
 		const flag = flags[tiles[l]];
@@ -3124,10 +2619,10 @@ Game_Map.prototype.checkPassage = function(x, y, bit) {
     return false;
 };
 
-const _dir8Condition=()=> !mv3d.isDisabled() || mv3d.DIR8MOVE&&mv3d.DIR8_2D;
+const _dir8Condition=()=> !_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled() || _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].DIR8MOVE&&_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].DIR8_2D;
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'moveStraight',o=>function(d){
-	if(!mv3d.DIR8MOVE){ return o.apply(this,arguments); }
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'moveStraight',o=>function(d){
+	if(!_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].DIR8MOVE){ return o.apply(this,arguments); }
 	switch(d){
 		case 1: this.moveDiagonally(4, 2); break;
 		case 3: this.moveDiagonally(6, 2); break;
@@ -3138,14 +2633,14 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,
 	
 },_dir8Condition);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Character.prototype,'moveDiagonally',o=>function(h,v){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Character.prototype,'moveDiagonally',o=>function(h,v){
 	o.apply(this,arguments);
 
 	let adjustDirection=false;
 
 	if(this.isMovementSucceeded()){
 		adjustDirection=true;
-	}else if(mv3d.DIR8SMART && !this.isDebugThrough()){
+	}else if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].DIR8SMART && !this.isDebugThrough()){
 		this.moveStraight(h);
 		if(!this.isMovementSucceeded()){
 			this.moveStraight(v);
@@ -3156,17 +2651,17 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Character.prototy
 	}else{ adjustDirection=true; }
 
 	if(adjustDirection){
-		const d = Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["hvtodir"])(h,v);
+		const d = Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["hvtodir"])(h,v);
 		this.mv3d_setDirection(d);
 	}
 
 },_dir8Condition);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'canPassDiagonally',o=>function(x,y,horz,vert){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'canPassDiagonally',o=>function(x,y,horz,vert){
 	if(this.isDebugThrough()){ return true; }
     const x2 = $gameMap.roundXWithDirection(x, horz);
 	const y2 = $gameMap.roundYWithDirection(y, vert);
-	if(mv3d.tileCollision(this,x,y2,true,false)||mv3d.tileCollision(this,x2,y,true,false)){
+	if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,x,y2,true,false)||_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].tileCollision(this,x2,y,true,false)){
 		return false;
 	}
 	return o.apply(this,arguments);
@@ -3178,10 +2673,10 @@ const _dontSnapRealXY=o=>function(){
 	if(Math.abs(realX-this._realX)>2||Math.abs(realY-this._realY)>2){ return;}
 	this._realX=realX; this._realY=realY;
 };
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Follower.prototype,'moveDiagonally',_dontSnapRealXY,_dir8Condition);
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Follower.prototype,'moveStraight',_dontSnapRealXY,_dir8Condition);
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Follower.prototype,'moveDiagonally',_dontSnapRealXY,_dir8Condition);
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Follower.prototype,'moveStraight',_dontSnapRealXY,_dir8Condition);
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.prototype,'distancePerFrame',o=>function(){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_CharacterBase.prototype,'distancePerFrame',o=>function(){
 	const dist = o.apply(this,arguments);
 	if(this._mv3d_direction%2){
 		return dist * Math.SQRT1_2;
@@ -3191,11 +2686,11 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_CharacterBase.pro
 
 // triggering
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,'checkEventTriggerThere',o=>function(triggers){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Player.prototype,'checkEventTriggerThere',o=>function(triggers){
 	if (!this.canStartLocalEvents()) { return; }
 	const dir = this.mv3d_direction();
 	if(dir%2===0){ return o.apply(this,arguments); }
-	const horz = Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["dirtoh"])(dir),vert = Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["dirtov"])(dir);
+	const horz = Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["dirtoh"])(dir),vert = Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["dirtov"])(dir);
 	const x2 = $gameMap.roundXWithDirection(this.x, horz);
 	const y2 = $gameMap.roundYWithDirection(this.y, vert);
 	this.startMapEvent(x2, y2, triggers, true);
@@ -3209,8 +2704,8 @@ Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Player.prototype,
 
 const _airship_land_ok = Game_Map.prototype.isAirshipLandOk;
 Game_Map.prototype.isAirshipLandOk = function(x, y) {
-	if (mv3d.isDisabled()){ return _airship_land_ok.apply(this,arguments); }
-	if(mv3d.AIRSHIP_SETTINGS.bushLanding){
+	if (_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled()){ return _airship_land_ok.apply(this,arguments); }
+	if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].AIRSHIP_SETTINGS.bushLanding){
 		return this.checkPassage(x, y, 0x0f);
 	}else{
 		return _airship_land_ok.apply(this,arguments);
@@ -3220,10 +2715,10 @@ Game_Map.prototype.isAirshipLandOk = function(x, y) {
 
 const _player_updateVehicleGetOn = Game_Player.prototype.updateVehicleGetOn;
 Game_Player.prototype.updateVehicleGetOn = function() {
-	if (mv3d.isDisabled()){ return _player_updateVehicleGetOn.apply(this,arguments); }
+	if (_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled()){ return _player_updateVehicleGetOn.apply(this,arguments); }
 	const vehicle = this.vehicle();
-	//const speed = mv3d.loadData(`${vehicle._type}_speed`,vehicle._moveSpeed);
-	//vehicle.setMoveSpeed(speed);
+	const speed = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].loadData(`${vehicle._type}_speed`,vehicle._moveSpeed);
+	vehicle.setMoveSpeed(speed);
 	_player_updateVehicleGetOn.apply(this,arguments);
 	this.setThrough(false);
 };
@@ -3232,18 +2727,18 @@ Game_Player.prototype.updateVehicleGetOn = function() {
 
 const _getOnVehicle = Game_Player.prototype.getOnVehicle;
 Game_Player.prototype.getOnVehicle = function(){
-	if(mv3d.isDisabled()){ return _getOnVehicle.apply(this,arguments); }
+	if(_mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].isDisabled()){ return _getOnVehicle.apply(this,arguments); }
 	var d = this.direction();
 	var x1 = Math.round(this.x);
     var y1 = Math.round(this.y);
     var x2 = $gameMap.roundXWithDirection(x1,d);
 	var y2 = $gameMap.roundYWithDirection(y1,d);
 	
-	if($gameMap.airship().pos(x1,y1) && mv3d.charCollision(this,$gameMap.airship(),false,false,false,true)){
+	if($gameMap.airship().pos(x1,y1) && _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(this,$gameMap.airship(),false,false,false,true)){
 		this._vehicleType = 'airship';
-	}else if($gameMap.ship().pos(x2,y2) && mv3d.charCollision(this,$gameMap.ship())) {
+	}else if($gameMap.ship().pos(x2,y2) && _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(this,$gameMap.ship())) {
 		this._vehicleType = 'ship';
-	}else if($gameMap.boat().pos(x2,y2) && mv3d.charCollision(this,$gameMap.boat())) {
+	}else if($gameMap.boat().pos(x2,y2) && _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].charCollision(this,$gameMap.boat())) {
 		this._vehicleType = 'boat';
 	}
 	if (this.isInVehicle()) {
@@ -3257,83 +2752,209 @@ Game_Player.prototype.getOnVehicle = function(){
 };
 
 
-Object(_util_js__WEBPACK_IMPORTED_MODULE_0__["override"])(Game_Vehicle.prototype,'isLandOk',o=>function(x,y,d){
+Object(_util_js__WEBPACK_IMPORTED_MODULE_1__["override"])(Game_Vehicle.prototype,'isLandOk',o=>function(x,y,d){
 	$gameTemp._mv3d_collision_char = $gamePlayer.mv3d_sprite;
 	let landOk = o.apply(this,arguments);
 	delete $gameTemp._mv3d_collision_char;
 	if (this.isAirship()) { return landOk; }
 	var x2 = $gameMap.roundXWithDirection(x, d);
 	var y2 = $gameMap.roundYWithDirection(y, d);
-	const platform = mv3d.getPlatformForCharacter($gamePlayer,x2,y2);
+	const platform = _mv3d_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].getPlatformForCharacter($gamePlayer,x2,y2);
 	if(platform.char){ landOk=true; }
 	const diff = Math.abs(platform.z2-this.z);
 	return landOk && diff<Math.max($gamePlayer.mv3d_sprite.getCHeight(),this.mv3d_sprite.getCHeight());
 });
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-const mv3d = window.mv3d;
-
-mv3d.isMV=true;
-mv3d.isMZ=false;
-mz3d.MV3D_FOLDER="img/MV3D";
-
-//Tilemap.prototype._mv3d_addTile = Tilemap.prototype._drawTile;
-
-const _renderWebGL = ShaderTilemap.prototype.renderWebGL;
-ShaderTilemap.prototype.renderWebGL = function(renderer) {
-	if(mv3d.mapDisabled){ _renderWebGL.apply(this,arguments); }
-};
-
-const _graphics_createCanvas=Graphics._createCanvas;
-Graphics._createCanvas = function() {
-	mv3d.setup();
-	mv3d.updateCanvas();
-	_graphics_createCanvas.apply(this,arguments);
-};
-
-Object.assign(mv3d,{
-
-	async getTextureUrl(url){
-		const bitmap = ImageManager.loadNormalBitmap(encodeURI(url));
-		if(Decrypter.hasEncryptedImages){
-			await mv3d.waitBitmapLoaded(bitmap);
-			return bitmap.canvas.toDataURL();
-		}else{
-			return bitmap._image.src;
-		}
-	},
-
-});
-
-/***/ }),
-/* 16 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: ./src/main.js
-var main = __webpack_require__(1);
+// EXTERNAL MODULE: ./src/mv3d.js
+var mv3d = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./src/mod_babylon.js + 1 modules
 var mod_babylon = __webpack_require__(3);
 
-// EXTERNAL MODULE: ./src/mod_mv.js
-var mod_mv = __webpack_require__(6);
-
 // EXTERNAL MODULE: ./src/util.js
-var util = __webpack_require__(0);
+var util = __webpack_require__(1);
 
+// CONCATENATED MODULE: ./src/mod_mv.js
+
+
+
+const _graphics_createCanvas=Graphics._createCanvas;
+Graphics._createCanvas = function() {
+	mv3d["a" /* default */].setup();
+	mv3d["a" /* default */].updateCanvas();
+	_graphics_createCanvas.apply(this,arguments);
+};
+
+const _graphics_updateAllElements=Graphics._updateAllElements;
+Graphics._updateAllElements = function() {
+	_graphics_updateAllElements.apply(this,arguments);
+	mv3d["a" /* default */].updateCanvas();
+};
+
+const _graphics_render=Graphics.render;
+Graphics.render=function(){
+	if( !mv3d["a" /* default */].isDisabled() && SceneManager._scene instanceof Scene_Map ){
+		mv3d["a" /* default */].render();
+	}
+	_graphics_render.apply(this,arguments);
+};
+
+const _sceneMap_update=Scene_Map.prototype.update;
+Scene_Map.prototype.update = function(){
+	_sceneMap_update.apply(this,arguments);
+	if(!mv3d["a" /* default */].isDisabled()){
+		mv3d["a" /* default */].update();
+	}
+}
+
+const _renderWebGL = ShaderTilemap.prototype.renderWebGL;
+ShaderTilemap.prototype.renderWebGL = function(renderer) {
+	if(mv3d["a" /* default */].mapDisabled){ _renderWebGL.apply(this,arguments); }
+};
+
+const _createTilemap=Spriteset_Map.prototype.createTilemap;
+Spriteset_Map.prototype.createTilemap=function(){
+	_createTilemap.apply(this,arguments);
+	mv3d["a" /* default */].mapDisabled = mv3d["a" /* default */].isDisabled();
+	mv3d["a" /* default */].pixiSprite=new PIXI.Sprite(mv3d["a" /* default */].texture);
+	mv3d["a" /* default */].pixiSprite.scale.set(1/mv3d["a" /* default */].RES_SCALE,1/mv3d["a" /* default */].RES_SCALE);
+	mv3d["a" /* default */].pixiContainer=new PIXI.Container();
+	mv3d["a" /* default */].viewContainer=new PIXI.Container();
+	mv3d["a" /* default */].pixiContainer.addChild( mv3d["a" /* default */].viewContainer );
+	mv3d["a" /* default */].viewContainer.addChild( mv3d["a" /* default */].pixiSprite );
+	mv3d["a" /* default */].mv_baseSprite = this._baseSprite;
+	if(!mv3d["a" /* default */].mapDisabled){
+		this._tilemap.visible=false;
+		this._baseSprite.addChild( mv3d["a" /* default */].pixiContainer );
+	}
+};
+
+const _sprite_char_setchar = Sprite_Character.prototype.setCharacter;
+Sprite_Character.prototype.setCharacter = function(character) {
+	_sprite_char_setchar.apply(this,arguments);
+	Object.defineProperty(character,'mv_sprite',{
+		value:this,
+		configurable:true,
+		enumerable:false,
+	});
+};
+
+// Player Transfer
+
+const _performTransfer=Game_Player.prototype.performTransfer;
+Game_Player.prototype.performTransfer = function() {
+	const newmap = this._newMapId !== $gameMap.mapId();
+	_performTransfer.apply(this,arguments);
+	if(mv3d["a" /* default */].is1stPerson()){
+		mv3d["a" /* default */].blendCameraYaw.setValue(mv3d["a" /* default */].dirToYaw($gamePlayer.direction(),0));
+	}
+	if(!newmap){
+		this.z = mv3d["a" /* default */].getWalkHeight(this.x,this.y);
+		for ( const follower of this._followers._data){
+			follower.z=this.z;
+		}
+	}
+};
+
+// On Map Load
+
+let tilesetLoaded = false;
+
+const _onMapLoaded=Scene_Map.prototype.onMapLoaded;
+Scene_Map.prototype.onMapLoaded=function(){
+	const newmap = this._transfer && ( $gamePlayer._newMapId !== $gameMap.mapId() );
+	Input.clear();
+	if(newmap || mv3d["a" /* default */].needClearMap){
+		mv3d["a" /* default */].clearMap();
+		mv3d["a" /* default */].needClearMap=false;
+	}else if(mv3d["a" /* default */].needReloadMap&&mv3d["a" /* default */].mapLoaded){
+		mv3d["a" /* default */].reloadMap();
+	}
+	mv3d["a" /* default */].needReloadMap=false;
+	tilesetLoaded = false;
+	if(!mv3d["a" /* default */].mapLoaded){
+		mv3d["a" /* default */].beforeMapLoad(newmap);
+		mv3d["a" /* default */].loadMapSettings();
+	}
+	_onMapLoaded.apply(this,arguments);
+	if(!tilesetLoaded){ mv3d["a" /* default */].loadTilesetSettings(); }
+	if(!mv3d["a" /* default */].mapLoaded){
+		if(newmap){ mv3d["a" /* default */].applyMapSettings(); }
+		mv3d["a" /* default */].afterMapLoad(newmap);
+		if(mv3d["a" /* default */].isDisabled()){
+			mv3d["a" /* default */].mapReady=true;
+			//mv3d.createCharacters();
+		}else{
+			mv3d["a" /* default */].mapReady=false;
+			//mv3d.mapReady=true;
+			mv3d["a" /* default */].loadMap();
+		}
+	}
+	mv3d["a" /* default */].updateBlenders(true);
+};
+
+// onMapLoaded > performTransfer > map setup
+// hook into map setup before Qmovement's setup.
+const _map_battleback_Setup = Game_Map.prototype.setupBattleback;
+Game_Map.prototype.setupBattleback=function(){
+	_map_battleback_Setup.apply(this,arguments);
+	mv3d["a" /* default */].loadTilesetSettings();
+	tilesetLoaded = true;
+};
+
+const _onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
+Scene_Load.prototype.onLoadSuccess = function() {
+	_onLoadSuccess.apply(this,arguments);
+	mv3d["a" /* default */].needClearMap=true;
+};
+
+const _map_isReady = Scene_Map.prototype.isReady;
+Scene_Map.prototype.isReady = function() {
+	let ready = _map_isReady.apply(this,arguments);
+	return ready && mv3d["a" /* default */].mapReady;
+};
+
+// Title
+
+const _title_start=Scene_Title.prototype.start;
+Scene_Title.prototype.start = function() {
+	_title_start.apply(this,arguments);
+	mv3d["a" /* default */].clearMap();
+	mv3d["a" /* default */].clearCameraTarget();
+};
+
+const _initGraphics = SceneManager.initGraphics;
+SceneManager.initGraphics = function() {
+	_initGraphics.apply(this,arguments);
+	if(!Graphics.isWebGL()){
+		throw new Error("MV3D requires WebGL");
+	}
+};
+
+// force webgl
+SceneManager.preferableRendererType = function() {
+    if (Utils.isOptionValid('canvas')) {
+        return 'canvas';
+    } else if (Utils.isOptionValid('webgl')) {
+        return 'webgl';
+    } else {
+		if(Graphics.hasWebGL()){ return 'webgl'; }
+        return 'auto';
+    }
+};
 // CONCATENATED MODULE: ./src/attributes.js
-const attributes_mz3d = window.mz3d;
 
-attributes_mz3d.attributes={};
 
-class Attribute{
+mv3d["a" /* default */].attributes={};
+
+class attributes_Attribute{
 	constructor(name,dfault,reader){
 		this.name=name.toLowerCase();
 		this.reader = reader?reader:v=>v;
@@ -3342,15 +2963,15 @@ class Attribute{
 			get:()=>this.get(),
 			set:v=>this.set(this.reader(v)),
 		};
-		Object.defineProperty(attributes_mz3d.attributes,this.name,this.descriptor);
+		Object.defineProperty(mv3d["a" /* default */].attributes,this.name,this.descriptor);
 	}
 	get(){
-		const storage = Attribute.getStorageLocation();
+		const storage = attributes_Attribute.getStorageLocation();
 		if(!storage || !(this.name in storage)){ return this.default; }
 		return storage[this.name];
 	}
 	set(v){
-		const storage = Attribute.getStorageLocation();
+		const storage = attributes_Attribute.getStorageLocation();
 		if (!storage){console.warn(`MV3D: Couldn't get Attribute storage location.`); return;}
 		storage[this.name]=v;
 	}
@@ -3360,26 +2981,26 @@ class Attribute{
 		return $gameVariables.mv3d_attributes;
 	}
 }
-attributes_mz3d.Attribute = Attribute;
+mv3d["a" /* default */].Attribute = attributes_Attribute;
 // CONCATENATED MODULE: ./src/parameters.js
-const parameters_mz3d = window.mz3d;
 
 
 
 
-const pluginNames = ['mz3d','mv3d','mv3d-babylon'];
-parameters_mz3d.pluginName = PluginManager._scripts.filter(v=>pluginNames.includes(v))[0]||'mz3d';
 
-const parameters = PluginManager.parameters(parameters_mz3d.pluginName);
+let pluginName = 'mv3d';
+if(!PluginManager._scripts.includes("mv3d")){
+	if(PluginManager._scripts.includes("mv3d-babylon")){ pluginName='mv3d-babylon'; }
+}
+
+const parameters = PluginManager.parameters(pluginName);
 /* harmony default export */ var src_parameters = (parameters);
 
 function parameter(name,dfault,type){
 	return name in parameters ? (type?type(parameters[name]):parameters[name]) : dfault;
 }
-parameters_mz3d.parameter=parameter;
-parameters_mz3d.parameters=parameters;
 
-Object.assign(parameters_mz3d,{
+Object.assign(mv3d["a" /* default */],{
 	enumOptionModes:{
 		DISABLE: 0,
 		ENABLE: 1,
@@ -3395,11 +3016,10 @@ function tryParseString(s){
 	}
 }
 
-Object(util["assign"])(parameters_mz3d,{
+Object(util["assign"])(mv3d["a" /* default */],{
 	CAMERA_MODE:"PERSPECTIVE",
 	ORTHOGRAPHIC_DIST:100,
 	MV3D_FOLDER:"img/MV3D",
-	get MZ3D_FOLDER(){ return this.MV3D_FOLDER; },
 
 	ANIM_DELAY:Number(parameters.animDelay),
 	ALPHA_CUTOFF:Math.max(0.01,parameters.alphatest),
@@ -3409,11 +3029,10 @@ Object(util["assign"])(parameters_mz3d,{
 	FOV:Number(parameters.fov),
 	RES_SCALE: parameter('resScale',1,Number)||1,
 
-	//WALL_HEIGHT:Number(parameters.wallHeight),
-	//TABLE_HEIGHT:Number(parameters.tableHeight),
-	//FRINGE_HEIGHT:Number(parameters.fringeHeight),
+	WALL_HEIGHT:Number(parameters.wallHeight),
+	TABLE_HEIGHT:Number(parameters.tableHeight),
+	FRINGE_HEIGHT:Number(parameters.fringeHeight),
 	CEILING_HEIGHT:Number(parameters.ceilingHeight),
-	BASE_HEIGHT:parameter('baseHeight',0,Number),
 	LAYER_DIST:Number(parameters.layerDist),
 
 	//ENABLED_DEFAULT: booleanString(parameters.enabledDefault),
@@ -3424,12 +3043,9 @@ Object(util["assign"])(parameters_mz3d,{
 	RENDER_DIST: Number(parameters.renderDist),
 	MIPMAP:Object(util["booleanString"])(parameters.mipmap),
 
-	TILE_SETTINGS_WALL: parameter('wallTileSettings',"height(2)",JSON.parse),
-	TILE_SETTINGS_TABLE: parameter('tableTileSettings',"height(0.33)",JSON.parse),
-	TILE_SETTINGS_STAR: parameter('starTileSettings',"fringe(2),pass(*)",JSON.parse),
 	MAP_DEFAULTS: parameter('mapDefaults',"",JSON.parse),
 
-	get renderDist(){ return Math.min(this.RENDER_DIST, parameters_mz3d.blendFogFar.currentValue()+7.5); },
+	get renderDist(){ return Math.min(this.RENDER_DIST, mv3d["a" /* default */].blendFogFar.currentValue()+7.5); },
 
 	OPTION_MIPMAP:Object(util["booleanString"])(parameters.mipmapOption),
 	OPTION_NAME_MIPMAP: parameter('mipmapOptionName',"Mipmapping",String),
@@ -3455,7 +3071,7 @@ Object(util["assign"])(parameters_mz3d,{
 	FOG_NEAR: 20,
 	FOG_FAR: 30, 
 	//AMBIENT_COLOR: makeColor(parameters.ambientColor).toNumber(),
-	get AMBIENT_COLOR(){ return parameters_mz3d.featureEnabled('dynamicShadows')?0x888888:0xffffff; },
+	get AMBIENT_COLOR(){ return mv3d["a" /* default */].featureEnabled('dynamicShadows')?0x888888:0xffffff; },
 
 	LIGHT_LIMIT: parameter('lightLimit',8,n=>{n=Number(n);return isFinite(n)?n:8;}),
 	LIGHT_HEIGHT: 0.5,
@@ -3482,18 +3098,18 @@ Object(util["assign"])(parameters_mz3d,{
 	EVENT_OBJ_SETTINGS: parameter('eventObjDefaults',"",tryParseString),
 	EVENT_TILE_SETTINGS: parameter('eventTileDefaults',"",tryParseString),
 
-	allowGlide: new Attribute('allowGlide',Object(util["booleanString"])(parameters.allowGlide),util["booleanString"]),
+	allowGlide: new attributes_Attribute('allowGlide',Object(util["booleanString"])(parameters.allowGlide),util["booleanString"]),
 	get ALLOW_GLIDE(){ return this.allowGlide; },
 
 	SPRITE_OFFSET:Number(parameters.spriteOffset)/2,
 
-	ENABLE_3D_OPTIONS:parameters_mz3d.enumOptionModes[parameters['3dMenu'].toUpperCase()],
+	ENABLE_3D_OPTIONS:mv3d["a" /* default */].enumOptionModes[parameters['3dMenu'].toUpperCase()],
 
 	TEXTURE_SHADOW: parameters.shadowTexture||'shadow',
 	TEXTURE_BUSHALPHA: parameters.alphaMask||'bushAlpha',
 	TEXTURE_ERROR: parameters.errorTexture||'errorTexture',
 
-	diagonalMovement: new Attribute('diagonalMovement',String(parameters.dir8Movement),function(v){
+	diagonalMovement: new attributes_Attribute('diagonalMovement',String(parameters.dir8Movement),function(v){
 		v=String(v).toUpperCase();
 		return {
 			enabled:Object(util["booleanString"])(v),
@@ -3505,31 +3121,25 @@ Object(util["assign"])(parameters_mz3d,{
 	get DIR8SMART(){ return this.diagonalMovement.smart; },
 	get DIR8_2D(){ return this.diagonalMovement['2D']; },
 
-	turnIncrement: new Attribute('turnIncrement',String(parameters.turnIncrement),v=>Number(v)),
-	get TURN_INCREMENT(){ return parameters_mz3d.turnIncrement; },
+	turnIncrement: new attributes_Attribute('turnIncrement',String(parameters.turnIncrement),v=>Number(v)),
+	get TURN_INCREMENT(){ return mv3d["a" /* default */].turnIncrement; },
 	WASD: Object(util["booleanString"])(parameters.WASD),
 
-	inputCameraMouse: new Attribute('inputCameraMouse',String(parameters.inputCameraMouse),util["booleanString"]),
-	inputCameraGamepad: new Attribute('inputCameraGamepad',String(parameters.inputCameraGamepad),util["booleanString"]),
+	inputCameraMouse: new attributes_Attribute('inputCameraMouse',String(parameters.inputCameraMouse),util["booleanString"]),
+	inputCameraGamepad: new attributes_Attribute('inputCameraGamepad',String(parameters.inputCameraGamepad),util["booleanString"]),
 	GAMEPAD_TURN_BUTTON: parameter('inputGamepadTurnButton',0,v=>{return {'U':0,'B':1,'T':2}[v[0]]||0;}),
 
-	lockCamera: new Attribute('lockCamera',false,util["booleanString"]),
-	allowPitch: new Attribute('allowPitch',Object(util["booleanString"])(parameters.keyboardPitch),util["booleanString"]),
-	allowRotation: new Attribute('allowRotation',Object(util["booleanString"])(parameters.keyboardTurn),util["booleanString"]),
+	KEYBOARD_PITCH: Object(util["booleanString"])(parameters.keyboardPitch),
+	KEYBOARD_TURN: Object(util["falseString"])(parameters.keyboardTurn),
 	KEYBOARD_STRAFE: Object(util["falseString"])(parameters.keyboardStrafe),
 
-	get KEYBOARD_PITCH(){ return this.allowPitch; },
-	get KEYBOARD_TURN(){ return this.allowRotation; },
-
-	instantMovement: new Attribute('instantMovement',false,util["booleanString"]),
-	turnSpeed: new Attribute('turnSpeed',parameters.yawSpeed,n=>{n=Number(n);return n&&isFinite(n)?n:Infinity}),
-	get YAW_SPEED(){ return this.turnSpeed; },
+	YAW_SPEED: Number(parameters.yawSpeed)||90,
 	PITCH_SPEED: Number(parameters.pitchSpeed)||90,
 
 	TRIGGER_INFINITE: !Object(util["booleanString"])(parameters.heightTrigger),
 
 	BACKFACE_CULLING: parameter('backfaceCulling',true,util["booleanString"]),
-	cameraCollision: new Attribute('cameraCollision',String(parameters.cameraCollision),function(v){
+	cameraCollision: new attributes_Attribute('cameraCollision',String(parameters.cameraCollision),function(v){
 		if(typeof v === 'string'){
 			const values=v.split(' '); v=values[0];
 			const ret = {type:!Object(util["booleanString"])(v)?0:Number((v.match(/\d+/)||'1')[0])};
@@ -3609,16 +3219,7 @@ Object(util["assign"])(parameters_mz3d,{
 
 		//Texture.DEFAULT_ANISOTROPIC_FILTERING_LEVEL=0;
 
-		this.TILE_SETTINGS_WALL = this.readConfigurationFunctions(this.TILE_SETTINGS_WALL,this.tilesetConfigurationFunctions);
-		this.TILE_SETTINGS_TABLE = this.readConfigurationFunctions(this.TILE_SETTINGS_TABLE,this.tilesetConfigurationFunctions);
-		this.TILE_SETTINGS_STAR = this.readConfigurationFunctions(this.TILE_SETTINGS_STAR,this.tilesetConfigurationFunctions);
-
 		this.MAP_DEFAULTS = this.readConfigurationFunctions(this.MAP_DEFAULTS,this.mapConfigurationFunctions);
-		
-		Object(util["assign"])(parameters_mz3d,{
-			airshipHeight: new Attribute('airshipHeight',this.AIRSHIP_SETTINGS.height,Number),
-		});
-
 	},
 
 	updateParameters(){
@@ -3646,7 +3247,7 @@ Object(util["assign"])(parameters_mz3d,{
 var babylon = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./src/blenders.js
-const mv3d = window.mv3d;
+
 
 
 
@@ -3656,7 +3257,7 @@ const raycastPredicate=mesh=>{
 	return true;
 }
 
-Object.assign(mv3d,{
+Object.assign(mv3d["a" /* default */],{
 
 	cameraTargets:[],
 	getCameraTarget(){
@@ -3696,24 +3297,24 @@ Object.assign(mv3d,{
 
 	setupBlenders(){
 		this.blendFogColor = new ColorBlender('fogColor',this.FOG_COLOR);
-		this.blendFogNear = new Blender('fogNear',this.FOG_NEAR);
-		this.blendFogFar = new Blender('fogFar',this.FOG_FAR);
-		this.blendCameraRoll = new Blender('cameraRoll',0);
+		this.blendFogNear = new blenders_Blender('fogNear',this.FOG_NEAR);
+		this.blendFogFar = new blenders_Blender('fogFar',this.FOG_FAR);
+		this.blendCameraRoll = new blenders_Blender('cameraRoll',0);
 		this.blendCameraRoll.cycle=360;
-		this.blendCameraYaw = new Blender('cameraYaw',0);
+		this.blendCameraYaw = new blenders_Blender('cameraYaw',0);
 		this.blendCameraYaw.cycle=360;
-		this.blendCameraPitch = new Blender('cameraPitch',60);
+		this.blendCameraPitch = new blenders_Blender('cameraPitch',60);
 		this.blendCameraPitch.min=0;
 		this.blendCameraPitch.max=180;
-		this.blendCameraDist = new Blender('cameraDist',this.getDistForFov());
-		this.blendCameraZoom = new Blender('cameraZoom',1);
+		this.blendCameraDist = new blenders_Blender('cameraDist',10);
+		this.blendCameraZoom = new blenders_Blender('cameraZoom',1);
 		this.blendCameraDist.min=0;
-		this.blendCameraHeight = new Blender('cameraHeight',0.7);
+		this.blendCameraHeight = new blenders_Blender('cameraHeight',0.7);
 		this.blendAmbientColor = new ColorBlender('ambientColor',this.AMBIENT_COLOR);
-		this.blendPanX = new Blender('panX',0);
-		this.blendPanY = new Blender('panY',0);
-		this.blendCameraTransition = new Blender('cameraTransition',0);
-		this.blendResolutionScale = new Blender('resolutionScale',mv3d.RES_SCALE);
+		this.blendPanX = new blenders_Blender('panX',0);
+		this.blendPanY = new blenders_Blender('panY',0);
+		this.blendCameraTransition = new blenders_Blender('cameraTransition',0);
+		this.blendResolutionScale = new blenders_Blender('resolutionScale',mv3d["a" /* default */].RES_SCALE);
 	},
 
     updateBlenders(reorient){
@@ -3740,53 +3341,27 @@ Object.assign(mv3d,{
 		}
 
 		// camera following
-		if(mv3d.getCameraTarget()===$gamePlayer && $gamePlayer._vehicleGettingOn){
-			mv3d.setCameraTarget($gamePlayer.vehicle(),0.5);
-		}else if(mv3d.getCameraTarget()===$gamePlayer.vehicle() && $gamePlayer._vehicleGettingOff){
-			mv3d.setCameraTarget($gamePlayer,0.5);
-		}
 		if(this.blendCameraTransition.update() && this.cameraTargets.length>=2){
 			const t = this.blendCameraTransition.currentValue();
 			let char1=this.cameraTargets[0];
 			//if(char1===$gamePlayer&&$gamePlayer.isInVehicle()){ char1=$gamePlayer.vehicle(); }
 			let char2=this.cameraTargets[1];
 			//if(char2===$gamePlayer&&$gamePlayer.isInVehicle()){ char2=$gamePlayer.vehicle(); }
-			if(char1.mv3d_sprite&&char2.mv3d_sprite && char1.mv3d_sprite.isEnabled()&&char2.mv3d_sprite.isEnabled()){
-				let pos1, pos2;
-				if(this.is1stPerson(true)){
-					pos1 = char1.mv3d_sprite.getAbsolutePosition();
-					pos2 = char2.mv3d_sprite.getAbsolutePosition();
-				}else{
-					pos1 = char1.mv3d_sprite.spriteOrigin.getAbsolutePosition();
-					pos2 = char2.mv3d_sprite.spriteOrigin.getAbsolutePosition();
-				}
-				this.cameraStick.position.x = pos1.x*(1-t) + pos2.x*t;
-				this.cameraStick.position.y = pos1.y*(1-t) + pos2.y*t;
-				this.cameraStick.position.z = pos1.z*(1-t) + pos2.z*t;
-			}else{
-				this.cameraStick.x = char1._realX*(1-t) + char2._realX*t;
-				this.cameraStick.y = char1._realY*(1-t) + char2._realY*t;
-				if(char1.mv3d_sprite){
-					this.cameraStick.z=char1.mv3d_sprite.z;
-				}
+			this.cameraStick.x = char1._realX*(1-t) + char2._realX*t;
+			this.cameraStick.y = char1._realY*(1-t) + char2._realY*t;
+			if(char1.mv3d_sprite&&char2.mv3d_sprite){
+				this.cameraStick.z = char1.mv3d_sprite.z*(1-t) + char2.mv3d_sprite.z*t;
+			}else if(char1.mv3d_sprite){
+				this.cameraStick.z=char1.mv3d_sprite.z;
 			}
 		}else if(this.cameraTargets.length){
 			let char = this.getCameraTarget();
 			//if(char===$gamePlayer&&$gamePlayer.isInVehicle()){ char=$gamePlayer.vehicle(); }
-			
-			if(char.mv3d_sprite && char.mv3d_sprite.isEnabled()){
-				let pos;
-				if(this.is1stPerson(true)){
-					pos = char.mv3d_sprite.getAbsolutePosition();
-				}else{
-					pos = char.mv3d_sprite.spriteOrigin.getAbsolutePosition();
-				}
-				this.cameraStick.position.copyFrom(pos);
-			}else{
-				this.cameraStick.x=char._realX;
-				this.cameraStick.y=char._realY;
+			this.cameraStick.x=char._realX;
+			this.cameraStick.y=char._realY;
+			if(char.mv3d_sprite){
+				this.cameraStick.z=char.mv3d_sprite.z;
 			}
-			
 		}
 		this.blendPanX.update();
 		this.blendPanY.update();
@@ -3797,27 +3372,27 @@ Object.assign(mv3d,{
 		if(reorient|this.blendCameraPitch.update()|this.blendCameraYaw.update()|this.blendCameraRoll.update()
 		|this.blendCameraDist.update()|this.blendCameraHeight.update()|this.blendCameraZoom.update()
 		|$gameScreen._shake!==0
-		|(mv3d.cameraCollision.type&&$gamePlayer.mv3d_positionUpdated)){
+		|(mv3d["a" /* default */].cameraCollision.type&&$gamePlayer.mv3d_positionUpdated)){
 			this.cameraNode.pitch = this.blendCameraPitch.currentValue()-90;
 			this.cameraNode.yaw = this.blendCameraYaw.currentValue();
 			this.cameraNode.roll = this.blendCameraRoll.currentValue();
 			this.cameraNode.position.set(0,0,0);
 			let dist = this.blendCameraDist.currentValue();
-			if(mv3d.cameraCollision.type){
+			if(mv3d["a" /* default */].cameraCollision.type){
 				let doCollide = true;
-				if(mv3d.cameraCollision.type>1){
+				if(mv3d["a" /* default */].cameraCollision.type>1){
 					this.cameraNode.translate(util["ZAxis"],-dist,mod_babylon["e" /* LOCALSPACE */]);
-					const gpos = mv3d.globalPosition(this.cameraNode);
+					const gpos = mv3d["a" /* default */].globalPosition(this.cameraNode);
 					this.cameraNode.position.set(0,0,0);
-					const z = mv3d.getWalkHeight(gpos.x,-gpos.z);
+					const z = mv3d["a" /* default */].getWalkHeight(gpos.x,-gpos.z);
 					if(gpos.y>z){doCollide=false;}
 					//if(Date.now()%10===0)console.log(gpos,z);
 				}
 				if(doCollide){
 					const raycastOrigin = new babylon["Vector3"]().copyFrom(this.cameraStick.position);
 					raycastOrigin.y+=this.blendCameraHeight.currentValue()+0.1;
-					const ray = new babylon["Ray"](raycastOrigin, babylon["Vector3"].TransformCoordinates(mv3d.camera.getTarget().negate(),mv3d.getRotationMatrix(mv3d.camera)),dist);
-					const intersections = mv3d.scene.multiPickWithRay(ray,raycastPredicate);
+					const ray = new babylon["Ray"](raycastOrigin, babylon["Vector3"].TransformCoordinates(mv3d["a" /* default */].camera.getTarget().negate(),mv3d["a" /* default */].getRotationMatrix(mv3d["a" /* default */].camera)),dist);
+					const intersections = mv3d["a" /* default */].scene.multiPickWithRay(ray,raycastPredicate);
 					for (const intersection of intersections){
 						if(!intersection.hit){ continue; }
 						let material = intersection.pickedMesh.material; if(!material){ continue; }
@@ -3850,27 +3425,27 @@ Object.assign(mv3d,{
 			this.updateDirection();
 			this.updateFov();
 
-			if(mv3d.DYNAMIC_NORMALS && (reorient||this.blendCameraPitch.updated||(this.blendSunColor&&this.blendSunColor.updated)) ){
+			if(mv3d["a" /* default */].DYNAMIC_NORMALS && (reorient||this.blendCameraPitch.updated||(this.blendSunColor&&this.blendSunColor.updated)) ){
 				this.updateDynamicNormals();
 			}
 		}
 
 		//fog
 		if(reorient|this.blendFogColor.update()|this.blendFogNear.update()|this.blendFogFar.update()){
-			if(mv3d.hasAlphaFog){
+			if(mv3d["a" /* default */].hasAlphaFog){
 				this.scene.fogStart=this.blendFogNear.currentValue();
 				this.scene.fogEnd=this.blendFogFar.currentValue();
 			}else{
-				this.scene.fogStart=Math.min(mv3d.RENDER_DIST-1,this.blendFogNear.currentValue());
-				this.scene.fogEnd=Math.min(mv3d.RENDER_DIST,this.blendFogFar.currentValue());
+				this.scene.fogStart=Math.min(mv3d["a" /* default */].RENDER_DIST-1,this.blendFogNear.currentValue());
+				this.scene.fogEnd=Math.min(mv3d["a" /* default */].RENDER_DIST,this.blendFogFar.currentValue());
 			}
 			this.scene.fogColor.copyFromFloats(
 				this.blendFogColor.r.currentValue()/255,
 				this.blendFogColor.g.currentValue()/255,
 				this.blendFogColor.b.currentValue()/255,
 			);
-			mv3d.updateClearColor();
-			mv3d.updateRenderDist();
+			mv3d["a" /* default */].updateClearColor();
+			mv3d["a" /* default */].updateRenderDist();
 		}
 
 		//light
@@ -3884,30 +3459,24 @@ Object.assign(mv3d,{
 
 		// res scale
 		if(reorient|this.blendResolutionScale.update()){
-			const resScale=Object(util["minmax"])(0,1,this.blendResolutionScale.currentValue());
-			mv3d.RES_SCALE=resScale;
-			if(resScale<1){
-				mv3d.pixiSprite.scale.set(
-					1/((Graphics.width*resScale-1)/Graphics.width),
-					1/((Graphics.height*resScale-1)/Graphics.height));
-			}else{
-				mv3d.pixiSprite.scale.set(1,1);
-			}
-			mv3d.updateCanvas();
+			const resScale=this.blendResolutionScale.currentValue();
+			mv3d["a" /* default */].RES_SCALE=resScale;
+			mv3d["a" /* default */].pixiSprite.scale.set(1/resScale,1/resScale);
+			mv3d["a" /* default */].updateCanvas();
 		}
 
 		this.callFeatures('blend',reorient);
 	},
 
 	updateClearColor(){
-		if(mv3d.hasBackground){
-			if(mv3d.hasAlphaPostProcess){
-				mv3d.scene.clearColor.set(...mv3d.blendFogColor.currentComponents(),0);
+		if($gameMap.parallaxName()||mv3d["a" /* default */].hasSkybox){
+			if(mv3d["a" /* default */].hasAlphaFog){
+				mv3d["a" /* default */].scene.clearColor.set(...mv3d["a" /* default */].blendFogColor.currentComponents(),0);
 			}else{
-				mv3d.scene.clearColor.set(0,0,0,0);
+				mv3d["a" /* default */].scene.clearColor.set(0,0,0,0);
 			}
 		}else{
-			mv3d.scene.clearColor.set(...mv3d.blendFogColor.currentComponents(),1);
+			mv3d["a" /* default */].scene.clearColor.set(...mv3d["a" /* default */].blendFogColor.currentComponents(),1);
 		}
 	},
 
@@ -3916,21 +3485,21 @@ Object.assign(mv3d,{
 const _changeParallax = Game_Map.prototype.changeParallax;
 Game_Map.prototype.changeParallax = function() {
 	_changeParallax.apply(this,arguments);
-	mv3d.updateClearColor();
+	mv3d["a" /* default */].updateClearColor();
 };
 
 
-class Blender{
+class blenders_Blender{
 	constructor(key,dfault,track=true){
 		this.key=key;
-		this.dfault=mv3d.loadData(key,dfault);
+		this.dfault=mv3d["a" /* default */].loadData(key,dfault);
 		this.value=dfault;
 		this.speed=1;
 		this.max=Infinity;
 		this.min=-Infinity;
 		this.cycle=false;
 		if(track){
-			Blender.list.push(this);
+			blenders_Blender.list.push(this);
 		}
 	}
 	setValue(target,time=0,normalize=true){
@@ -3994,19 +3563,19 @@ class Blender{
 		storage[key]=value;
 	}
 	static reset(){
-		for (const blender of Blender.list){
+		for (const blender of blenders_Blender.list){
 			blender.speed=Infinity;
 		}
 	}
 }
-Blender.list = [];
+blenders_Blender.list = [];
 
 class ColorBlender{
 	constructor(key,dfault,track=true){
 		this.dfault=dfault;
-		this.r=new Blender(`${key}_r`,dfault>>16,track);
-		this.g=new Blender(`${key}_g`,dfault>>8&0xff,track);
-		this.b=new Blender(`${key}_b`,dfault&0xff,track);
+		this.r=new blenders_Blender(`${key}_r`,dfault>>16,track);
+		this.g=new blenders_Blender(`${key}_g`,dfault>>8&0xff,track);
+		this.b=new blenders_Blender(`${key}_b`,dfault&0xff,track);
 	}
 	get updated(){
 		return this.r.updated||this.g.updated||this.b.updated;
@@ -4050,30 +3619,45 @@ class ColorBlender{
 	}
 }
 
-mv3d.Blender=Blender;
-mv3d.ColorBlender=ColorBlender;
-// EXTERNAL MODULE: ./src/blendModes.js
-var blendModes = __webpack_require__(7);
+mv3d["a" /* default */].Blender=blenders_Blender;
+mv3d["a" /* default */].ColorBlender=ColorBlender;
+// CONCATENATED MODULE: ./src/blendModes.js
+
+
+mv3d["a" /* default */].blendModes={
+	[PIXI.BLEND_MODES.NORMAL]: BABYLON.Engine.ALPHA_COMBINE,
+	[PIXI.BLEND_MODES.ADD]: BABYLON.Engine.ALPHA_ADD,
+	[PIXI.BLEND_MODES.MULTIPLY]: BABYLON.Engine.ALPHA_MULTIPLY,
+	[PIXI.BLEND_MODES.SCREEN]: BABYLON.Engine.ALPHA_SCREENMODE,
+	
+	NORMAL:BABYLON.Engine.ALPHA_COMBINE,
+	ADD:BABYLON.Engine.ALPHA_ADD,
+	MULTIPLY:BABYLON.Engine.ALPHA_MULTIPLY,
+	SCREEN:BABYLON.Engine.ALPHA_SCREENMODE,
+};
+// EXTERNAL MODULE: ./src/features.js
+var features = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./src/input.js
-const input_mv3d = window.mv3d;
 
 
-input_mv3d._gamepadStick={
+
+
+mv3d["a" /* default */]._gamepadStick={
 	x:0,
 	y:0,
 };
 
 
-input_mv3d._touchState={
+mv3d["a" /* default */]._touchState={
 	lastX:0,
 	lastY:0,
 	isTouching:false,
 };
 
 Object(util["override"])(Input, '_pollGamepads',o=>function(gamepad){
-	input_mv3d._gamepadStick.x=0;
-	input_mv3d._gamepadStick.y=0;
+	mv3d["a" /* default */]._gamepadStick.x=0;
+	mv3d["a" /* default */]._gamepadStick.y=0;
 	o.apply(this,arguments);
 },true);
 
@@ -4083,35 +3667,35 @@ Object(util["override"])(Input, '_updateGamepadState',o=>function(gamepad){
 	const max = 1 - threshold;
 	const axes = gamepad.axes;
 	if (Math.abs(axes[2]) > threshold) {
-		input_mv3d._gamepadStick.x -= ( axes[2] - Math.sign(axes[2])*threshold ) / max;
+		mv3d["a" /* default */]._gamepadStick.x -= ( axes[2] - Math.sign(axes[2])*threshold ) / max;
     }
     if (Math.abs(axes[3]) > threshold) {
-        input_mv3d._gamepadStick.y -= ( axes[3] - Math.sign(axes[2])*threshold ) / max;
-	}
+        mv3d["a" /* default */]._gamepadStick.y -= ( axes[3] - Math.sign(axes[2])*threshold ) / max;
+    }
 });
 
-Object.assign(input_mv3d,{
+Object.assign(mv3d["a" /* default */],{
 	updateInput(){
-		input_mv3d.updateInputCamera();
+		mv3d["a" /* default */].updateInputCamera();
 	},
 
 	updateInputCamera(){
-		if(this.isDisabled()||this.lockCamera||!$gamePlayer.canMove()){ return; }
+		if(this.isDisabled()||this.loadData('cameraLocked')||!$gamePlayer.canMove()){ return; }
 		const is1stPerson = this.is1stPerson();
-		const allowRotation = this.allowRotation || is1stPerson;
-		const allowPitch = this.allowPitch;
+		const allowRotation = this.loadData('allowRotation',mv3d["a" /* default */].KEYBOARD_TURN) || is1stPerson;
+		const allowPitch = this.loadData('allowPitch',mv3d["a" /* default */].KEYBOARD_PITCH);
 		if( allowRotation ){
-			const leftKey=input_mv3d.getTurnKey('left'), rightKey=input_mv3d.getTurnKey('right');
-			if(input_mv3d.TURN_INCREMENT>1){
-				const turning = this.blendCameraYaw.currentValue()!==this.blendCameraYaw.targetValue() || !isFinite(this.turnSpeed);
-				const turnTime = input_mv3d.turnIncrement / input_mv3d.turnSpeed;
+			const leftKey=mv3d["a" /* default */].getTurnKey('left'), rightKey=mv3d["a" /* default */].getTurnKey('right');
+			if(mv3d["a" /* default */].TURN_INCREMENT>1){
+				const turning = this.blendCameraYaw.currentValue()!==this.blendCameraYaw.targetValue();
+				const yawSpeed = mv3d["a" /* default */].TURN_INCREMENT / mv3d["a" /* default */].YAW_SPEED;
 				if(Input.isTriggered(leftKey)||Input.isPressed(leftKey)&&!turning){
-					this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()+input_mv3d.TURN_INCREMENT,turnTime,false);
+					this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()+mv3d["a" /* default */].TURN_INCREMENT,yawSpeed,false);
 				}else if(Input.isTriggered(rightKey)||Input.isPressed(rightKey)&&!turning){
-					this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()-input_mv3d.TURN_INCREMENT,turnTime,false);
+					this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()-mv3d["a" /* default */].TURN_INCREMENT,yawSpeed,false);
 				}
 			}else{
-				const increment = input_mv3d.turnSpeed / 60;
+				const increment = mv3d["a" /* default */].YAW_SPEED / 60;
 				if(Input.isPressed(leftKey)&&Input.isPressed(rightKey)){
 					// do nothing
 				}else if(Input.isPressed(leftKey)){
@@ -4122,7 +3706,7 @@ Object.assign(input_mv3d,{
 			}
 		}
 		if( allowPitch ){
-			const increment = input_mv3d.PITCH_SPEED / 60;
+			const increment = mv3d["a" /* default */].PITCH_SPEED / 60;
 			if(Input.isPressed('pageup')&&Input.isPressed('pagedown')){
 				// do nothing
 			}else if(Input.isPressed('pageup')){
@@ -4132,57 +3716,53 @@ Object.assign(input_mv3d,{
 			}
 		}
 
-		if(input_mv3d.inputCameraGamepad){
-			if(input_mv3d._gamepadStick.x && allowRotation){
-				if(isFinite(mz3d.turnSpeed)){
-					const increment = input_mv3d.turnSpeed / 60 * input_mv3d.lookSensitivity;
-					this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()+input_mv3d._gamepadStick.x*increment,0.1);
-				}else{
-					this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()+Math.sign(input_mv3d._gamepadStick.x)*input_mv3d.turnIncrement,0);
-				}
+		if(mv3d["a" /* default */].inputCameraGamepad){
+			if(mv3d["a" /* default */]._gamepadStick.x && allowRotation){
+				const increment = mv3d["a" /* default */].YAW_SPEED / 60 * mv3d["a" /* default */].lookSensitivity;
+				this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()+mv3d["a" /* default */]._gamepadStick.x*increment,0.1);
 			}
-			if(input_mv3d._gamepadStick.y && allowPitch){
-				const increment = input_mv3d.PITCH_SPEED / 60 * input_mv3d.lookSensitivity;
-				this.blendCameraPitch.setValue(this.blendCameraPitch.targetValue()+input_mv3d._gamepadStick.y*increment*(input_mv3d.invertY*-2+1),0.1);
+			if(mv3d["a" /* default */]._gamepadStick.y && allowPitch){
+				const increment = mv3d["a" /* default */].PITCH_SPEED / 60 * mv3d["a" /* default */].lookSensitivity;
+				this.blendCameraPitch.setValue(this.blendCameraPitch.targetValue()+mv3d["a" /* default */]._gamepadStick.y*increment*(mv3d["a" /* default */].invertY*-2+1),0.1);
 			}
 		}
 
-		if(input_mv3d.inputCameraMouse){
-			input_mv3d._touchState.isTapped = !TouchInput._screenPressed && input_mv3d._touchState.touchCount>0 && input_mv3d._touchState.touchCount<15 && Math.abs(input_mv3d._touchState.deltaX)<5 && Math.abs(input_mv3d._touchState.deltaY)<5;
+		if(mv3d["a" /* default */].inputCameraMouse){
+			mv3d["a" /* default */]._touchState.isTapped = !TouchInput._screenPressed && mv3d["a" /* default */]._touchState.touchCount>0 && mv3d["a" /* default */]._touchState.touchCount<15 && Math.abs(mv3d["a" /* default */]._touchState.deltaX)<5 && Math.abs(mv3d["a" /* default */]._touchState.deltaY)<5;
 			if(TouchInput._screenPressed){
-				if(input_mv3d._touchState.isTouching){
-					input_mv3d._touchState.deltaX=TouchInput.x-input_mv3d._touchState.lastX;
-					input_mv3d._touchState.deltaY=TouchInput.y-input_mv3d._touchState.lastY;
-					if(input_mv3d._touchState.deltaX && allowRotation){
-						const increment = input_mv3d._touchState.deltaX / Graphics.width * 180;
-						this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()-increment*input_mv3d.lookSensitivity,0.1);
+				if(mv3d["a" /* default */]._touchState.isTouching){
+					mv3d["a" /* default */]._touchState.deltaX=TouchInput.x-mv3d["a" /* default */]._touchState.lastX;
+					mv3d["a" /* default */]._touchState.deltaY=TouchInput.y-mv3d["a" /* default */]._touchState.lastY;
+					if(mv3d["a" /* default */]._touchState.deltaX && allowRotation){
+						const increment = mv3d["a" /* default */]._touchState.deltaX / Graphics.width * 180;
+						this.blendCameraYaw.setValue(this.blendCameraYaw.targetValue()-increment*mv3d["a" /* default */].lookSensitivity,0.1);
 					}
-					if(input_mv3d._touchState.deltaY && allowPitch){
-						const increment = input_mv3d._touchState.deltaY / Graphics.width * 180;
-						this.blendCameraPitch.setValue(this.blendCameraPitch.targetValue()-increment*input_mv3d.lookSensitivity*(input_mv3d.invertY*-2+1),0.1);
+					if(mv3d["a" /* default */]._touchState.deltaY && allowPitch){
+						const increment = mv3d["a" /* default */]._touchState.deltaY / Graphics.width * 180;
+						this.blendCameraPitch.setValue(this.blendCameraPitch.targetValue()-increment*mv3d["a" /* default */].lookSensitivity*(mv3d["a" /* default */].invertY*-2+1),0.1);
 					}
-					++input_mv3d._touchState.touchCount;
+					++mv3d["a" /* default */]._touchState.touchCount;
 				}else{
-					input_mv3d._touchState.isTouching=true;
+					mv3d["a" /* default */]._touchState.isTouching=true;
 				}
 			}else{
-				input_mv3d._touchState.isTouching=false;
-				input_mv3d._touchState.touchCount=0;
+				mv3d["a" /* default */]._touchState.isTouching=false;
+				mv3d["a" /* default */]._touchState.touchCount=0;
 			}
-			input_mv3d._touchState.lastX=TouchInput.x;
-			input_mv3d._touchState.lastY=TouchInput.y;
+			mv3d["a" /* default */]._touchState.lastX=TouchInput.x;
+			mv3d["a" /* default */]._touchState.lastY=TouchInput.y;
 		}
 	},
 
 	getStrafeKey(keyname){
-		if(input_mv3d.is1stPerson()){
-			switch(input_mv3d.KEYBOARD_STRAFE){
+		if(mv3d["a" /* default */].is1stPerson()){
+			switch(mv3d["a" /* default */].KEYBOARD_STRAFE){
 				case 'QE': return 'rot'+keyname;
 				case 'AD': return keyname;
 				default: return false;
 			}
 		}else{
-			switch(input_mv3d.KEYBOARD_TURN){
+			switch(mv3d["a" /* default */].KEYBOARD_TURN){
 				case 'QE': return keyname;
 				case 'AD': return 'rot'+keyname;
 				default: return keyname;
@@ -4191,14 +3771,14 @@ Object.assign(input_mv3d,{
 	},
 
 	getTurnKey(keyname){
-		if(input_mv3d.is1stPerson()){
-			switch(input_mv3d.KEYBOARD_STRAFE){
+		if(mv3d["a" /* default */].is1stPerson()){
+			switch(mv3d["a" /* default */].KEYBOARD_STRAFE){
 				case 'QE': return keyname;
 				case 'AD': return 'rot'+keyname;
 				default: return keyname;
 			}
 		}else{
-			switch(input_mv3d.KEYBOARD_TURN){
+			switch(mv3d["a" /* default */].KEYBOARD_TURN){
 				case 'QE': return 'rot'+keyname;
 				case 'AD': return keyname;
 				default: return 'rot'+keyname;
@@ -4208,55 +3788,17 @@ Object.assign(input_mv3d,{
 });
 
 Object(util["override"])(Input,'_signX',o=>function _signX(){
-	if(!input_mv3d.KEYBOARD_STRAFE && input_mv3d.is1stPerson()){ return 0; }
-	const leftKey=input_mv3d.getStrafeKey('left'), rightKey=input_mv3d.getStrafeKey('right');
+	if(!mv3d["a" /* default */].KEYBOARD_STRAFE && mv3d["a" /* default */].is1stPerson()){ return 0; }
+	const leftKey=mv3d["a" /* default */].getStrafeKey('left'), rightKey=mv3d["a" /* default */].getStrafeKey('right');
 
 	let x = 0;
-	if(input_mv3d.instantMovement){
-		if (this.isTriggered(leftKey)) { --x; }
-		if (this.isTriggered(rightKey)) { ++x; }
-	}else{
-		if (this.isPressed(leftKey)) { --x; }
-		if (this.isPressed(rightKey)) { ++x; }
-	}
+	if (this.isPressed(leftKey)) { --x; }
+	if (this.isPressed(rightKey)) { ++x; }
 	return x;
 });
 
-Object(util["override"])(Input,'_signY',o=>function(){
-    const up = this.isTriggered("up") ? 1 : 0;
-    const down = this.isTriggered("down") ? 1 : 0;
-    return down - up;
-},()=> !input_mv3d.isDisabled() && input_mv3d.instantMovement );
-
-Object(util["override"])(Game_CharacterBase.prototype,'realMoveSpeed',o=>function(){
-	if(!this._mv3d_instantMovement){ return o.apply(this,arguments); }
-	return Infinity;
-},()=> !input_mv3d.isDisabled() && input_mv3d.instantMovement );
-
-Object(util["override"])(Game_Player.prototype,"increaseSteps",o=>function(){
-	this._mv3d_startedMoving=true;
-	o.apply(this,arguments);
-},true);
-
-Object(util["override"])(Game_Player.prototype,"update",o=>function(){
-	o.apply(this,arguments);
-	this._mv3d_startedMoving=false;
-},true);
-
-Object(util["override"])(Game_Player.prototype,"isMoving",o=>function(){
-	if(o.apply(this,arguments)){ return true; }
-	if(this._mv3d_startedMoving){
-		return true;
-	}
-	return false;
-},()=> input_mv3d.instantMovement );
-
-Game_Player.prototype._mv3d_instantMovement=true;
-Game_Vehicle.prototype._mv3d_instantMovement=true;
-
-
-input_mv3d.setupInput=function(){
-	if(!input_mv3d.WASD){ return; }
+mv3d["a" /* default */].setupInput=function(){
+	if(!mv3d["a" /* default */].WASD){ return; }
 	Object.assign(Input.keyMapper,{
 		81:'rotleft',  // Q
 		69:'rotright', // E
@@ -4266,8 +3808,8 @@ input_mv3d.setupInput=function(){
 		68:'right',    // D
 	});
 
-	if(input_mv3d.GAMEPAD_TURN_BUTTON){
-		Object.assign(Input.gamepadMapper,input_mv3d.GAMEPAD_TURN_BUTTON===1?{
+	if(mv3d["a" /* default */].GAMEPAD_TURN_BUTTON){
+		Object.assign(Input.gamepadMapper,mv3d["a" /* default */].GAMEPAD_TURN_BUTTON===1?{
 			4: 'rotleft',   // LB
 			5: 'rotright',  // RB
 			6: 'pageup',    // LT
@@ -4296,8 +3838,8 @@ function getInputDescriptor(menumode,p3mode,p1mode){
 		get(){
 			if(assignedValue!=undefined){ return assignedValue; }
 			if(!(SceneManager._scene instanceof Scene_Map)){ return menumode; }
-			if(input_mv3d.isDisabled()){ return p3mode; }
-			if(input_mv3d.is1stPerson()){ return p1mode; }
+			if(mv3d["a" /* default */].isDisabled()){ return p3mode; }
+			if(mv3d["a" /* default */].is1stPerson()){ return p1mode; }
 			return p3mode;
 		},
 		set(v){ assignedValue=v; },
@@ -4306,18 +3848,17 @@ function getInputDescriptor(menumode,p3mode,p1mode){
 
 const _getInputDirection = Game_Player.prototype.getInputDirection;
 Game_Player.prototype.getInputDirection = function() {
-	if (input_mv3d.isDisabled()){ 
-		if(input_mv3d.DIR8MOVE && input_mv3d.DIR8_2D) { return Input.dir8; }
+	if (mv3d["a" /* default */].isDisabled()){ 
+		if(mv3d["a" /* default */].DIR8MOVE && mv3d["a" /* default */].DIR8_2D) { return Input.dir8; }
 		return _getInputDirection.apply(this,arguments);
 	 }
-	return input_mv3d.getInputDirection();
+	return mv3d["a" /* default */].getInputDirection();
 };
 
-input_mv3d.getInputDirection=function(){
-	let dir = input_mv3d.DIR8MOVE ? Input.dir8 : Input.dir4;
-	return input_mv3d.transformDirection(dir,input_mv3d.blendCameraYaw.currentValue());
+mv3d["a" /* default */].getInputDirection=function(){
+	let dir = mv3d["a" /* default */].DIR8MOVE ? Input.dir8 : Input.dir4;
+	return mv3d["a" /* default */].transformDirection(dir,mv3d["a" /* default */].blendCameraYaw.currentValue());
 }
-
 
 const input_raycastPredicate=mesh=>{
 	if(!mesh.isEnabled() || !mesh.isVisible || !mesh.isPickable){ return false; }
@@ -4329,20 +3870,20 @@ const input_raycastPredicate=mesh=>{
 
 const _process_map_touch = Scene_Map.prototype.processMapTouch;
 Scene_Map.prototype.processMapTouch = function() {
-	if (input_mv3d.isDisabled()){ return _process_map_touch.apply(this,arguments); }
+	if (mv3d["a" /* default */].isDisabled()){ return _process_map_touch.apply(this,arguments); }
 	if (TouchInput.isTriggered() || this._touchCount > 0) {
 		
-		if(input_mv3d.inputCameraMouse && !input_mv3d._touchState.isTapped){
+		if(mv3d["a" /* default */].inputCameraMouse && !mv3d["a" /* default */]._touchState.isTapped){
 			Graphics._canvas.requestPointerLock();
-			this._touchCount=0;
+			this._touchCount++;
 			return;
 		}
 
-		if (TouchInput.isPressed() || input_mv3d._touchState.isTapped) {
+		if (TouchInput.isPressed() || mv3d["a" /* default */]._touchState.isTapped) {
 			
-			if (this._touchCount === 0 || this._touchCount >= 15 || input_mv3d._touchState.isTapped) {
+			if (this._touchCount === 0 || this._touchCount >= 15 || mv3d["a" /* default */]._touchState.isTapped) {
 				
-				input_mv3d.processMapTouch();
+				mv3d["a" /* default */].processMapTouch();
 
 			}
 			this._touchCount++;
@@ -4352,8 +3893,8 @@ Scene_Map.prototype.processMapTouch = function() {
 	}
 };
 
-input_mv3d.processMapTouch=Object(util["throttle"])(function(){
-	const intersection = input_mv3d.scene.pick(TouchInput.x*input_mv3d.RES_SCALE,TouchInput.y*input_mv3d.RES_SCALE,input_raycastPredicate);
+mv3d["a" /* default */].processMapTouch=Object(util["throttle"])(function(){
+	const intersection = mv3d["a" /* default */].scene.pick(TouchInput.x*mv3d["a" /* default */].RES_SCALE,TouchInput.y*mv3d["a" /* default */].RES_SCALE,input_raycastPredicate);
 	if(intersection.hit){
 		const point = {x:intersection.pickedPoint.x, y:-intersection.pickedPoint.z};
 		const mesh = intersection.pickedMesh;
@@ -4361,41 +3902,32 @@ input_mv3d.processMapTouch=Object(util["throttle"])(function(){
 			point.x=mesh.character.x;
 			point.y=mesh.character.y;
 		}
-		input_mv3d.setDestination(point.x,point.y);
+		mv3d["a" /* default */].setDestination(point.x,point.y);
 	}
 },100);
 
 Object(util["override"])(TouchInput,'_onMouseMove',o=>function(e){
-	const allowRotation = input_mv3d.allowRotation || input_mv3d.is1stPerson();
-	const allowPitch = input_mv3d.allowPitch;
-	const movementX=e.movementX.clamp(-10,10);
-	const movementY=e.movementY.clamp(-10,10);
-	if(movementX && allowRotation){
-		const increment = movementX / Graphics.width * 180 * input_mv3d.lookSensitivity;
-		input_mv3d.blendCameraYaw.setValue(input_mv3d.blendCameraYaw.targetValue()-increment,0.1,false);
+	const allowRotation = mv3d["a" /* default */].loadData('allowRotation',mv3d["a" /* default */].KEYBOARD_TURN) || mv3d["a" /* default */].is1stPerson();
+	const allowPitch = mv3d["a" /* default */].loadData('allowPitch',mv3d["a" /* default */].KEYBOARD_PITCH);
+	if(e.movementX && allowRotation){
+		const increment = e.movementX / Graphics.width * 180 * mv3d["a" /* default */].lookSensitivity;
+		mv3d["a" /* default */].blendCameraYaw.setValue(mv3d["a" /* default */].blendCameraYaw.targetValue()-increment,0.1,false);
 	}
-	if(movementY && allowPitch){
-		const increment = movementY / Graphics.width * 180 * input_mv3d.lookSensitivity;
-		input_mv3d.blendCameraPitch.setValue(input_mv3d.blendCameraPitch.targetValue()-increment*(input_mv3d.invertY*-2+1),0.1,false);
+	if(e.movementY && allowPitch){
+		const increment = e.movementY / Graphics.width * 180 * mv3d["a" /* default */].lookSensitivity;
+		mv3d["a" /* default */].blendCameraPitch.setValue(mv3d["a" /* default */].blendCameraPitch.targetValue()-increment*(mv3d["a" /* default */].invertY*-2+1),0.1,false);
 	}
-},()=> !input_mv3d.isDisabled() && !input_mv3d.lockCamera && input_mv3d.inputCameraMouse && document.pointerLockElement && input_mv3d.blendCameraYaw );
+},()=> !mv3d["a" /* default */].isDisabled() && !mv3d["a" /* default */].loadData('cameraLocked') && mv3d["a" /* default */].inputCameraMouse && document.pointerLockElement && mv3d["a" /* default */].blendCameraYaw );
 
-mz3d._relockPointer = false;
 Object(util["override"])(Scene_Map.prototype,'isMapTouchOk',o=>function(){
 	const isOk = o.apply(this,arguments);
-	if(!isOk||!input_mv3d.inputCameraMouse){
+	if(!isOk||!mv3d["a" /* default */].inputCameraMouse){
 		if(document.pointerLockElement){
 			document.exitPointerLock();
-			mz3d._relockPointer=true;
 		}
 	}else{
-		if(!document.pointerLockElement && mz3d._relockPointer){
+		if(!document.pointerLockElement){
 			Graphics._canvas.requestPointerLock();
-			mz3d._relockPointer=false;
-		}
-		if(Input.isPressed('escape')&&document.pointerLockElement){
-			document.exitPointerLock();
-			mz3d._relockPointer=false;
 		}
 	}
 	return isOk;
@@ -4404,20 +3936,20 @@ Object(util["override"])(Scene_Map.prototype,'isMapTouchOk',o=>function(){
 Object(util["override"])(Scene_Map.prototype,'stop',o=>function(){
 	o.apply(this,arguments);
 	document.exitPointerLock();
-	if(document.pointerLockElement){mz3d._relockPointer=true;}
 },true);
 
-input_mv3d.setDestination=function(x,y){
+mv3d["a" /* default */].setDestination=function(x,y){
 	$gameTemp.setDestination(Math.round(x), Math.round(y));
 };
 
 const _player_findDirectionTo=Game_Player.prototype.findDirectionTo;
 Game_Player.prototype.findDirectionTo=function(){
 	const dir = _player_findDirectionTo.apply(this,arguments);
-	if(input_mv3d.isDisabled()){ return dir; }
-	if(input_mv3d.is1stPerson() && !input_mv3d.isVR() && dir){
-		let yaw = input_mv3d.dirToYaw(dir);
-		input_mv3d.blendCameraYaw.setValue(yaw,90/input_mv3d.turnSpeed);
+	if(mv3d["a" /* default */].isDisabled()){ return dir; }
+	if(mv3d["a" /* default */].is1stPerson() && dir){
+		let yaw = mv3d["a" /* default */].dirToYaw(dir);
+
+		mv3d["a" /* default */].blendCameraYaw.setValue(yaw,0.25);
 	}
 	return dir;
 }
@@ -4428,18 +3960,18 @@ Game_Player.prototype.findDirectionTo=function(){
 
 
 // CONCATENATED MODULE: ./src/input_directions.js
-const input_directions_mv3d = window.mv3d;
 
 
 
-Object.assign(input_directions_mv3d,{
+
+Object.assign(mv3d["a" /* default */],{
 	
 	playerFaceYaw(){
-		let dir = this.yawToDir(input_directions_mv3d.blendCameraYaw.targetValue(),true);
+		let dir = this.yawToDir(mv3d["a" /* default */].blendCameraYaw.targetValue(),true);
 		$gamePlayer.mv3d_setDirection(dir);
 	},
 
-	yawToDir(yaw=input_directions_mv3d.blendCameraYaw.targetValue(),dir8=false){
+	yawToDir(yaw=mv3d["a" /* default */].blendCameraYaw.targetValue(),dir8=false){
 		const divisor = dir8?45:90;
 		yaw=Math.round(yaw/divisor)*divisor;
 		while(yaw<0){yaw+=360;} while(yaw>=360){yaw-=360;}
@@ -4470,17 +4002,17 @@ Object.assign(input_directions_mv3d,{
 		}
 	},
 	
-	transformDirection(dir,yaw=this.blendCameraYaw.currentValue(),dir8=input_directions_mv3d.DIR8MOVE){
-		return input_directions_mv3d.yawToDir(input_directions_mv3d.dirToYaw(dir)+yaw,dir8);
+	transformDirection(dir,yaw=this.blendCameraYaw.currentValue(),dir8=mv3d["a" /* default */].DIR8MOVE){
+		return mv3d["a" /* default */].yawToDir(mv3d["a" /* default */].dirToYaw(dir)+yaw,dir8);
 	},
 
 	transformFacing(dir,yaw=this.blendCameraYaw.currentValue(),dir8=false){
-		return input_directions_mv3d.yawToDir(input_directions_mv3d.dirToYaw(dir)-yaw,dir8);
+		return mv3d["a" /* default */].yawToDir(mv3d["a" /* default */].dirToYaw(dir)-yaw,dir8);
 	},
 
 	updateDirection(){
-		if ( input_directions_mv3d.is1stPerson() ) {
-			input_directions_mv3d.playerFaceYaw();
+		if ( mv3d["a" /* default */].is1stPerson() ) {
+			mv3d["a" /* default */].playerFaceYaw();
 		}
 	},
 });
@@ -4489,19 +4021,19 @@ let _oldDir=0;
 Object(util["override"])(Game_Player.prototype,'update',o=>function update(){
 	o.apply(this,arguments);
 	if(this._direction!==_oldDir){
-		input_directions_mv3d.updateDirection();
+		mv3d["a" /* default */].updateDirection();
 		_oldDir=this._direction;
 	}
 });
 
 Object(util["override"])(Game_Player.prototype,'moveStraight',o=>function moveStraight(){
 	o.apply(this,arguments);
-	input_directions_mv3d.updateDirection();
+	mv3d["a" /* default */].updateDirection();
 });
 
 Object(util["override"])(Game_Player.prototype,'direction',o=>function direction(){
-	if(input_directions_mv3d.is1stPerson() && this.isMoving() && !this.isDirectionFixed()){
-		return input_directions_mv3d.yawToDir(input_directions_mv3d.blendCameraYaw.targetValue(),false);
+	if(mv3d["a" /* default */].is1stPerson() && this.isMoving() && !this.isDirectionFixed()){
+		return mv3d["a" /* default */].yawToDir(mv3d["a" /* default */].blendCameraYaw.targetValue(),false);
 	}else{
 		return o.apply(this,arguments);
 	}
@@ -4515,8 +4047,8 @@ Game_CharacterBase.prototype.setDirection=function(){
 };
 Game_CharacterBase.prototype.mv3d_setDirection=function(d){
 	if( this.isDirectionFixed() ){ return; }
-	this._direction=input_directions_mv3d.yawToDir(input_directions_mv3d.dirToYaw(d),false);
-	if(input_directions_mv3d.DIR8MOVE){
+	this._direction=mv3d["a" /* default */].yawToDir(mv3d["a" /* default */].dirToYaw(d),false);
+	if(mv3d["a" /* default */].DIR8MOVE){
 		this._mv3d_direction=d;
 	}else{
 		this._mv3d_direction=this._direction;
@@ -4546,14 +4078,14 @@ Object(util["override"])(Game_Player.prototype,'processMoveCommand',o=>function 
 		case gc.ROUTE_TURN_RANDOM:
 		case gc.ROUTE_TURN_TOWARD:
 		case gc.ROUTE_TURN_AWAY:
-			let yaw = input_directions_mv3d.dirToYaw(this._direction);
-			input_directions_mv3d.blendCameraYaw.setValue(yaw,0.25);
+			let yaw = mv3d["a" /* default */].dirToYaw(this._direction);
+			mv3d["a" /* default */].blendCameraYaw.setValue(yaw,0.25);
 	}
-},()=>!input_directions_mv3d.isDisabled()&&input_directions_mv3d.is1stPerson());
+},()=>!mv3d["a" /* default */].isDisabled()&&mv3d["a" /* default */].is1stPerson());
 
 
 // CONCATENATED MODULE: ./src/configuration.js
-const configuration_mv3d = window.mv3d;
+
 
 
 
@@ -4590,7 +4122,6 @@ class ConfigurationFunction{
 				}
 			}
 			if(match[2]){
-				match[2] = match[2].toLowerCase();
 				if(match[2] in this.labels){
 					gi=this.labels[match[2]];
 				}else{
@@ -4611,7 +4142,7 @@ class ConfigurationFunction{
 		this.func(conf,params);
 	}
 }
-configuration_mv3d.ConfigurationFunction=ConfigurationFunction;
+mv3d["a" /* default */].ConfigurationFunction=ConfigurationFunction;
 
 function TextureConfigurator(name,extraParams='',apply){
 	const paramlist = `img,x,y,w,h|${extraParams}|alpha|glow[anim]animx,animy`;
@@ -4641,8 +4172,8 @@ function TextureConfigurator(name,extraParams='',apply){
 			//conf[`${name}_rect`] = new PIXI.Rectangle(x,y,w,h);
 			break;}
 		}
-		if(params.animx||params.animy){
-			conf[`${name}_animData`]={ animX:Number(params.animx|0), animY:Number(params.animy|0) };
+		if(params.animx&&params.animy){
+			conf[`${name}_animData`]={ animX:Number(params.animx), animY:Number(params.animy) };
 		}
 		if(params.alpha){
 			conf[`${name}_alpha`]=Number(params.alpha);
@@ -4661,7 +4192,7 @@ function TextureConfigurator(name,extraParams='',apply){
 }
 
 function readTextureConfigurations(name,conf,img,xstr,ystr,wstr='1',hstr='1'){
-	const validImg = configuration_mv3d.validTilesheetName(img);
+	const validImg = mv3d["a" /* default */].validTilesheetName(img);
 	if(validImg){ img=img.toUpperCase(); }
 	conf[`${name}_img`]=img;
 	conf[`${name}_changed`]=true;
@@ -4681,7 +4212,7 @@ function readTextureConfigurations(name,conf,img,xstr,ystr,wstr='1',hstr='1'){
 	if(hasPercentValue){
 	}else if(hasPixelValue){
 		if(validImg&&!xcoord.isOffsetValue&&!ycoord.isOffsetValue){
-			conf[`${name}_id`] = configuration_mv3d.constructTileId(img,1,0);
+			conf[`${name}_id`] = mv3d["a" /* default */].constructTileId(img,1,0);
 			conf[`${name}_rect`] = new PIXI.Rectangle(x,y,w,h);
 			return;
 		}
@@ -4691,7 +4222,7 @@ function readTextureConfigurations(name,conf,img,xstr,ystr,wstr='1',hstr='1'){
 			return;
 		}
 		if(validImg&&!xcoord.isOffsetValue&&!ycoord.isOffsetValue){
-			conf[`${name}_id`] = configuration_mv3d.constructTileId(img,x,y);
+			conf[`${name}_id`] = mv3d["a" /* default */].constructTileId(img,x,y);
 			return;
 		}
 	}
@@ -4703,7 +4234,7 @@ function readTextureConfigurations(name,conf,img,xstr,ystr,wstr='1',hstr='1'){
 	conf[`${name}_texture`] = textureCoords;
 }
 
-configuration_mv3d.finalizeTextureRect = function(rect,width,height){
+mv3d["a" /* default */].finalizeTextureRect = function(rect,width,height){
 	let {x,y,width:w,height:h} = rect;
 	if(rect.percentRect){
 		const pr = rect.percentRect;
@@ -4711,10 +4242,6 @@ configuration_mv3d.finalizeTextureRect = function(rect,width,height){
 		y+=pr.y*height;
 		w+=pr.width*width;
 		h+=pr.height*height;
-	}
-	while(y>=height){
-		y-=height;
-		x+=width/2;
 	}
 	return new PIXI.Rectangle(x,y,w,h);
 }
@@ -4796,13 +4323,13 @@ class configuration_TextureCoordinate{
 	}
 }
 
-Object.assign(configuration_mv3d,{
+Object.assign(mv3d["a" /* default */],{
 	tilesetConfigurations:{},
 	loadTilesetSettings(){
 		//tileset
 		this.tilesetConfigurations={};
 		const lines = this.readConfigurationBlocks($gameMap.tileset().note)
-		+'\n'+this.readConfigurationBlocks(this.getDataMap().note,'m[vz]3d-tiles');
+		+'\n'+this.readConfigurationBlocks(this.getDataMap().note,'mv3d-tiles');
 		//const readLines = /^\s*([abcde]\d?\s*,\s*\d+\s*,\s*\d+)\s*:(.*)$/gmi;
 		const readLines = /^\s*([abcde]\d?)\s*,\s*(\d+(?:-\d+)?)\s*,\s*(\d+(?:-\d+)?)\s*:(.*)$/gmi;
 		let match;
@@ -4814,7 +4341,7 @@ Object.assign(configuration_mv3d,{
 			for(let ky=range2[0];ky<=range2[range2.length-1];++ky){
 				const key = `${match[1]},${kx},${ky}`;
 				const tileId=this.constructTileId(...key.split(','));
-				const appliedConf=configuration_mv3d.applyTextureConfigs(Object.assign({},conf),match[1],kx,ky);
+				const appliedConf=mv3d["a" /* default */].applyTextureConfigs(Object.assign({},conf),match[1],kx,ky);
 				if(!(tileId in this.tilesetConfigurations)){
 					this.tilesetConfigurations[tileId]={};
 				}
@@ -4834,7 +4361,7 @@ Object.assign(configuration_mv3d,{
 			mapconf,
 		);
 		this._REGION_DATA_MAP={};
-		const regionBlocks=this.readConfigurationBlocks(dataMap.note,'m[vz]3d-regions');
+		const regionBlocks=this.readConfigurationBlocks(dataMap.note,'mv3d-regions');
 		if(regionBlocks){
 			const readLines = /^\s*(\d+)\s*:(.*)$/gm;
 			let match;
@@ -4848,7 +4375,7 @@ Object.assign(configuration_mv3d,{
 				}
 				this.readConfigurationFunctions(
 					match[2],
-					configuration_mv3d.tilesetConfigurationFunctions,
+					mv3d["a" /* default */].tilesetConfigurationFunctions,
 					this._REGION_DATA_MAP[match[1]],
 				);
 			}
@@ -4899,9 +4426,9 @@ Object.assign(configuration_mv3d,{
 	},
 
 	afterMapLoad(newmap){
-		Blender.reset();
+		blenders_Blender.reset();
 
-		configuration_mv3d.updateClearColor();
+		mv3d["a" /* default */].updateClearColor();
 
 		this.callFeatures('afterMapLoad',newmap);
 	},
@@ -4938,11 +4465,11 @@ Object.assign(configuration_mv3d,{
 		return conf;
 	},
 
-	readConfigurationBlocksAndTags(note,tag='m[vz]3d'){
+	readConfigurationBlocksAndTags(note,tag='mv3d'){
 		return this.readConfigurationBlocks(note,tag)+this.readConfigurationTags(note,tag);
 	},
 
-	readConfigurationBlocks(note,tag='m[vz]3d'){
+	readConfigurationBlocks(note,tag='mv3d'){
 		const findBlocks = new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`,'gi');
 		let contents = '';
 		let match;
@@ -4952,7 +4479,7 @@ Object.assign(configuration_mv3d,{
 		return contents;
 	},
 
-	readConfigurationTags(note,tag='m[vz]3d'){
+	readConfigurationTags(note,tag='mv3d'){
 		const findTags = new RegExp(`<${tag}:([\\s\\S]*?)>`,'gi');
 		let contents='';
 		let match;
@@ -4962,7 +4489,7 @@ Object.assign(configuration_mv3d,{
 		return contents;
 	},
 
-	readConfigurationFunctions(line,functionset=configuration_mv3d.tilesetConfigurationFunctions,conf={}){
+	readConfigurationFunctions(line,functionset=mv3d["a" /* default */].tilesetConfigurationFunctions,conf={}){
 		const readConfigurations = /(\w+)\((.*?)\)/g
 		let match;
 		while(match = readConfigurations.exec(line)){
@@ -5023,7 +4550,7 @@ Object.assign(configuration_mv3d,{
 		fringe(conf,n){ conf.fringe=Number(n); },
 		float(conf,n){ conf.float=Number(n); },
 		slope(conf,n=1,d=null){
-			conf.shape=configuration_mv3d.enumShapes.SLOPE;
+			conf.shape=mv3d["a" /* default */].enumShapes.SLOPE;
 			conf.slopeHeight=Number(n);
 			if(d){ conf.slopeDirection=({n:2, s:8, e:4, w:6})[d.toLowerCase()[0]]; }
 		},
@@ -5037,16 +4564,16 @@ Object.assign(configuration_mv3d,{
 		west:TextureConfigurator('west'),
 		texture:Object.assign(TextureConfigurator('hybrid'),{
 			func(conf,params){
-				configuration_mv3d.tilesetConfigurationFunctions.top.func(conf,params);
-				configuration_mv3d.tilesetConfigurationFunctions.side.func(conf,params);
+				mv3d["a" /* default */].tilesetConfigurationFunctions.top.func(conf,params);
+				mv3d["a" /* default */].tilesetConfigurationFunctions.side.func(conf,params);
 			}
 		}),
-		get ceiling(){ return configuration_mv3d.mapConfigurationFunctions.ceiling; },
+		get ceiling(){ return mv3d["a" /* default */].mapConfigurationFunctions.ceiling; },
 		shape(conf,name,data){
-			conf.shape=configuration_mv3d.enumShapes[name.toUpperCase()];
-			if(conf.shape===configuration_mv3d.enumShapes.SLOPE && data||!('slopeHeight' in conf)){ conf.slopeHeight=Number(data)||1; }
+			conf.shape=mv3d["a" /* default */].enumShapes[name.toUpperCase()];
+			if(conf.shape===mv3d["a" /* default */].enumShapes.SLOPE && data||!('slopeHeight' in conf)){ conf.slopeHeight=Number(data)||1; }
 			if(data){
-				if(conf.shape===configuration_mv3d.enumShapes.FENCE){ conf.fencePosts=Object(util["booleanString"])(data); }
+				if(conf.shape===mv3d["a" /* default */].enumShapes.FENCE){ conf.fencePosts=Object(util["booleanString"])(data); }
 			}
 		},
 		alpha(conf,n){
@@ -5071,11 +4598,11 @@ Object.assign(configuration_mv3d,{
 		pass(conf,s=''){
 			s=Object(util["falseString"])(s.toLowerCase());
 			if(!s || s[0]==='x'){
-				conf.pass=configuration_mv3d.enumPassage.WALL;
+				conf.pass=mv3d["a" /* default */].enumPassage.WALL;
 			}else if(s[0]==='o'){
-				conf.pass=configuration_mv3d.enumPassage.FLOOR;
+				conf.pass=mv3d["a" /* default */].enumPassage.FLOOR;
 			}else{
-				conf.pass=configuration_mv3d.enumPassage.THROUGH;
+				conf.pass=mv3d["a" /* default */].enumPassage.THROUGH;
 			}
 		},
 		shadow(conf,b=true){
@@ -5118,20 +4645,20 @@ Object.assign(configuration_mv3d,{
 		bush(conf,bool){ conf.bush = Object(util["booleanString"])(bool); },
 		shadow:new ConfigurationFunction('size,dist|3d',function(conf,params){
 			let {size,dist,'3d':dyn} = params;
-			if(dyn==null){ dyn=size==null||isFinite(size)?true:size; }
+			if(dyn==null){ dyn=size!=null?size:true; }
 			conf.dynShadow = dyn = Object(util["booleanString"])(dyn);
 			if(size!=null){ conf.shadow = Object(util["booleanNumber"])(size); }
 			if(dist!=null){ conf.shadowDist=Number(dist); }
 		}),
 		shape(conf,name){
-			conf.shape=configuration_mv3d.enumShapes[name.toUpperCase()];
+			conf.shape=mv3d["a" /* default */].enumShapes[name.toUpperCase()];
 		},
 		lamp:new ConfigurationFunction('color,intensity,range',function(conf,params){
-			const {color='white',intensity=1,range=configuration_mv3d.LIGHT_DIST} = params;
+			const {color='white',intensity=1,range=mv3d["a" /* default */].LIGHT_DIST} = params;
 			conf.lamp={color:Object(util["makeColor"])(color).toNumber(),intensity:Number(intensity),distance:Number(range)};
 		}),
 		flashlight:new ConfigurationFunction('color,intensity,range,angle[dir]yaw,pitch',function(conf,params){
-			const {color='white',intensity=1,range=configuration_mv3d.LIGHT_DIST,angle=configuration_mv3d.LIGHT_ANGLE} = params;
+			const {color='white',intensity=1,range=mv3d["a" /* default */].LIGHT_DIST,angle=mv3d["a" /* default */].LIGHT_ANGLE} = params;
 			conf.flashlight={color:Object(util["makeColor"])(color).toNumber(),intensity:Number(intensity),distance:Number(range),angle:Number(angle)};
 			if(params.yaw){ conf.flashlightYaw=params.yaw; }
 			if(params.pitch){ conf.flashlightPitch=Number(params.pitch); }
@@ -5177,7 +4704,7 @@ Object.assign(configuration_mv3d,{
 			}
 			conf.glow.a=Object(util["booleanNumber"])(a);
 		},
-		get ambient(){ return configuration_mv3d.tilesetConfigurationFunctions.ambient; },
+		get ambient(){ return mv3d["a" /* default */].tilesetConfigurationFunctions.ambient; },
 		dirfix(conf,b){
 			conf.dirfix=Object(util["booleanString"])(b);
 		},
@@ -5210,26 +4737,16 @@ Object.assign(configuration_mv3d,{
 		texture:(()=>{
 			const configurator = TextureConfigurator('texture');
 			return new ConfigurationFunction('img,x,y,w,h',(conf,params)=>{
-				let img;
-				if (params.img){
-					img=(configuration_mv3d.validTilesheetName(params.img)?params.img.toUpperCase():params.img)||'B';
-				}else{
-					img=configuration_mv3d.getSetName(conf._eventTileId||0);
-				}
-				const defaultTileId = `TILE_ID_${img}` in Tilemap ? Tilemap[`TILE_ID_${img}`] : 0;
+				const img = (mv3d["a" /* default */].validTilesheetName(params.img)?params.img.toUpperCase():params.img)||'B';
+				let defaultTileId = `TILE_ID_${img}` in Tilemap ? Tilemap[`TILE_ID_${img}`] : 0;
 				delete conf.texture_id;
 				delete conf.texture_img;
 				delete conf.texture_rect;
 				delete conf.texture_offset;
 				delete conf.texture_texture;
 				configurator.func(conf,params);
-				let tx=0,ty=0;
-				if(conf._eventTileId!==undefined){
-					tx=conf._eventTileId%8||0;
-					ty=Math.floor((conf._eventTileId-defaultTileId)/8);
-				}
-				configuration_mv3d.applyTextureSideConfigs(conf,'texture',img||'B',tx,ty);
-				configuration_mv3d._tileTextureOffset(conf,'texture',defaultTileId,defaultTileId);
+				mv3d["a" /* default */].applyTextureSideConfigs(conf,'texture',img||'B',0,0);
+				mv3d["a" /* default */]._tileTextureOffset(conf,'texture',defaultTileId,defaultTileId);
 				conf.texture_symbol=Symbol(`${img},${params.x},${params.y},${params.w},${params.h}`);
 			});
 		})(),
@@ -5237,7 +4754,7 @@ Object.assign(configuration_mv3d,{
 	mapConfigurationFunctions:{
 		get ambient(){ return this.light; },
 		light(conf,color){
-			if(color.toLowerCase()==='default'){ color=configuration_mv3d.AMBIENT_COLOR; }
+			if(color.toLowerCase()==='default'){ color=mv3d["a" /* default */].AMBIENT_COLOR; }
 			else{ color=Object(util["makeColor"])(color).toNumber(); }
 			conf.light={color:color};
 		},
@@ -5281,9 +4798,6 @@ Object.assign(configuration_mv3d,{
 		enable(conf,b=true){
 			conf.disabled=!Object(util["booleanString"])(b);
 		},
-		base(conf,n){
-			conf.baseHeight=Number(n);
-		},
 	},
 
 	validTilesheetName(img){
@@ -5310,10 +4824,10 @@ Object.assign(configuration_mv3d,{
 				else{ ty=ycoord.collapseValue(); }
 			}
 			let corner;
-			const validImg=configuration_mv3d.validTilesheetName(img);
+			const validImg=mv3d["a" /* default */].validTilesheetName(img);
 			if(validImg){
 				let id=this.constructTileId(img,tx,ty);
-				corner = configuration_mv3d.getTileCorner(id);
+				corner = mv3d["a" /* default */].getTileCorner(id);
 				corner.x*=Object(util["tileWidth"])(); corner.y*=Object(util["tileHeight"])();
 			}else{
 				corner={x:tx*Object(util["tileWidth"])(),y:ty*Object(util["tileHeight"])()};
@@ -5331,7 +4845,7 @@ Object.assign(configuration_mv3d,{
 			if(textureCoords.percentRect){
 				rect.percentRect=textureCoords.percentRect;
 			}
-			conf[`${side}_id`] = validImg?configuration_mv3d.constructTileId(img,1,0):1;
+			conf[`${side}_id`] = validImg?mv3d["a" /* default */].constructTileId(img,1,0):1;
 			conf[`${side}_rect`]=rect;
 		}
 	},
@@ -5358,9 +4872,9 @@ Game_Event.prototype.initialize = async function() {
 	_event_init.apply(this,arguments);
 	const event = this.event();
 	let config = {};
-	configuration_mv3d.readConfigurationFunctions(
-		configuration_mv3d.readConfigurationTags(event.note),
-		configuration_mv3d.eventConfigurationFunctions,
+	mv3d["a" /* default */].readConfigurationFunctions(
+		mv3d["a" /* default */].readConfigurationTags(event.note),
+		mv3d["a" /* default */].eventConfigurationFunctions,
 		config,
 	);
 	if('pos' in config){
@@ -5372,7 +4886,7 @@ Game_Event.prototype.initialize = async function() {
 			);
 		}
 		if('z' in pos){
-			this._mv3d_z = Object(util["relativeNumber"])(configuration_mv3d.getWalkHeight(event.x,event.y),pos.z);
+			this._mv3d_z = Object(util["relativeNumber"])(mv3d["a" /* default */].getWalkHeight(event.x,event.y),pos.z);
 		}
 	}
 	if(!this.mv3d_blenders){
@@ -5402,12 +4916,12 @@ Game_Event.prototype.initialize = async function() {
 	this.mv3d_needsConfigure=true;
 
 	await Object(util["sleep"])();
-	if(configuration_mv3d.mapLoaded){
-		configuration_mv3d.createCharacterFor(this);
+	if(mv3d["a" /* default */].mapLoaded){
+		mv3d["a" /* default */].createCharacterFor(this);
 	}
 };
 // CONCATENATED MODULE: ./src/plugin_commands.js
-const plugin_commands_mv3d = window.mv3d;
+
 
 
 const _pluginCommand = Game_Interpreter.prototype.pluginCommand;
@@ -5419,7 +4933,7 @@ Game_Interpreter.prototype.pluginCommand = function(command, args) {
 };
 
 function runPluginCommand(interpreter,args){
-	const pc = new plugin_commands_mv3d.PluginCommand();
+	const pc = new mv3d["a" /* default */].PluginCommand();
 	pc.INTERPRETER=interpreter;
 	pc.FULL_COMMAND=['mv3d',...args].join(' ');
 	args=args.filter(v=>v);
@@ -5437,11 +4951,11 @@ function runPluginCommand(interpreter,args){
 	}
 }
 
-plugin_commands_mv3d.PluginCommand=class{
+mv3d["a" /* default */].PluginCommand=class{
 	async animation(id,...a){
 		const char = (await this.AWAIT_CHAR(this.CHAR)).char;
 		char.requestAnimation(id);
-		if(plugin_commands_mv3d.isDisabled()){ return; }
+		if(mv3d["a" /* default */].isDisabled()){ return; }
 		let depth=true, scale=1;
 		for(let i=0;i<a.length;++i){
 			switch(a[i].toLowerCase()){
@@ -5455,7 +4969,7 @@ plugin_commands_mv3d.PluginCommand=class{
 		let i=0;
 		if(a[i].toLowerCase()==='scale'){ ++i; }
 		let time=this._TIME(a[2]);
-		this._RELATIVE_BLEND(plugin_commands_mv3d.blendResolutionScale,a[1],time);
+		this._RELATIVE_BLEND(mv3d["a" /* default */].blendResolutionScale,a[1],time);
 	}
 	camera(...a){
 		let time=this._TIME(a[2]);
@@ -5475,16 +4989,16 @@ plugin_commands_mv3d.PluginCommand=class{
 		}
 	}
 	yaw(deg,time=1){
-		this._RELATIVE_BLEND(plugin_commands_mv3d.blendCameraYaw,deg,time);
-		if ( plugin_commands_mv3d.is1stPerson() ) { plugin_commands_mv3d.playerFaceYaw(); }
+		this._RELATIVE_BLEND(mv3d["a" /* default */].blendCameraYaw,deg,time);
+		if ( mv3d["a" /* default */].is1stPerson() ) { mv3d["a" /* default */].playerFaceYaw(); }
 	}
-	pitch(deg,time=1){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendCameraPitch,deg,time); }
-	roll(deg,time=1){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendCameraRoll,deg,time); }
-	dist(n,time=1){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendCameraDist,n,time); }
-	zoom(n,time=1){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendCameraZoom,n,time); }
-	height(n,time=1){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendCameraHeight,n,time); }
+	pitch(deg,time=1){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendCameraPitch,deg,time); }
+	roll(deg,time=1){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendCameraRoll,deg,time); }
+	dist(n,time=1){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendCameraDist,n,time); }
+	zoom(n,time=1){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendCameraZoom,n,time); }
+	height(n,time=1){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendCameraHeight,n,time); }
 	_cameraTarget(target,time){
-		plugin_commands_mv3d.setCameraTarget(this.TARGET_CHAR(target), time);
+		mv3d["a" /* default */].setCameraTarget(this.TARGET_CHAR(target), time);
 	}
 	_cameraTrack(...a){
 		a.shift();
@@ -5496,23 +5010,33 @@ plugin_commands_mv3d.PluginCommand=class{
 		let target = Object(util["falseString"])(a[0]);
 		if(target){ target = this.TARGET_CHAR(target); }
 		const time = this._TIME(a[1]);
-		plugin_commands_mv3d.setCameraTrack(target,time,mode);
+		mv3d["a" /* default */].setCameraTrack(target,time,mode);
 	}
 	pan(x,y,time=1){
 		console.log(x,y,time);
 		time=this._TIME(time);
-		this._RELATIVE_BLEND(plugin_commands_mv3d.blendPanX,x,time);
-		this._RELATIVE_BLEND(plugin_commands_mv3d.blendPanY,y,time);
+		this._RELATIVE_BLEND(mv3d["a" /* default */].blendPanX,x,time);
+		this._RELATIVE_BLEND(mv3d["a" /* default */].blendPanY,y,time);
 	}
 
 	get rotationmode(){ return this.allowrotation; }
 	get pitchmode(){ return this.allowpitch; }
 
-	allowrotation(b){ plugin_commands_mv3d.allowRotation = Object(util["booleanString"])(b); }
-	allowpitch(b){ plugin_commands_mv3d.allowPitch = Object(util["booleanString"])(b); }
-	lockcamera(b){ plugin_commands_mv3d.lockCamera = Object(util["booleanString"])(b); }
+	allowrotation(b){ mv3d["a" /* default */].saveData('allowRotation',Object(util["booleanString"])(b)); }
+	allowpitch(b){ mv3d["a" /* default */].saveData('allowPitch',Object(util["booleanString"])(b)); }
+	lockcamera(b){ mv3d["a" /* default */].saveData('cameraLocked',Object(util["booleanString"])(b)); }
 
-	cameramode(mode){ plugin_commands_mv3d.cameraMode=mode; }
+	_VEHICLE(vehicle,data,value){
+		data=data.toLowerCase();
+		const key = `${Vehicle}_${data}`;
+		if(data==='big'){ value=Object(util["booleanString"])(value); }
+		else{ value=Object(util["relativeNumber"])(mv3d["a" /* default */].loadData(key,0),value); }
+		mv3d["a" /* default */].saveData(key,value);
+	}
+	boat(d,v){ this._VEHICLE('boat',d,v); }
+	ship(d,v){ this._VEHICLE('ship',d,v); }
+	airship(d,v){ this._VEHICLE('airship',d,v); }
+	cameramode(mode){ mv3d["a" /* default */].cameraMode=mode; }
 	fog(...a){
 		var time=this._TIME(a[2]);
 		switch(a[0].toLowerCase()){
@@ -5530,9 +5054,9 @@ plugin_commands_mv3d.PluginCommand=class{
 		this._fogNear(a[1],time);
 		this._fogFar(a[2],time);
 	}
-	_fogColor(color,time){ plugin_commands_mv3d.blendFogColor.setValue(Object(util["makeColor"])(color).toNumber(),time); }
-	_fogNear(n,time){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendFogNear,n,time); }
-	_fogFar(n,time){ this._RELATIVE_BLEND(plugin_commands_mv3d.blendFogFar,n,time); }
+	_fogColor(color,time){ mv3d["a" /* default */].blendFogColor.setValue(Object(util["makeColor"])(color).toNumber(),time); }
+	_fogNear(n,time){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendFogNear,n,time); }
+	_fogFar(n,time){ this._RELATIVE_BLEND(mv3d["a" /* default */].blendFogFar,n,time); }
 	get ambient(){ return this.light; }
 	light(...a){
 		var time=this._TIME(a[2]);
@@ -5544,7 +5068,7 @@ plugin_commands_mv3d.PluginCommand=class{
 		this._lightColor(a[0],time);
 		//this._lightintensity(a[0],time);
 	}
-	_lightColor(color,time=1){ plugin_commands_mv3d.blendAmbientColor.setValue(Object(util["makeColor"])(color).toNumber(),time); }
+	_lightColor(color,time=1){ mv3d["a" /* default */].blendAmbientColor.setValue(Object(util["makeColor"])(color).toNumber(),time); }
 	//_lightIntensity(n,time=1){ this._RELATIVE_BLEND(mv3d.blendLightIntensity,n,time); }
 	async lamp(...a){
 		const char = await this.AWAIT_CHAR(this.CHAR);
@@ -5596,9 +5120,9 @@ plugin_commands_mv3d.PluginCommand=class{
 	}
 	async configure(...a){
 		const char = await this.AWAIT_CHAR(this.CHAR);
-		plugin_commands_mv3d.readConfigurationFunctions(
+		mv3d["a" /* default */].readConfigurationFunctions(
 			a.join(' '),
-			plugin_commands_mv3d.eventConfigurationFunctions,
+			mv3d["a" /* default */].eventConfigurationFunctions,
 			char.settings,
 		);
 		char.pageConfigure(char.settings);
@@ -5606,13 +5130,16 @@ plugin_commands_mv3d.PluginCommand=class{
 	set(key,...a){
 		key=key.toLowerCase();
 		const value=a.join(' ');
-		if(key in plugin_commands_mv3d.attributes){
-			plugin_commands_mv3d.attributes[key]=value;
+		if(key in mv3d["a" /* default */].attributes){
+			mv3d["a" /* default */].attributes[key]=value;
 		}
 	}
-	disable(fadeType){ plugin_commands_mv3d.disable(fadeType); }
-	enable(fadeType){ plugin_commands_mv3d.enable(fadeType); }
-	get _RELATIVE_BLEND(){ return util["relativeBlend"]; }
+	disable(fadeType){ mv3d["a" /* default */].disable(fadeType); }
+	enable(fadeType){ mv3d["a" /* default */].enable(fadeType); }
+	_RELATIVE_BLEND(blender,n,time){
+		const relative = String(n).startsWith('+');
+		blender.setValue(Object(util["relativeNumber"])(blender.targetValue(),n),Number(time),!relative);
+	}
 	_TIME(time){
 		if(typeof time==='number'){ return time; }
 		time=Number(time);
@@ -5624,8 +5151,8 @@ plugin_commands_mv3d.PluginCommand=class{
 		//console.log(this.CHAR);
 	}
 	async AWAIT_CHAR(char){
-		if(!plugin_commands_mv3d.characters.length){
-			plugin_commands_mv3d.createCharacters();
+		if(!mv3d["a" /* default */].characters.length){
+			mv3d["a" /* default */].createCharacters();
 		}
 		if(!char){ return this.ERROR_CHAR(); }
 		let w=0;
@@ -5636,11 +5163,11 @@ plugin_commands_mv3d.PluginCommand=class{
 		return char.mv3d_sprite;
 	}
 	TARGET_CHAR(target){
-		return plugin_commands_mv3d.targetChar(target,$gameMap.event(this.INTERPRETER._eventId),this.CHAR);
+		return mv3d["a" /* default */].targetChar(target,$gameMap.event(this.INTERPRETER._eventId),this.CHAR);
 	}
 };
 
-plugin_commands_mv3d.targetChar=function(target,self=null,dfault=self){
+mv3d["a" /* default */].targetChar=function(target,self=null,dfault=null){
 	if(!target){ return dfault; }
 	let m=target.toLowerCase().match(/[a-z]+/);
 	const mode=m?m[0]:'e';
@@ -5659,7 +5186,7 @@ plugin_commands_mv3d.targetChar=function(target,self=null,dfault=self){
 	}
 	return char;
 }
-plugin_commands_mv3d.getTargetString=function(char){
+mv3d["a" /* default */].getTargetString=function(char){
 	if( char instanceof Game_Player){
 		return `@p`;
 	}
@@ -5680,9 +5207,9 @@ Game_CharacterBase.prototype.mv3d_requestAnimation = function(id,opts={}) {
 };
 
 Game_Character.prototype.mv3d_configure = function(data){
-	plugin_commands_mv3d.readConfigurationFunctions(
+	mv3d["a" /* default */].readConfigurationFunctions(
 		data,
-		plugin_commands_mv3d.eventConfigurationFunctions,
+		mv3d["a" /* default */].eventConfigurationFunctions,
 		this.mv3d_settings,
 	);
 	if(this.mv3d_sprite){
@@ -5690,7 +5217,7 @@ Game_Character.prototype.mv3d_configure = function(data){
 	}
 };
 
-plugin_commands_mv3d.command=function(...s){
+mv3d["a" /* default */].command=function(...s){
 	s=s.join(' ').split(' ');
 	runPluginCommand({
 		_mapId: $gameMap.mapId(),
@@ -5698,7 +5225,7 @@ plugin_commands_mv3d.command=function(...s){
 	},s);
 };
 // CONCATENATED MODULE: ./src/MapCellBuilder.js
-const MapCellBuilder_mz3d = window.mz3d;
+
 
 
 
@@ -5770,7 +5297,7 @@ class MapCellBuilder_SubMeshBuilder{
 		this.uvs=[];
 	}
 	build(){
-		const mesh = new babylon["Mesh"]('cell mesh', MapCellBuilder_mz3d.scene);
+		const mesh = new babylon["Mesh"]('cell mesh', mv3d["a" /* default */].scene);
 		//VertexData.ComputeNormals(this.positions,this.indices,this.normals);
 		const vdata = new babylon["VertexData"]();
 		vdata.positions=this.positions;
@@ -5869,9 +5396,9 @@ class MapCellBuilder_SubMeshBuilder{
 	}
 	static getUvRect(tsTexture,rect){
 		const { width, height } = tsTexture.getBaseSize();
-		rect = MapCellBuilder_mz3d.finalizeTextureRect(rect,width,height);
+		rect = mv3d["a" /* default */].finalizeTextureRect(rect,width,height);
 		let {x,y,width:w,height:h} = rect;
-		if(MapCellBuilder_mz3d.EDGE_FIX){ x+=MapCellBuilder_mz3d.EDGE_FIX;y+=MapCellBuilder_mz3d.EDGE_FIX;w-=MapCellBuilder_mz3d.EDGE_FIX*2;h-=MapCellBuilder_mz3d.EDGE_FIX*2; }
+		if(mv3d["a" /* default */].EDGE_FIX){ x+=mv3d["a" /* default */].EDGE_FIX;y+=mv3d["a" /* default */].EDGE_FIX;w-=mv3d["a" /* default */].EDGE_FIX*2;h-=mv3d["a" /* default */].EDGE_FIX*2; }
 		return {
 			x1:x/width,
 			y1:(height-y)/height,
@@ -5894,16 +5421,16 @@ class MapCellBuilder_SubMeshBuilder{
 	}
 }
 // CONCATENATED MODULE: ./src/model.js
-const model_mz3d = window.mz3d;
+
 
 
 
 const modelInstanceCache={};
-model_mz3d.modelInstanceCache=modelInstanceCache;
+mv3d["a" /* default */].modelInstanceCache=modelInstanceCache;
 
 const orphanModelList=[];
 
-model_mz3d.clearModelCache=function(){
+mv3d["a" /* default */].clearModelCache=function(){
 	for (const key in modelInstanceCache){
 		const mesh = modelInstanceCache[key];
 		delete modelInstanceCache[key];
@@ -5911,27 +5438,24 @@ model_mz3d.clearModelCache=function(){
 	}
 };
 
-model_mz3d._model_textures_loaded = 0;
-model_mz3d._model_textures_loaded_total = 0;
-
 class model_Model extends babylon["TransformNode"]{
 	constructor(opts={}){
-		super('model',model_mz3d.scene);
+		super('model',mv3d["a" /* default */].scene);
 		this.mesh=null;
 		this.textureLoaded=false;
 		const {orphan=true}=opts;
 		if(orphan){ orphanModelList.push(this); }
 	}
-	get meshes(){ return this.mesh instanceof model_MeshGroup ? this.mesh.meshes : this.mesh ? [this.mesh] : []; }
-	get materials(){ return !this.mesh ? [] : this.mesh.mv3d_materials ? this.mesh.mv3d_materials : this.material ? [this.material] : []; }
+	get meshes(){ return this.mesh instanceof model_MeshGroup ? this.mesh.meshes : [this.mesh]; }
+	get materials(){ return this.mesh.mv3d_materials ? this.mesh.mv3d_materials : this.material ? [this.material] : []; }
 	setupMesh(){
 		if(!this.mesh||this.mesh.mv3d_isSetup){ return; }
 		this.mesh.mv3d_isSetup=true;
-		model_mz3d.callFeatures('createCharMesh',this.mesh);
+		mv3d["a" /* default */].callFeatures('createCharMesh',this.mesh);
 		this.mesh.parent=this;
 		this.mesh.yaw=0;
 		this.mesh.pitch=0;
-		if(this.shape===model_mz3d.enumShapes.XCROSS){
+		if(this.shape===mv3d["a" /* default */].enumShapes.XCROSS){
 			this.mesh.yaw=45;
 		}
 		if(this.material && !this.isComplexMesh()){
@@ -5943,27 +5467,27 @@ class model_Model extends babylon["TransformNode"]{
 		if(this.order!=null){ this.mesh.order=this.order; }
 	}
 	isComplexMesh(){
-		return this.shape === model_mz3d.enumShapes.MODEL || this.shape === model_mz3d.enumShapes.MESH;
+		return this.shape === mv3d["a" /* default */].enumShapes.MODEL || this.shape === mv3d["a" /* default */].enumShapes.MESH;
 	}
 	async setMaterial(src){
 		let newTexture;
 		if(src==='error'){
-			newTexture = await model_mz3d.getErrorTexture();
+			newTexture = await mv3d["a" /* default */].getErrorTexture();
 		}else{
-			newTexture = await model_mz3d.createTexture(src);
+			newTexture = await mv3d["a" /* default */].createTexture(src);
 		}
-		await model_mz3d.waitTextureLoaded(newTexture);
+		await mv3d["a" /* default */].waitTextureLoaded(newTexture);
 		this.disposeMaterial();
 		this.texture = newTexture;
 		this.texture.hasAlpha=true;
 		this.texture.updateSamplingMode(1);
 		this.textureLoaded=true;
-		this.material = new babylon["StandardMaterial"]('sprite material',model_mz3d.scene);
+		this.material = new babylon["StandardMaterial"]('sprite material',mv3d["a" /* default */].scene);
 		this.material.diffuseTexture=this.texture;
-		this.material.alphaCutOff = model_mz3d.ALPHA_CUTOFF;
+		this.material.alphaCutOff = mv3d["a" /* default */].ALPHA_CUTOFF;
 		this.material.ambientColor.set(1,1,1);
 		this.material.specularColor.set(0,0,0);
-		this.material.maxSimultaneousLights=model_mz3d.LIGHT_LIMIT;
+		this.material.maxSimultaneousLights=mv3d["a" /* default */].LIGHT_LIMIT;
 		this.material.backFaceCulling=false;
 		this.material.twoSidedLighting=true;
 		if(!this.isComplexMesh()){
@@ -5992,12 +5516,12 @@ class model_Model extends babylon["TransformNode"]{
 	}
 	clearShape(){
 		this.shape=null;
-		this.model_key=null;
+		this.model_filename=null;
 		this.mesh_text=null;
 	}
 	clearMesh(){
 		if(!this.mesh){ return; }
-		model_mz3d.callFeatures('destroyCharMesh',this.mesh);
+		mv3d["a" /* default */].callFeatures('destroyCharMesh',this.mesh);
 		this.mesh.dispose();
 	}
 	setMesh(mesh){
@@ -6009,57 +5533,50 @@ class model_Model extends babylon["TransformNode"]{
 		if(this.shape===shape){ return; }
 		this.clearShape();
 		this.shape=shape;
-		let geometry = model_mz3d.Meshes.SPRITE;
-		const shapes = model_mz3d.enumShapes;
+		let geometry = mv3d["a" /* default */].Meshes.SPRITE;
+		const shapes = mv3d["a" /* default */].enumShapes;
 		switch(this.shape){
 		case shapes.FLAT:
-			geometry = model_mz3d.Meshes.FLAT;
+			geometry = mv3d["a" /* default */].Meshes.FLAT;
 			break;
 		case shapes.XCROSS:
 		case shapes.CROSS:
-			geometry = model_mz3d.Meshes.CROSS;
+			geometry = mv3d["a" /* default */].Meshes.CROSS;
 			break;
 		case shapes['8CROSS']:
-			geometry = model_mz3d.Meshes['8CROSS'];
+			geometry = mv3d["a" /* default */].Meshes['8CROSS'];
 			break;
 		case shapes.FENCE:
 		case shapes.WALL:
-			geometry = model_mz3d.Meshes.WALL;
+			geometry = mv3d["a" /* default */].Meshes.WALL;
 			break;
 		case shapes.BOARD:
-			geometry = model_mz3d.Meshes.BOARD;
+			geometry = mv3d["a" /* default */].Meshes.BOARD;
 			break;
 		}
 		this.setMesh(geometry.clone());
 	}
 	async importModel(filename,opts={}){
-		const cacheKey = filename+`|${(+opts.flip|+opts.alpha<<1).toString(36)}${opts.useInstance?'|i':''}`;
-		if(this.shape === model_mz3d.enumShapes.MODEL && this.model_key === cacheKey){
+		if(this.shape === mv3d["a" /* default */].enumShapes.MODEL && this.model_filename === filename){
 			return;
 		}
 		this.clearShape();
-		this.model_key = cacheKey;
-		this.shape = model_mz3d.enumShapes.MODEL;
-		
+		this.model_filename = filename;
+		this.shape = mv3d["a" /* default */].enumShapes.MODEL;
 		if(opts.useInstance){
-			if(cacheKey in modelInstanceCache){
-				while(modelInstanceCache[cacheKey]==='loading'){ await Object(util["sleep"])(10); }
-				var mesh = modelInstanceCache[cacheKey];
+			if(filename in modelInstanceCache){
+				while(modelInstanceCache[filename]==='loading'){ await Object(util["sleep"])(10); }
+				var mesh = modelInstanceCache[filename];
 				mesh.receiveShadows=true;
-				//console.log(opts.eventId,"Creating instance",cacheKey);
 			}else{
-				modelInstanceCache[cacheKey]='loading';
-				var mesh = await model_mz3d.importModel(filename,opts);
-				modelInstanceCache[cacheKey]=mesh;
-				model_mz3d.scene.removeMesh(mesh);
-				//console.log(opts.eventId,"Creating first instance",cacheKey);
+				modelInstanceCache[filename]='loading';
+				var mesh = await mv3d["a" /* default */].importModel(filename);
+				modelInstanceCache[filename]=mesh;
+				mv3d["a" /* default */].scene.removeMesh(mesh);
 			}
-			const materials = mesh.mv3d_materials;
 			mesh = mesh.createInstance();
-			mesh.mv3d_materials = materials;
 		}else{
-			var mesh = await model_mz3d.importModel(filename,opts);
-			//console.log(opts.eventId,"Creating mesh",cacheKey);
+			var mesh = await mv3d["a" /* default */].importModel(filename);
 		}
 		if(!opts.nodelay){
 			mesh.setEnabled(false);
@@ -6067,27 +5584,24 @@ class model_Model extends babylon["TransformNode"]{
 			mesh.setEnabled(true);
 		}
 		this.setMesh(mesh);
-		//if(!opts.flip){
-		//	mesh.scaling.z=-1;
-		//}
 	}
 	update(){
 		if(this.mesh&&this.shape){
-			if(this.shape===model_mz3d.enumShapes.SPRITE){
-				this.mesh.pitch = model_mz3d.blendCameraPitch.currentValue()-90;
-				this.mesh.yaw = model_mz3d.blendCameraYaw.currentValue();
-			}else if(this.shape===model_mz3d.enumShapes.BOARD){
-				this.mesh.yaw = model_mz3d.blendCameraYaw.currentValue();
+			if(this.shape===mv3d["a" /* default */].enumShapes.SPRITE){
+				this.mesh.pitch = mv3d["a" /* default */].blendCameraPitch.currentValue()-90;
+				this.mesh.yaw = mv3d["a" /* default */].blendCameraYaw.currentValue();
+			}else if(this.shape===mv3d["a" /* default */].enumShapes.BOARD){
+				this.mesh.yaw = mv3d["a" /* default */].blendCameraYaw.currentValue();
 				if(this.character){ this.mesh.yaw -= this.character.spriteOrigin.yaw; }
 			}
 		}
 	}
 }
-model_mz3d.Model = model_Model;
+mv3d["a" /* default */].Model = model_Model;
 
 class model_MeshGroup extends babylon["TransformNode"]{
 	constructor(){
-		super('meshGroup',model_mz3d.scene);
+		super('meshGroup',mv3d["a" /* default */].scene);
 		this.meshes=[];
 	}
 	addMesh(){
@@ -6103,7 +5617,7 @@ class model_MeshGroup extends babylon["TransformNode"]{
 		}
 	}
 }
-model_mz3d.MeshGroup = model_MeshGroup;
+mv3d["a" /* default */].MeshGroup = model_MeshGroup;
 for(const property of ['receiveShadows','renderingGroupId','visibility','character']){
 	Object.defineProperty(model_MeshGroup.prototype,property,{
 		get(){ const p=this[`_${property}`]; return p!==undefined?p:this.meshes[0][property]; },
@@ -6118,7 +5632,7 @@ for(const property of ['receiveShadows','renderingGroupId','visibility','charact
 
 
 // CONCATENATED MODULE: ./src/mapCell.js
-const mapCell_mz3d = window.mz3d;
+
 
 
 
@@ -6127,11 +5641,11 @@ const mapCell_mz3d = window.mz3d;
 class mapCell_MapCell extends babylon["TransformNode"]{
 	constructor(cx,cy){
 		const key = [cx,cy].toString();
-		super(`MapCell[${key}]`,mapCell_mz3d.scene);
-		this.parent=mapCell_mz3d.map;
+		super(`MapCell[${key}]`,mv3d["a" /* default */].scene);
+		this.parent=mv3d["a" /* default */].map;
 		//mv3d.cells[key]=this;
 		this.cx=cx; this.cy=cy;
-		this.ox=cx*mapCell_mz3d.CELL_SIZE; this.oy=cy*mapCell_mz3d.CELL_SIZE;
+		this.ox=cx*mv3d["a" /* default */].CELL_SIZE; this.oy=cy*mv3d["a" /* default */].CELL_SIZE;
 		this.x=this.ox; this.y=this.oy;
 		this.key=key;
 		this.characters=[];
@@ -6140,52 +5654,52 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 		//this.load();
 	}
 	update(){
-		const loopPos = mapCell_mz3d.loopCoords((this.cx+0.5)*mapCell_mz3d.CELL_SIZE,(this.cy+0.5)*mapCell_mz3d.CELL_SIZE);
-		this.x=loopPos.x-mapCell_mz3d.CELL_SIZE/2;
-		this.y=loopPos.y-mapCell_mz3d.CELL_SIZE/2;
+		const loopPos = mv3d["a" /* default */].loopCoords((this.cx+0.5)*mv3d["a" /* default */].CELL_SIZE,(this.cy+0.5)*mv3d["a" /* default */].CELL_SIZE);
+		this.x=loopPos.x-mv3d["a" /* default */].CELL_SIZE/2;
+		this.y=loopPos.y-mv3d["a" /* default */].CELL_SIZE/2;
 		for (const doodad of this.doodads){
 			doodad.update();
-			if(doodad.shape===mapCell_mz3d.enumShapes.SPRITE){
-				const billboardOffset = new babylon["Vector2"](Math.sin(-mapCell_mz3d.cameraNode.rotation.y),Math.cos(mapCell_mz3d.cameraNode.rotation.y));
-				doodad.mesh.x=billboardOffset.x*mapCell_mz3d.SPRITE_OFFSET;
-				doodad.mesh.y=billboardOffset.y*mapCell_mz3d.SPRITE_OFFSET;
+			if(doodad.shape===mv3d["a" /* default */].enumShapes.SPRITE){
+				const billboardOffset = new babylon["Vector2"](Math.sin(-mv3d["a" /* default */].cameraNode.rotation.y),Math.cos(mv3d["a" /* default */].cameraNode.rotation.y));
+				doodad.mesh.x=billboardOffset.x*mv3d["a" /* default */].SPRITE_OFFSET;
+				doodad.mesh.y=billboardOffset.y*mv3d["a" /* default */].SPRITE_OFFSET;
 			}
 		}
 	}
 	async load(){
-		const shapes = mapCell_mz3d.enumShapes;
+		const shapes = mv3d["a" /* default */].enumShapes;
 		this.builder = new MapCellBuilder_CellMeshBuilder();
 		// load all tiles in mesh
-		let cellWidth=mapCell_mz3d.CELL_SIZE,cellHeight=mapCell_mz3d.CELL_SIZE;
-		if(mapCell_mz3d.getMapConfig('edge')!=='clamp'){
-			cellWidth = Math.min(mapCell_mz3d.CELL_SIZE,mapCell_mz3d.mapWidth()-this.cx*mapCell_mz3d.CELL_SIZE);
-			cellHeight = Math.min(mapCell_mz3d.CELL_SIZE,mapCell_mz3d.mapHeight()-this.cy*mapCell_mz3d.CELL_SIZE);
+		let cellWidth=mv3d["a" /* default */].CELL_SIZE,cellHeight=mv3d["a" /* default */].CELL_SIZE;
+		if(mv3d["a" /* default */].getMapConfig('edge')!=='clamp'){
+			cellWidth = Math.min(mv3d["a" /* default */].CELL_SIZE,mv3d["a" /* default */].mapWidth()-this.cx*mv3d["a" /* default */].CELL_SIZE);
+			cellHeight = Math.min(mv3d["a" /* default */].CELL_SIZE,mv3d["a" /* default */].mapHeight()-this.cy*mv3d["a" /* default */].CELL_SIZE);
 		}
-		const ceilingConf = mapCell_mz3d.getCeilingConfig();
+		const ceilingConf = mv3d["a" /* default */].getCeilingConfig();
 		for (let y=0; y<cellHeight; ++y)
 		for (let x=0; x<cellWidth; ++x){
 			let ceiling = ceilingConf;
-			const tileData = mapCell_mz3d.getTileData(this.ox+x,this.oy+y);
-			const zeroConf = mapCell_mz3d.getTileTextureOffsets(tileData[0],this.ox+x,this.oy+y,0);
+			const tileData = mv3d["a" /* default */].getTileData(this.ox+x,this.oy+y);
+			const zeroConf = mv3d["a" /* default */].getTileTextureOffsets(tileData[0],this.ox+x,this.oy+y,0);
 			if(zeroConf.ceiling_changed){
-				ceiling = mapCell_mz3d.getCeilingConfig(zeroConf);
+				ceiling = mv3d["a" /* default */].getCeilingConfig(zeroConf);
 			}
 			ceiling.cull=false;
 			let lastZ=Infinity;
-			const cullHeight = mapCell_mz3d.getCullingHeight(this.ox+x,this.oy+y);
+			const cullHeight = mv3d["a" /* default */].getCullingHeight(this.ox+x,this.oy+y);
 			for (let l=3; l>=0; --l){
-				if(mapCell_mz3d.isTileEmpty(tileData[l])){ continue; }
-				let z = mapCell_mz3d.getStackHeight(this.ox+x,this.oy+y,l);
-				const tileConf = l===0?zeroConf:mapCell_mz3d.getTileTextureOffsets(tileData[l],this.ox+x,this.oy+y,l);
+				if(mv3d["a" /* default */].isTileEmpty(tileData[l])){ continue; }
+				let z = mv3d["a" /* default */].getStackHeight(this.ox+x,this.oy+y,l);
+				const tileConf = l===0?zeroConf:mv3d["a" /* default */].getTileTextureOffsets(tileData[l],this.ox+x,this.oy+y,l);
 				const shape = tileConf.shape;
 				tileConf.realId = tileData[l];
 				//tileConf.isAutotile = Tilemap.isAutotile(tileData[l]);
 				//tileConf.isFringe = mv3d.isStarTile(tileData[l]);
 				//tileConf.isTable = mv3d.isTableTile(tileData[l]);
-				let wallHeight = mapCell_mz3d.getTileHeight(this.ox+x,this.oy+y,l)||tileConf.height||0;
+				let wallHeight = mv3d["a" /* default */].getTileHeight(this.ox+x,this.oy+y,l)||tileConf.height||0;
 				let pitCull = false;
 				if(lastZ<z){ pitCull=true; }
-				if(!mapCell_mz3d.getTileFringe(this.ox+x,this.oy+y,l)){
+				if(!mv3d["a" /* default */].getTileFringe(this.ox+x,this.oy+y,l)){
 					lastZ=z;
 				}
 				//z+=tileConf.fringe;
@@ -6195,13 +5709,13 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 					const hasBottom=wallHeight>0&&z-wallHeight>cullHeight||tileConf.fringe>0;
 					if(!shape||shape===shapes.FLAT){
 						if(!pitCull){
-							await this.loadTile(tileConf,x,y,z+l*mapCell_mz3d.LAYER_DIST*!hasWall,l);
-							if(hasWall){
-								await this.loadWalls(tileConf,x,y,z,l,wallHeight);
-							}
-							if(hasBottom){
-								await this.loadTile(tileConf,x,y,z-wallHeight,l,true);
-							}
+							await this.loadTile(tileConf,x,y,z+l*mv3d["a" /* default */].LAYER_DIST*!hasWall,l);
+						}
+						if(hasWall){
+							await this.loadWalls(tileConf,x,y,z,l,wallHeight);
+						}
+						if(hasBottom){
+							await this.loadTile(tileConf,x,y,z-wallHeight,l,true);
 						}
 					}else if(shape===shapes.SLOPE){
 						const slopeHeight = tileConf.slopeHeight||1;
@@ -6230,7 +5744,7 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 					this.loadDoodad(tileConf,x,y,z-wallHeight,shape);
 				}
 			}
-			if(!mapCell_mz3d.isTileEmpty(ceiling.bottom_id) && !ceiling.cull){
+			if(!mv3d["a" /* default */].isTileEmpty(ceiling.bottom_id) && !ceiling.cull){
 				await this.loadTile(ceiling,x,y,ceiling.height,0,true,false);
 			}
 
@@ -6244,15 +5758,15 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 			Object(util["sleep"])(10).then(()=>this.mesh.isPickable=true);
 			this.mesh.parent=this;
 			this.mesh.alphaIndex=0;
-			this.mesh.renderingGroupId=mapCell_mz3d.enumRenderGroups.MAIN;
-			mapCell_mz3d.callFeatures('createCellMesh',this.mesh);
+			this.mesh.renderingGroupId=mv3d["a" /* default */].enumRenderGroups.MAIN;
+			mv3d["a" /* default */].callFeatures('createCellMesh',this.mesh);
 		}
 		delete this.builder
 	}
 	dispose(){
 		super.dispose(...arguments);
 		if(this.mesh){
-			mapCell_mz3d.callFeatures('destroyCellMesh',this.mesh);
+			mv3d["a" /* default */].callFeatures('destroyCellMesh',this.mesh);
 		}
 		for (const doodad of this.doodads){
 			doodad.dispose();
@@ -6261,18 +5775,18 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 	async loadDoodad(tileConf,x,y,z,shape){
 		const tileId = tileConf.top_id;
 		const configRect = tileConf.top_rect;
-		const rect = configRect ? configRect : mapCell_mz3d.getTileRects(tileId)[0];
+		const rect = configRect ? configRect : mv3d["a" /* default */].getTileRects(tileId)[0];
 		tileConf.cropTexture = rect;
 		tileConf.twosided = true;
-		const complexShape = shape === mapCell_mz3d.enumShapes.MODEL || shape === mapCell_mz3d.enumShapes.MESH
+		const complexShape = shape === mv3d["a" /* default */].enumShapes.MODEL || shape === mv3d["a" /* default */].enumShapes.MESH
 		if(complexShape){
 		}else{
-			var tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,'top');
+			var tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,'top');
 		}
 		const doodad = new model_Model({orphan:false});
 		this.doodads.push(doodad);
-		if(shape === mapCell_mz3d.enumShapes.MODEL){
-			await doodad.importModel(tileConf.model,{nodelay:true, useInstance:true, flip:tileConf.model_flip, alpha:tileConf.model_alpha});
+		if(shape === mv3d["a" /* default */].enumShapes.MODEL){
+			await doodad.importModel(tileConf.model,{nodelay:true, useInstance:true});
 		}else{
 			doodad.setMeshForShape(shape);
 		}
@@ -6282,12 +5796,12 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 		doodad.parent=this;
 		doodad.x=x; doodad.y=y; doodad.z=z;
 		
-		if(shape!==mapCell_mz3d.enumShapes.SPRITE && shape!==mapCell_mz3d.enumShapes.BOARD){
-			doodad.yaw = mapCell_mz3d.getTileRot(tileConf,this.ox+x,this.oy+y);
+		if(shape!==mv3d["a" /* default */].enumShapes.SPRITE && shape!==mv3d["a" /* default */].enumShapes.BOARD){
+			doodad.yaw = mv3d["a" /* default */].getTileRot(tileConf,this.ox+x,this.oy+y);
 		}
 
 		if(complexShape){
-			var {x:scaleX,y:scaleY} = mapCell_mz3d.getConfig(tileConf,'scale',new babylon["Vector2"](1,1));
+			var {x:scaleX,y:scaleY} = mv3d["a" /* default */].getConfig(tileConf,'scale',new babylon["Vector2"](1,1));
 		}else{
 			var scaleX = tileConf.width||(rect.width / Object(util["tileWidth"])()) || 1;
 			var scaleY = tileConf.height||(rect.height/Object(util["tileHeight"])()) || 1;
@@ -6296,16 +5810,16 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 	}
 	async loadTile(tileConf,x,y,z,l,ceiling=false,double=false){
 		const tileId = ceiling?tileConf.bottom_id:tileConf.top_id;
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
 		const configRect = ceiling?tileConf.bottom_rect:tileConf.top_rect;
 		const isAutotile = Tilemap.isAutotile(tileId)&&!configRect;
 		let rects;
 		if(configRect){
 			rects=[configRect];
 		}else{
-			rects = mapCell_mz3d.getTileRects(tileId);
+			rects = mv3d["a" /* default */].getTileRects(tileId);
 		}
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,ceiling?'bottom':'top');
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,ceiling?'bottom':'top');
 		for (const rect of rects){
 			this.builder.addFloorFace(tsMaterial,rect,
 				x + (rect.ox|0)/Object(util["tileSize"])() - 0.25*isAutotile,
@@ -6321,29 +5835,28 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 		}
 	}
 	async loadWall(tileConf,x,y,z,l,wallHeight,np){
-		//const isFringe = mz3d.isStarTile(tileConf.realId)||tileConf.fringe>0;
-		const isFringe = tileConf.fringe>0;
+		const isFringe = mv3d["a" /* default */].isStarTile(tileConf.realId)||tileConf.fringe>0;
 		// don't render walls on edge of map (unless it loops)
-		if( !mapCell_mz3d.getMapConfig('edge',true) )
-		if((this.ox+x+np.x>=mapCell_mz3d.mapWidth()||this.ox+x+np.x<0)&&!mapCell_mz3d.loopHorizontal()
-		||(this.oy+y+np.y>=mapCell_mz3d.mapHeight()||this.oy+y+np.y<0)&&!mapCell_mz3d.loopVertical()){
+		if( !mv3d["a" /* default */].getMapConfig('edge',true) )
+		if((this.ox+x+np.x>=mv3d["a" /* default */].mapWidth()||this.ox+x+np.x<0)&&!mv3d["a" /* default */].loopHorizontal()
+		||(this.oy+y+np.y>=mv3d["a" /* default */].mapHeight()||this.oy+y+np.y<0)&&!mv3d["a" /* default */].loopVertical()){
 			return;
 		}
 
 		let neededHeight=wallHeight;
 		let textureChanged='side_changed' in tileConf;
 		let tileId=tileConf.side_id,configRect,texture_side='side';
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
 		
-		const neighborHeight = mapCell_mz3d.getCullingHeight(this.ox+x+np.x,this.oy+y+np.y,tileConf.depth>0?3:l,{
+		const neighborHeight = mv3d["a" /* default */].getCullingHeight(this.ox+x+np.x,this.oy+y+np.y,tileConf.depth>0?3:l,{
 			ignorePits:!(tileConf.depth>0),
 			dir:Input._makeNumpadDirection(np.x,np.y),
 		});
 		neededHeight = z-neighborHeight;
-		if(neededHeight>0&&wallHeight>=0&&(l>0||isFringe)){ neededHeight=Math.min(wallHeight,neededHeight); }
+		if(neededHeight>0&&(l>0||isFringe)){ neededHeight=Math.min(wallHeight,neededHeight); }
+
 		if(tileConf.depth>0&&neededHeight<0){
-			if(mapCell_mz3d.isEdgeOrEmpty(this.ox+x+np.x,this.oy+y+np.y)){ return; }
-			if(mapCell_mz3d.tileHasPit(this.ox+x+np.x,this.oy+y+np.y,3)){ return; }
+			if(mv3d["a" /* default */].tileHasPit(this.ox+x+np.x,this.oy+y+np.y,l)){ return; }
 			//if(mv3d.isTilePit(this.ox+x+np.x,this.oy+y+np.y,l)){ return; }
 			neededHeight = Math.max(neededHeight,-tileConf.depth);
 			if(tileConf.inside_changed){
@@ -6372,14 +5885,14 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 			const side_rect = tileConf[`${texture_side}_rect`];
 			if(side_rect){ configRect = side_rect; }
 		}
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
 
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,texture_side);
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,texture_side);
 
 		const wallPos = new babylon["Vector3"]( x+np.x/2, y+np.y/2, z );
 		const rot = -Math.atan2(np.x, np.y);
 		if(configRect || !Tilemap.isAutotile(tileId)){
-			const rect = configRect ? configRect : mapCell_mz3d.getTileRects(tileId)[0];
+			const rect = configRect ? configRect : mv3d["a" /* default */].getTileRects(tileId)[0];
 			const builderOptions={};
 			if(neededHeight<0){ builderOptions.flip=true; }
 			this.builder.addWallFace(tsMaterial,rect,
@@ -6394,14 +5907,14 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 			const npl=new babylon["Vector2"](-np.y,np.x);
 			const npr=new babylon["Vector2"](np.y,-np.x);
 			const ndir = Input._makeNumpadDirection(-np.x,-np.y);
-			const leftHeight = mapCell_mz3d.getCullingHeight(this.ox+x+npl.x,this.oy+y+npl.y,l,{dir:Input._makeNumpadDirection(npl.x,npl.y),dir2:ndir});
-			const rightHeight = mapCell_mz3d.getCullingHeight(this.ox+x+npr.x,this.oy+y+npr.y,l,{dir:Input._makeNumpadDirection(npr.x,npr.y),dir2:ndir});
+			const leftHeight = mv3d["a" /* default */].getCullingHeight(this.ox+x+npl.x,this.oy+y+npl.y,l,{dir:Input._makeNumpadDirection(npl.x,npl.y),dir2:ndir});
+			const rightHeight = mv3d["a" /* default */].getCullingHeight(this.ox+x+npr.x,this.oy+y+npr.y,l,{dir:Input._makeNumpadDirection(npr.x,npr.y),dir2:ndir});
 			const {x:bx,y:by} = this.getAutotileCorner(tileId,textureChanged,true);
 			let wallParts=Math.max(1,Math.abs(Math.round(neededHeight*2)));
 			let partHeight=Math.abs(neededHeight/wallParts);
 			let sw = Object(util["tileSize"])()/2;
 			let sh = Object(util["tileSize"])()/2;
-			if(mapCell_mz3d.isTableTile(tileConf.realId)){
+			if(mv3d["a" /* default */].isTableTile(tileConf.realId)){
 				sh=Object(util["tileSize"])()/3;
 				wallParts=1;
 				partHeight=wallHeight;
@@ -6410,7 +5923,7 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 			for (let ax=-1; ax<=1; ax+=2){
 				for(let az=0;az<wallParts;++az){
 					let hasLeftEdge,hasRightEdge;
-					if(mapCell_mz3d.isTableTile(tileConf.realId)){
+					if(mv3d["a" /* default */].isTableTile(tileConf.realId)){
 						hasLeftEdge = leftHeight!=z;
 						hasRightEdge = rightHeight!=z;
 					}else{
@@ -6421,9 +5934,9 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 					sx=bx*Object(util["tileSize"])();
 					sy=by*Object(util["tileSize"])();
 					sx=(bx+(ax>0?0.5+hasRightEdge:1-hasLeftEdge))*Object(util["tileSize"])();
-					if(mapCell_mz3d.isWaterfallTile(tileId)){
+					if(mv3d["a" /* default */].isWaterfallTile(tileId)){
 						sy=(by+az%2/2)*Object(util["tileSize"])();
-					}else if(mapCell_mz3d.isTableTile(tileId)){
+					}else if(mv3d["a" /* default */].isTableTile(tileId)){
 						sy=(by+5/3)*Object(util["tileSize"])();
 					}else{
 						sy=(by+(az===0?0:az===wallParts-1?1.5:1-az%2*0.5))*Object(util["tileSize"])();
@@ -6443,15 +5956,15 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 	}
 	async loadFence(tileConf,x,y,z,l,wallHeight){
 		const tileId = tileConf.side_id;
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
 		const configRect = tileConf.side_rect;
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,'side');
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,'side');
 		const isAutotile = Tilemap.isAutotile(tileId);
 		const edges = [];
 		const fenceposts = tileConf.fencePosts==null?true:tileConf.fencePosts;
 		for (let ni=0; ni<mapCell_MapCell.neighborPositions.length; ++ni){
 			const np = mapCell_MapCell.neighborPositions[ni];
-			const neighborHeight = mapCell_mz3d.getTileHeight(this.ox+x+np.x,this.oy+y+np.y,l);
+			const neighborHeight = mv3d["a" /* default */].getTileHeight(this.ox+x+np.x,this.oy+y+np.y,l);
 			if(neighborHeight!==wallHeight){ edges.push(ni); }
 		}
 		for (let ni=0; ni<mapCell_MapCell.neighborPositions.length; ++ni){
@@ -6482,11 +5995,11 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 						x+np.x/4,
 						y+np.y/4,
 						z-wallHeight/4-az*wallHeight/2,
-						0.5,wallHeight/2, -rot, {double:true, abnormal:mapCell_mz3d.ABNORMAL}
+						0.5,wallHeight/2, -rot, {double:true, abnormal:mv3d["a" /* default */].ABNORMAL}
 					);
 				}
 			}else{
-				const rect = configRect ? configRect : mapCell_mz3d.getTileRects(tileId)[0];
+				const rect = configRect ? configRect : mv3d["a" /* default */].getTileRects(tileId)[0];
 				const sourceRect = new PIXI.Rectangle(
 					rect.x+rect.width/2*(np.x>0||np.y>0),
 					rect.y,
@@ -6503,47 +6016,46 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 	}
 	async loadCross(tileConf,x,y,z,l,wallHeight,angle=0){
 		const tileId = tileConf.side_id;
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
 		const configRect = tileConf.side_rect;
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,'side');
-		let isAutotile = Tilemap.isAutotile(tileId);
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,'side');
+		const isAutotile = Tilemap.isAutotile(tileId);
 		let rects;
 		if(configRect){
 			rects=[configRect];
-			isAutotile=false;
 		}else{
-			rects = mapCell_mz3d.getTileRects(tileId);
+			rects = mv3d["a" /* default */].getTileRects(tileId);
 		}
-		angle += mapCell_mz3d.getTileRot(tileConf,this.ox+x,this.oy+y);
-		const rot = tileConf.shape===mapCell_mz3d.enumShapes.XCROSS ? Math.PI/4 : Object(util["degtorad"])(angle);
+		angle += mv3d["a" /* default */].getTileRot(tileConf,this.ox+x,this.oy+y);
+		const rot = tileConf.shape===mv3d["a" /* default */].enumShapes.XCROSS ? Math.PI/4 : Object(util["degtorad"])(angle);
 		const partHeight = isAutotile ? wallHeight/2 : wallHeight;
 		const partWidth = (tileConf.width||rects[0].width/Object(util["tileWidth"])())/(isAutotile?2:1);
 		for (let i=0; i<=1; ++i){
 			for (const rect of rects){
 				const irot = -Math.PI/2*i+rot;
-				const trans= isAutotile?(-partWidth/2+Math.sign(rect.ox|0)*partWidth):0;
+				const trans= isAutotile?(-partWidth/2+Math.sign(rect.ox)*partWidth):0;
 				this.builder.addWallFace(tsMaterial,rect,
 					x+trans*Math.cos(irot),
 					y+trans*Math.sin(irot),
 					z - (rect.oy|0)/Object(util["tileHeight"])()*wallHeight - partHeight/2,
-					partWidth, partHeight, irot, {double:true, abnormal:mapCell_mz3d.ABNORMAL}
+					partWidth, partHeight, irot, {double:true, abnormal:mv3d["a" /* default */].ABNORMAL}
 				);
 			}
 		}
 	}
 	async loadShapeWall(tileConf,x,y,z,l,wallHeight,angle=0){
 		const tileId = tileConf.side_id;
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
 		const configRect = tileConf.side_rect;
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,'side');
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,'side');
 		const isAutotile = Tilemap.isAutotile(tileId);
 		let rects;
 		if(configRect){
 			rects=[configRect];
 		}else{
-			rects = mapCell_mz3d.getTileRects(tileId);
+			rects = mv3d["a" /* default */].getTileRects(tileId);
 		}
-		angle += mapCell_mz3d.getTileRot(tileConf,this.ox+x,this.oy+y);
+		angle += mv3d["a" /* default */].getTileRot(tileConf,this.ox+x,this.oy+y);
 		const rot = Object(util["degtorad"])(angle);
 		const partHeight = isAutotile ? wallHeight/2 : wallHeight;
 		const partWidth = (tileConf.width||rects[0].width/Object(util["tileWidth"])())/(isAutotile?2:1);
@@ -6553,33 +6065,33 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 				x+trans*Math.cos(rot),
 				y+trans*Math.sin(rot),
 				z - (rect.oy|0)/Object(util["tileHeight"])()*wallHeight - partHeight/2,
-				partWidth, partHeight, rot, {double:true, abnormal:mapCell_mz3d.ABNORMAL}
+				partWidth, partHeight, rot, {double:true, abnormal:mv3d["a" /* default */].ABNORMAL}
 			);
 		}
 	}
 	async loadSlope(tileConf,x,y,z,l,slopeHeight){
 		//const rot = Math.random()*Math.PI*2;
 		//const rot = Math.round((Math.random()*Math.PI*2)/(Math.PI/2))*Math.PI/2;
-		const {dir,rot} = mapCell_mz3d.getSlopeDirection(this.ox+x,this.oy+y,l,true);
+		const {dir,rot} = mv3d["a" /* default */].getSlopeDirection(this.ox+x,this.oy+y,l,true);
 		const n1=new babylon["Vector2"](-Object(util["sin"])(rot+Math.PI),Object(util["cos"])(rot+Math.PI));
-		if(mapCell_mz3d.getCullingHeight(this.ox+x+n1.x,this.oy+y+n1.y,l)<z){
+		if(mv3d["a" /* default */].getCullingHeight(this.ox+x+n1.x,this.oy+y+n1.y,l)<z){
 			await this.loadWall(tileConf,x,y,z,l+1,slopeHeight,n1);
 		}
 		const n2=new babylon["Vector2"](n1.y,-n1.x);
 		const n2x=this.ox+x+n2.x, n2y=this.oy+y+n2.y;
-		if(mapCell_mz3d.getCullingHeight(n2x,n2y,l)<z){
-			let otherslope = mapCell_mz3d.isRampAt(n2x,n2y,z);
+		if(mv3d["a" /* default */].getCullingHeight(n2x,n2y,l)<z){
+			let otherslope = mv3d["a" /* default */].isRampAt(n2x,n2y,z);
 			if(!otherslope||otherslope.z2!==z||otherslope.z1!==z-slopeHeight
-			||dir!=mapCell_mz3d.getSlopeDirection(n2x,n2y,otherslope.l,true).dir){
+			||dir!=mv3d["a" /* default */].getSlopeDirection(n2x,n2y,otherslope.l,true).dir){
 				await this.loadSlopeSide(tileConf,x+n2.x/2,y+n2.y/2,z,l,slopeHeight,rot+Math.PI/2);
 			}
 		}
 		const n3=new babylon["Vector2"](-n1.y,n1.x);
 		const n3x=this.ox+x+n3.x, n3y=this.oy+y+n3.y;
-		if(mapCell_mz3d.getCullingHeight(n3x,n3y,l)<z){
-			let otherslope = mapCell_mz3d.isRampAt(n3x,n3y,z);
+		if(mv3d["a" /* default */].getCullingHeight(n3x,n3y,l)<z){
+			let otherslope = mv3d["a" /* default */].isRampAt(n3x,n3y,z);
 			if(!otherslope||otherslope.z2!==z||otherslope.z1!==z-slopeHeight
-			||dir!=mapCell_mz3d.getSlopeDirection(n3x,n3y,otherslope.l,true).dir){
+			||dir!=mv3d["a" /* default */].getSlopeDirection(n3x,n3y,otherslope.l,true).dir){
 				await this.loadSlopeSide(tileConf,x+n3.x/2,y+n3.y/2,z,l,slopeHeight,rot+Math.PI/2,{flip:true});
 			}
 		}
@@ -6587,10 +6099,10 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 	}
 	async loadSlopeTop(tileConf,x,y,z,l,slopeHeight,rot){
 		const tileId=tileConf.top_id;
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,'top');
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,'top');
 		const isAutotile = Tilemap.isAutotile(tileId)&&!tileConf.top_rect;
 		if(isAutotile){
-			const rects = mapCell_mz3d.getTileRects(tileId);
+			const rects = mv3d["a" /* default */].getTileRects(tileId);
 			for (let i=0;i<rects.length;++i){
 				const rect = rects[i];
 				const ix=(i+1)%2*-2+1, iy=(Math.floor(i/2)+1)%2*2-1;
@@ -6604,7 +6116,7 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 				);
 			}
 		}else{
-			const rect = tileConf.top_rect?tileConf.top_rect:mapCell_mz3d.getTileRects(tileId)[0];
+			const rect = tileConf.top_rect?tileConf.top_rect:mv3d["a" /* default */].getTileRects(tileId)[0];
 			this.builder.addSlopeFace(tsMaterial,rect,
 				x, y, z - slopeHeight,
 				1, slopeHeight, rot, {}
@@ -6613,15 +6125,15 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 	}
 	async loadSlopeSide(tileConf,x,y,z,l,slopeHeight,rot,options={}){
 		const tileId=tileConf.side_id;
-		if(mapCell_mz3d.isTileEmpty(tileId)){ return; }
-		const tsMaterial = await mapCell_mz3d.getCachedTilesetMaterialForTile(tileConf,'side');
+		if(mv3d["a" /* default */].isTileEmpty(tileId)){ return; }
+		const tsMaterial = await mv3d["a" /* default */].getCachedTilesetMaterialForTile(tileConf,'side');
 		const isAutotile = Tilemap.isAutotile(tileId)&&!tileConf.side_rect;
 		let rect;
 		if(isAutotile){
 			const {x:bx,y:by} = this.getAutotileCorner(tileId,'side_changed' in tileConf,true);
 			rect={x:(bx+0.5)*Object(util["tileWidth"])(),y:(by+0.5)*Object(util["tileHeight"])(),width:Object(util["tileWidth"])(),height:Object(util["tileHeight"])()};
 		}else{
-			rect = tileConf.side_rect?tileConf.side_rect:mapCell_mz3d.getTileRects(tileId)[0];
+			rect = tileConf.side_rect?tileConf.side_rect:mv3d["a" /* default */].getTileRects(tileId)[0];
 		}
 		this.builder.addSlopeSide(tsMaterial,rect,
 			x, y, z - slopeHeight,
@@ -6629,7 +6141,7 @@ class mapCell_MapCell extends babylon["TransformNode"]{
 		);
 	}
 	getAutotileCorner(tileId,textureChanged,excludeTop=true){
-		return mapCell_mz3d.getTileCorner(tileId,{
+		return mv3d["a" /* default */].getTileCorner(tileId,{
 			useSideWall:!textureChanged,
 			excludeTop,
 		});
@@ -6643,13 +6155,13 @@ mapCell_MapCell.neighborPositions = [
 ];
 mapCell_MapCell.meshCache={};
 
-mapCell_mz3d.getTileCorner=function(tileId,opts={}){
+mv3d["a" /* default */].getTileCorner=function(tileId,opts={}){
 	const useSideWall=Boolean(opts.useSideWall);
 	const excludeTop=Boolean(opts.excludeTop);
 	const kind = Tilemap.getAutotileKind(tileId);
 	let tx = kind%8;
 	let ty = Math.floor(kind / 8);
-	if(useSideWall && mapCell_mz3d.isWallTile(tileId)==1){ ++ty; }
+	if(useSideWall && mv3d["a" /* default */].isWallTile(tileId)==1){ ++ty; }
 	var bx,by;
 	bx=tx*2;
 	by=ty;
@@ -6685,11 +6197,11 @@ mapCell_mz3d.getTileCorner=function(tileId,opts={}){
 
 
 // CONCATENATED MODULE: ./src/tileData.js
-const tileData_mz3d = window.mz3d;
 
 
 
-Object.assign(tileData_mz3d,{
+
+Object.assign(mv3d["a" /* default */],{
 
 	_tilemap:null,
 	getTilemap(){
@@ -6728,10 +6240,10 @@ Object.assign(tileData_mz3d,{
 		if(name in this.SETNUMBERS){
 			const setN = this.SETNUMBERS[name];
 			const tsName = $gameMap.tileset().tilesetNames[setN];
-			if(!tsName){ return Object(util["file"])(tileData_mz3d.MV3D_FOLDER,`${tileData_mz3d.TEXTURE_ERROR}.png`); }
+			if(!tsName){ return Object(util["file"])(mv3d["a" /* default */].MV3D_FOLDER,`${mv3d["a" /* default */].TEXTURE_ERROR}.png`); }
 			return ImageManager.loadTileset(tsName)._url;
 		}
-		return Object(util["file"])(tileData_mz3d.MV3D_FOLDER,name);
+		return Object(util["file"])(mv3d["a" /* default */].MV3D_FOLDER,name);
 	},
 
 	getShadowBits(x,y){
@@ -6768,7 +6280,6 @@ Object.assign(tileData_mz3d,{
 			return tileConf[`${side}_animData`];
 		}
 		const animData={animX:0,animY:0};
-		if(`${side}_rect` in tileConf){ return animData; }
 		if(Tilemap.isTileA1(tileId)){
 			const kind = Tilemap.getAutotileKind(tileId);
 			animData.animX=kind<=1?2:kind<=3?0:kind%2?0:2;
@@ -6782,14 +6293,6 @@ Object.assign(tileData_mz3d,{
 		default(tileId,x,y,l){
 			const conf = {};
 			if(!this.isTileEmpty(tileId)){
-				if(this.isWallTile(tileId)){
-					Object.assign(conf,this.TILE_SETTINGS_WALL);
-				}else if(this.isTableTile(tileId)){
-					Object.assign(conf,this.TILE_SETTINGS_TABLE);
-				}
-				if(this.isStarTile(tileId)){
-					Object.assign(conf,this.TILE_SETTINGS_STAR);
-				}
 				const ttag = this.getTerrainTag(tileId);
 				if(ttag && ttag in this.TTAG_DATA){
 					Object.assign(conf,this.TTAG_DATA[ttag]);
@@ -6801,7 +6304,7 @@ Object.assign(tileData_mz3d,{
 			}
 			if(l===0){
 				const region = this.getRegion(x,y);
-				if(region && region in tileData_mz3d.REGION_DATA){
+				if(region && region in mv3d["a" /* default */].REGION_DATA){
 					Object.assign(conf,this.REGION_DATA[region]);
 				}
 			}
@@ -6911,6 +6414,10 @@ Object.assign(tileData_mz3d,{
 		let height = 0;
 		if('height' in conf){
 			height = conf.height;
+		}else if(this.isWallTile(tileId)){
+			height = this.WALL_HEIGHT;
+		}else if(this.isTableTile(tileId)){
+			height = this.TABLE_HEIGHT;
 		}else if(this.isSpecialShape(conf.shape)){
 			switch(conf.shape){
 				case shapes.SLOPE: height=0; break;
@@ -6964,8 +6471,8 @@ Object.assign(tileData_mz3d,{
 			d.dir = 5-3*n.y+n.x;
 			const nHeights = this.getCollisionHeights(x+n.x,y+n.y,{slopeMax:true});
 			const oHeights = this.getCollisionHeights(x-n.x,y-n.y,{slopeMin:true});
-			if(nHeights.some(c=>Math.abs(stackHeight-slopeHeight-c.z2)<=tileData_mz3d.STAIR_THRESH)){ d.favor+=1; }
-			if(oHeights.some(c=>Math.abs(stackHeight-c.z2)<=tileData_mz3d.STAIR_THRESH)){ d.favor+=1; }
+			if(nHeights.some(c=>Math.abs(stackHeight-slopeHeight-c.z2)<=mv3d["a" /* default */].STAIR_THRESH)){ d.favor+=1; }
+			if(oHeights.some(c=>Math.abs(stackHeight-c.z2)<=mv3d["a" /* default */].STAIR_THRESH)){ d.favor+=1; }
 			if(flag&(1<<(d.dir/2-1))){ d.favor=-2; }
 			if(flag&(1<<((10-d.dir)/2-1))){ d.favor=-1; }
 			if((shadowBits&shadowBitDirections[d.dir/2])===shadowBitDirections[d.dir/2]){ d.favor=30; }
@@ -7022,7 +6529,6 @@ Object.assign(tileData_mz3d,{
 			const fringe = this.getTileFringe(rx,ry,l);
 			z+=fringe;
 			if(skip){ continue; }
-			if(opts.onlyPlatforms && !this.isPlatformShape(shape) && passage===this.enumPassage.WALL && h>0){ z+=h; continue; }
 			if(h<0){
 				if(fringe+h<0){
 					collisions[collisions.length-1].z2+=fringe+h;
@@ -7035,13 +6541,12 @@ Object.assign(tileData_mz3d,{
 			z+=h;
 			if(opts.layers){ collisions.layers[l]=collisions[collisions.length-1]; }
 			if(shape===this.enumShapes.SLOPE){ collisions[collisions.length-1].isSlope=true; }
-			//collisions[collisions.length-1].passage=passage;
 		}
 		return collisions;
 	},
 
 	getTileLayers(x,y,z,gte=true){
-		const heights = tileData_mz3d.getCollisionHeights(x,y,{layers:true,slopeMin:true}).layers;
+		const heights = mv3d["a" /* default */].getCollisionHeights(x,y,{layers:true,slopeMin:true}).layers;
 		let closest_diff = Infinity;
 		let layers = [0];
 		for (let l=0; l<=3; ++l){
@@ -7086,22 +6591,20 @@ Object.assign(tileData_mz3d,{
 		if(this.isTileEmpty(tileId)){ return 0; }
 		const conf = this.getTileConfig(tileId,x,y,l);
 		if(conf && 'fringe' in conf){ return conf.fringe; }
-		//if(this.isStarTile(tileId)){
-		//	return this.FRINGE_HEIGHT;
-		//}
+		if(this.isStarTile(tileId)){
+			return this.FRINGE_HEIGHT;
+		}
 		return 0;
 	},
 
 	getCullingHeight(x,y,layerId=3,opts={}){
-		let height=0;
-		const isEdge = this.isEdge(x,y);
-		if(isEdge){
-			if(!this.getMapConfig('edge',true)){ return Infinity; }
-		}
-		if(opts.ignorePits&&(isEdge||this.isTileEmpty(this.getTileId(x,y,0))&&!this.tileHasPit(x,y))){
-			height=-this.getMapConfig('baseHeight',tileData_mz3d.BASE_HEIGHT);
-		}
+		const dataMap=this.getDataMap();
+		if( !this.getMapConfig('edge',true) &&
+			(!this.loopHorizontal()&&(x<0||x>=dataMap.width)
+			||!this.loopVertical()&&(y<0||y>=dataMap.height))
+			){ return Infinity; }
 		const tileData=this.getTileData(x,y);
+		let height=0;
 		for(let l=0; l<=layerId; ++l){
 			if(this.getTileFringe(x,y,l)){ return height; }
 			const tileId=tileData[l];
@@ -7142,21 +6645,24 @@ Object.assign(tileData_mz3d,{
 		return conf.depth>0;
 	},
 
+	getTileRects(tileId){
+		const rects = [];
+		const tilemap=this.getTilemap();
+		const isTable=tilemap._isTableTile(tileId);
+		tilemap._drawTile({addRect:(sheetId,sx,sy,dx,dy,width,height,animX,animY)=>{
+			rects.push({setN:sheetId,x:sx,y:sy,width:width,height:height,ox:dx,oy:dy});
+		}}, tileId, 0,0);
+		if (isTable) for (let i=rects.length-1;i>=0;--i){
+			if(rects[i].oy>Object(util["tileSize"])()/2){
+				rects[i-1].y+=Object(util["tileSize"])()*2/3;
+				rects.splice(i,1);
+			}
+		}
+		return rects;
+	},
+
 	isTileEmpty(tileId){
 		return !tileId||tileId===1544;
-	},
-	isEdge(x,y){
-		if(this.getMapConfig('edge')==='clamp'){ return false; }
-		const dataMap=this.getDataMap();
-		return !this.loopHorizontal()&&(x<0||x>=dataMap.width)
-		||!this.loopVertical()&&(y<0||y>=dataMap.height);
-	},
-	isEdgeOrEmpty(x,y){
-		const tileData = this.getTileData(x,y);
-		for(const id of tileData){
-			if(!this.isTileEmpty(id)){ return false; }
-		}
-		return true;
 	},
 
 	isWallTile(tileId){
@@ -7181,11 +6687,11 @@ Object.assign(tileData_mz3d,{
 	},
 
 	isSpecialShape(shape){
-		const shapes = tileData_mz3d.enumShapes;
-		return shape && shape!==shapes.FLAT;
+		const shapes = mv3d["a" /* default */].enumShapes;
+		return shape===shapes.FENCE||shape===shapes.WALL||shape===shapes.CROSS||shape===shapes.XCROSS||shape===shapes['8CROSS']||shape===shapes.SLOPE;
 	},
 	isPlatformShape(shape){
-		const shapes = tileData_mz3d.enumShapes;
+		const shapes = mv3d["a" /* default */].enumShapes;
 		return shape==null||shape===shapes.FLAT||shape===shapes.SLOPE;
 	},
 
@@ -7203,155 +6709,13 @@ Object.assign(tileData_mz3d,{
 	},
 
 });
-// CONCATENATED MODULE: ./src/tileDataRects.js
-
-
-const tileDataRects_mz3d = window.mz3d;
-
-Object.assign(tileDataRects_mz3d,{
-
-	getTileRects(tileId){
-		const rects = [];
-		const isTable=tileDataRects_mz3d.isTableTile(tileId);
-		addTile(rects, tileId, 0,0);
-		if (isTable) for (let i=rects.length-1;i>=0;--i){
-			if(rects[i].oy>Object(util["tileHeight"])()/2){
-				rects[i-1].y+=Object(util["tileHeight"])()*2/3;
-				rects.splice(i,1);
-			}
-		}
-		return rects;
-	},
-
-});
-
-const addRect=(rects,setNumber,sx,sy,dx,dy,width,height,animX,animY)=>{
-	rects.push({setN:setNumber,x:sx,y:sy,width:width,height:height,ox:dx,oy:dy});
-};
-
-// The following is a modified version of MV's draw tile functions.
-function addTile(rects, tileId, dx, dy) {
-	if (Tilemap.isVisibleTile(tileId)) {
-		if (Tilemap.isAutotile(tileId)) {
-			addAutotile(rects, tileId, dx, dy);
-		} else {
-			addNormalTile(rects, tileId, dx, dy);
-		}
-	}
-}
-
-function addNormalTile(rects, tileId, dx, dy) {
-	let setNumber = 0;
-
-	if (Tilemap.isTileA5(tileId)) {
-		setNumber = 4;
-	} else {
-		setNumber = 5 + Math.floor(tileId / 256);
-	}
-
-	const tilemap = tileDataRects_mz3d.getTilemap();
-
-	const w = tilemap._tileWidth;
-	const h = tilemap._tileHeight;
-	const sx = (Math.floor(tileId / 128) % 2 * 8 + tileId % 8) * w;
-	const sy = (Math.floor(tileId % 256 / 8) % 16) * h;
-
-	addRect(rects, setNumber, sx, sy, dx, dy, w, h);
-}
-
-
-function addAutotile(rects, tileId, dx, dy) {
-	var autotileTable = Tilemap.FLOOR_AUTOTILE_TABLE;
-	var kind = Tilemap.getAutotileKind(tileId);
-	var shape = Tilemap.getAutotileShape(tileId);
-	var tx = kind % 8;
-	var ty = Math.floor(kind / 8);
-	var bx = 0;
-	var by = 0;
-	var setNumber = 0;
-	var isTable = false;
-	var animX = 0, animY = 0;
-
-	const tilemap = tileDataRects_mz3d.getTilemap();
-
-	if (Tilemap.isTileA1(tileId)) {
-		setNumber = 0;
-		if (kind === 0) {
-			animX = 2;
-			by = 0;
-		} else if (kind === 1) {
-			animX = 2;
-			by = 3;
-		} else if (kind === 2) {
-			bx = 6;
-			by = 0;
-		} else if (kind === 3) {
-			bx = 6;
-			by = 3;
-		} else {
-			bx = Math.floor(tx / 4) * 8;
-			by = ty * 6 + Math.floor(tx / 2) % 2 * 3;
-			if (kind % 2 === 0) {
-				animX = 2;
-			}
-			else {
-				bx += 6;
-				autotileTable = Tilemap.WATERFALL_AUTOTILE_TABLE;
-				animY = 1;
-			}
-		}
-	} else if (Tilemap.isTileA2(tileId)) {
-		setNumber = 1;
-		bx = tx * 2;
-		by = (ty - 2) * 3;
-		isTable = tilemap._isTableTile(tileId);
-	} else if (Tilemap.isTileA3(tileId)) {
-		setNumber = 2;
-		bx = tx * 2;
-		by = (ty - 6) * 2;
-		autotileTable = Tilemap.WALL_AUTOTILE_TABLE;
-	} else if (Tilemap.isTileA4(tileId)) {
-		setNumber = 3;
-		bx = tx * 2;
-		by = Math.floor((ty - 10) * 2.5 + (ty % 2 === 1 ? 0.5 : 0));
-		if (ty % 2 === 1) {
-			autotileTable = Tilemap.WALL_AUTOTILE_TABLE;
-		}
-	}
-
-	var table = autotileTable[shape];
-	var w1 = tilemap._tileWidth / 2;
-	var h1 = tilemap._tileHeight / 2;
-	for (var i = 0; i < 4; i++) {
-		var qsx = table[i][0];
-		var qsy = table[i][1];
-		var sx1 = (bx * 2 + qsx) * w1;
-		var sy1 = (by * 2 + qsy) * h1;
-		var dx1 = dx + (i % 2) * w1;
-		var dy1 = dy + Math.floor(i / 2) * h1;
-		if (isTable && (qsy === 1 || qsy === 5)) {
-			var qsx2 = qsx;
-			var qsy2 = 3;
-			if (qsy === 1) {
-				//qsx2 = [0, 3, 2, 1][qsx];
-				qsx2 = (4-qsx)%4;
-			}
-			var sx2 = (bx * 2 + qsx2) * w1;
-			var sy2 = (by * 2 + qsy2) * h1;
-			addRect(rects, setNumber, sx2, sy2, dx1, dy1, w1, h1, animX, animY);
-			addRect(rects, setNumber, sx1, sy1, dx1, dy1+h1/2, w1, h1/2, animX, animY);
-		} else {
-			addRect(rects, setNumber, sx1, sy1, dx1, dy1, w1, h1, animX, animY);
-		}
-	}
-}
 // CONCATENATED MODULE: ./src/loadMap.js
-const loadMap_mv3d = window.mv3d;
 
 
 
 
-Object.assign(loadMap_mv3d,{
+
+Object.assign(mv3d["a" /* default */],{
 
 	mapLoaded: false,
 	mapReady: false,
@@ -7387,7 +6751,7 @@ Object.assign(loadMap_mv3d,{
 	},
 	reloadMap(){
 		this.clearMapCells();
-		if(loadMap_mv3d.mapReady) { this.updateMap(); }
+		if(mv3d["a" /* default */].mapReady) { this.updateMap(); }
 		this.callFeatures('reloadMap');
 	},
 
@@ -7442,7 +6806,7 @@ Object.assign(loadMap_mv3d,{
 			}
 		}
 		for (const key in this.cells){
-			if(loadMap_mv3d.UNLOAD_CELLS && this.cells[key].unload){
+			if(mv3d["a" /* default */].UNLOAD_CELLS && this.cells[key].unload){
 				this.cells[key].dispose();
 				delete this.cells[key];
 			}
@@ -7491,16 +6855,16 @@ Object.assign(loadMap_mv3d,{
 		for(let character of cell.characters){
 			character.intensiveUpdate();
 		}
-		loadMap_mv3d.scene.sortLightsByPriority();
+		mv3d["a" /* default */].scene.sortLightsByPriority();
 	}
 
 });
 // CONCATENATED MODULE: ./src/assets.js
-const assets_mv3d = window.mv3d;
 
 
 
-Object.assign(mz3d,{
+
+Object.assign(mv3d["a" /* default */],{
 
 	animatedTextures:[],
 	textureCache:{},
@@ -7508,11 +6872,19 @@ Object.assign(mz3d,{
 
 	async createTexture(url){
 		const textureUrl = await this.getTextureUrl(url);
-		const texture = new BABYLON.Texture(textureUrl,mz3d.scene,!mz3d.MIPMAP,true,BABYLON.Texture.NEAREST_SAMPLINGMODE);
+		const texture = new BABYLON.Texture(textureUrl,mv3d["a" /* default */].scene,!mv3d["a" /* default */].MIPMAP,true,BABYLON.Texture.NEAREST_SAMPLINGMODE);
 		return texture;
 	},
 
-	//getTextureUrl was here
+	async getTextureUrl(url){
+		const bitmap = ImageManager.loadNormalBitmap(encodeURI(url));
+		if(Decrypter.hasEncryptedImages){
+			await mv3d["a" /* default */].waitBitmapLoaded(bitmap);
+			return bitmap.canvas.toDataURL();
+		}else{
+			return bitmap._image.src;
+		}
+	},
 
 	waitTextureLoaded(texture){return new Promise((resolve,reject)=>{
 		if(texture.isReady()){ resolve(); }
@@ -7531,7 +6903,7 @@ Object.assign(mz3d,{
 		if(key in this.textureCache){
 			return this.textureCache[key];
 		}
-		const textureSrc = mz3d.getTsImgUrl(setImg);
+		const textureSrc = mv3d["a" /* default */].getTsImgUrl(setImg);
 		const texture = await this.createTexture(textureSrc);
 		texture.hasAlpha=true;
 		this.textureCache[key]=texture;
@@ -7544,7 +6916,7 @@ Object.assign(mz3d,{
 		//texture.wrapV = Texture.CLAMP_ADDRESSMODE;
 		if(options.cropTexture){
 			const { width, height } = texture.getBaseSize();
-			let {x,y,width:w,height:h} = mz3d.finalizeTextureRect(options.cropTexture,width,height);
+			let {x,y,width:w,height:h} = mv3d["a" /* default */].finalizeTextureRect(options.cropTexture,width,height);
 			texture.crop(x,y,w,h);
 		}
 		if(animX||animY){
@@ -7560,7 +6932,7 @@ Object.assign(mz3d,{
 
 	async getErrorTexture(){
 		if(this.errorTexture){ return this.errorTexture; }
-		this.errorTexture = await this.createTexture(`${mz3d.MV3D_FOLDER}/${mz3d.TEXTURE_ERROR}.png`);
+		this.errorTexture = await this.createTexture(`${mv3d["a" /* default */].MV3D_FOLDER}/${mv3d["a" /* default */].TEXTURE_ERROR}.png`);
 		this.errorTexture.isError=true;
 		this.errorTexture.dispose=()=>{};
 		return this.errorTexture;
@@ -7569,7 +6941,7 @@ Object.assign(mz3d,{
 	async getBushAlphaTexture(){
 		if(this.bushAlphaTexture){ return this.bushAlphaTexture; }
 		this.getBushAlphaTexture.getting=true;
-		this.bushAlphaTexture = await this.createTexture(`${mz3d.MV3D_FOLDER}/${mz3d.TEXTURE_BUSHALPHA}.png`);
+		this.bushAlphaTexture = await this.createTexture(`${mv3d["a" /* default */].MV3D_FOLDER}/${mv3d["a" /* default */].TEXTURE_BUSHALPHA}.png`);
 		this.bushAlphaTexture.getAlphaFromRGB=true;
 		this.bushAlphaTexture.dispose=()=>{};
 		this.getBushAlphaTexture.getting=false;
@@ -7592,9 +6964,7 @@ Object.assign(mz3d,{
 		const texture = await this.getCachedTilesetTexture(setN,animX,animY,options);
 		const material = new babylon["StandardMaterial"](key, this.scene);
 		material.diffuseTexture=texture;
-		material.alphaCutOff = mz3d.ALPHA_CUTOFF;
 		if(options.transparent){
-			material.alphaCutOff = 0;
 			material.opacityTexture=texture;
 			material.alpha=options.alpha;
 		}
@@ -7602,6 +6972,7 @@ Object.assign(mz3d,{
 			material.mv3d_through=true;
 		}
 		material.mv3d_noShadow=!options.shadow;
+		material.alphaCutOff = mv3d["a" /* default */].ALPHA_CUTOFF;
 		//material.ambientColor.set(1,1,1);
 		material.ambientColor.copyFrom(options.ambient);
 		material.mv3d_glowColor=options.glow;
@@ -7616,11 +6987,11 @@ Object.assign(mz3d,{
 	},
 
 	async getCachedTilesetMaterialForTile(tileConf,side){
-		const setN = mz3d.getSetNumber(tileConf[`${side}_id`]);
-		const options = mz3d.getMaterialOptions(tileConf,side);
-		const animData = mz3d.getTileAnimationData(tileConf,side);
+		const setN = mv3d["a" /* default */].getSetNumber(tileConf[`${side}_id`]);
+		const options = mv3d["a" /* default */].getMaterialOptions(tileConf,side);
+		const animData = mv3d["a" /* default */].getTileAnimationData(tileConf,side);
 		//console.log(options);
-		return await mz3d.getCachedTilesetMaterial(setN,animData.animX,animData.animY,options);
+		return await mv3d["a" /* default */].getCachedTilesetMaterial(setN,animData.animX,animData.animY,options);
 	},
 
 	getMaterialOptions(conf,side){
@@ -7664,7 +7035,7 @@ Object.assign(mz3d,{
 			options.ambient.b = Object(util["unround"])(options.ambient.b,255);
 		}else{ options.ambient=new babylon["Color3"](1,1,1); }
 		if(!('shadow' in options)){options.shadow=true;}
-		if(!('backfaceCulling' in options)){ options.backfaceCulling = mz3d.BACKFACE_CULLING; }
+		if(!('backfaceCulling' in options)){ options.backfaceCulling = mv3d["a" /* default */].BACKFACE_CULLING; }
 	},
 
 	getExtraBit(options){
@@ -7732,7 +7103,7 @@ Object.assign(mz3d,{
 
 
 
-Object.assign(main["a" /* default */],{
+Object.assign(mv3d["a" /* default */],{
 	createCharacters(){
 		const events = $gameMap.events();
 		for (const event of events){
@@ -7770,7 +7141,7 @@ Object.assign(main["a" /* default */],{
 	},
 
 	updateDynamicNormals(){
-		if(!main["a" /* default */].DYNAMIC_NORMALS||!this.blendSunColor){ return; }
+		if(!mv3d["a" /* default */].DYNAMIC_NORMALS||!this.blendSunColor){ return; }
 		const pitch = this.blendSunColor.averageCurrentValue()<128 ? this.blendSunColor.averageCurrentValue()/128 * this.blendCameraPitch.currentValue() : this.blendCameraPitch.currentValue();
 		const y = Object(util["sin"])(Object(util["degtorad"])(pitch));
 		const z = -Object(util["cos"])(Object(util["degtorad"])(pitch));
@@ -7788,27 +7159,27 @@ Object.assign(main["a" /* default */],{
 
 		vdata.positions=[ -0.5,0.5,0, 0.5,0.5,0, -0.5,-0.5,0, 0.5,-0.5,0 ];
 		vdata.normals=normals_front;
-		meshes.BASIC = new babylon["Mesh"]('basic mesh', main["a" /* default */].scene);
+		meshes.BASIC = new babylon["Mesh"]('basic mesh', mv3d["a" /* default */].scene);
 		vdata.applyToMesh(meshes.BASIC,false);
 
 		vdata.positions=[ -0.5,0,0.5, 0.5,0,0.5, -0.5,0,-0.5, 0.5,0,-0.5 ];
 		vdata.normals=normals_up;
-		meshes.FLAT = new babylon["Mesh"]('flat mesh', main["a" /* default */].scene);
+		meshes.FLAT = new babylon["Mesh"]('flat mesh', mv3d["a" /* default */].scene);
 		vdata.applyToMesh(meshes.FLAT,false);
 
 		vdata.positions=[ -0.5,1,0, 0.5,1,0, -0.5,0,0, 0.5,0,0 ];
-		vdata.normals=main["a" /* default */].DYNAMIC_NORMALS?normals_up:normals_front;
-		meshes.SPRITE = new babylon["Mesh"]('sprite mesh', main["a" /* default */].scene);
+		vdata.normals=mv3d["a" /* default */].DYNAMIC_NORMALS?normals_up:normals_front;
+		meshes.SPRITE = new babylon["Mesh"]('sprite mesh', mv3d["a" /* default */].scene);
 		vdata.applyToMesh(meshes.SPRITE,true);
-		meshes.BOARD = new babylon["Mesh"]('board mesh', main["a" /* default */].scene);
+		meshes.BOARD = new babylon["Mesh"]('board mesh', mv3d["a" /* default */].scene);
 		vdata.applyToMesh(meshes.BOARD,false);
 
 		vdata.normals=normals_front;
-		meshes.WALL = new babylon["Mesh"]('wall mesh', main["a" /* default */].scene);
+		meshes.WALL = new babylon["Mesh"]('wall mesh', mv3d["a" /* default */].scene);
 		vdata.applyToMesh(meshes.WALL,false);
 
-		vdata.normals=main["a" /* default */].ABNORMAL?normals_up:normals_front;
-		meshes.TEMP_CROSS = new babylon["Mesh"]('cross mesh', main["a" /* default */].scene);
+		vdata.normals=mv3d["a" /* default */].ABNORMAL?normals_up:normals_front;
+		meshes.TEMP_CROSS = new babylon["Mesh"]('cross mesh', mv3d["a" /* default */].scene);
 		vdata.applyToMesh(meshes.TEMP_CROSS,false);
 		meshes.CROSS=babylon["Mesh"].MergeMeshes([
 			meshes.TEMP_CROSS.clone(),
@@ -7820,8 +7191,8 @@ Object.assign(main["a" /* default */],{
 		]);
 
 		for (const key in meshes){
-			meshes[key].renderingGroupId=main["a" /* default */].enumRenderGroups.MAIN;
-			main["a" /* default */].scene.removeMesh(meshes[key]);
+			meshes[key].renderingGroupId=mv3d["a" /* default */].enumRenderGroups.MAIN;
+			mv3d["a" /* default */].scene.removeMesh(meshes[key]);
 			if(key.startsWith('TEMP_')){
 				meshes[key].dispose();
 				delete meshes[key];
@@ -7831,8 +7202,8 @@ Object.assign(main["a" /* default */],{
 
 	async getShadowMaterial(){
 		if(this._shadowMaterial){ return this._shadowMaterial; }
-		const shadowTexture = await main["a" /* default */].createTexture(`${main["a" /* default */].MV3D_FOLDER}/${main["a" /* default */].TEXTURE_SHADOW}.png`);
-		const shadowMaterial = new babylon["StandardMaterial"]('shadow material', main["a" /* default */].scene);
+		const shadowTexture = await mv3d["a" /* default */].createTexture(`${mv3d["a" /* default */].MV3D_FOLDER}/${mv3d["a" /* default */].TEXTURE_SHADOW}.png`);
+		const shadowMaterial = new babylon["StandardMaterial"]('shadow material', mv3d["a" /* default */].scene);
 		this._shadowMaterial=shadowMaterial;
 		shadowMaterial.diffuseTexture=shadowTexture;
 		shadowMaterial.opacityTexture=shadowTexture;
@@ -7846,10 +7217,10 @@ Object.assign(main["a" /* default */],{
 		if(this._shadowMesh){ shadowMesh=this._shadowMesh}
 		else{
 			this.getShadowMesh.getting=true;
-			shadowMesh=main["a" /* default */].Meshes.FLAT.clone('shadow mesh');
+			shadowMesh=mv3d["a" /* default */].Meshes.FLAT.clone('shadow mesh');
 			shadowMesh.material=await this.getShadowMaterial();
 			this._shadowMesh=shadowMesh;
-			main["a" /* default */].scene.removeMesh(shadowMesh);
+			mv3d["a" /* default */].scene.removeMesh(shadowMesh);
 			this.getShadowMesh.getting=false;
 		}
 		return shadowMesh.clone();
@@ -7879,8 +7250,8 @@ const z_descriptor2 = {
 
 class characters_Character extends babylon["TransformNode"]{
 	constructor(char,order){
-		super('character',main["a" /* default */].scene);
-		this.spriteOrigin = new babylon["TransformNode"]('sprite origin',main["a" /* default */].scene);
+		super('character',mv3d["a" /* default */].scene);
+		this.spriteOrigin = new babylon["TransformNode"]('sprite origin',mv3d["a" /* default */].scene);
 		this.spriteOrigin.parent=this;
 		this.model = new model_Model({orphan:false});
 		this.model.parent = this.spriteOrigin;
@@ -7914,7 +7285,7 @@ class characters_Character extends babylon["TransformNode"]{
 		this.updateShape();
 
 		if(!('_mv3d_z' in this.char)){
-			this.char._mv3d_z = main["a" /* default */].getWalkHeight(this.char.x,this.char.y);
+			this.char._mv3d_z = mv3d["a" /* default */].getWalkHeight(this.char.x,this.char.y);
 		}
 		Object.defineProperty(this.char,'z',z_descriptor);
 		Object.defineProperty(this,'z',z_descriptor2);
@@ -7927,14 +7298,14 @@ class characters_Character extends babylon["TransformNode"]{
 		this.needsScaleUpdate=false;
 		//this.elevation = 0;
 
-		main["a" /* default */].getShadowMesh().then(shadow=>{
+		mv3d["a" /* default */].getShadowMesh().then(shadow=>{
 			this.shadow = shadow;
 			this.shadow.parent = this;
 		});
 
 		this.blendElevation = this.makeBlender('elevation',0);
 
-		this.lightOrigin = new babylon["TransformNode"]('light origin',main["a" /* default */].scene);
+		this.lightOrigin = new babylon["TransformNode"]('light origin',mv3d["a" /* default */].scene);
 		this.lightOrigin.parent=this;
 		this.setupLights();
 		
@@ -7990,15 +7361,15 @@ class characters_Character extends babylon["TransformNode"]{
 	}
 
 	setTileMaterial(tileId){
-		const textureSrc = main["a" /* default */].getTsImgUrl(main["a" /* default */].getSetName(tileId));
+		const textureSrc = mv3d["a" /* default */].getTsImgUrl(mv3d["a" /* default */].getSetName(tileId));
 		this.setMaterial(textureSrc);
 	}
 	async setRectMaterial(img,rect){
-		const textureSrc = main["a" /* default */].getTsImgUrl(img);
+		const textureSrc = mv3d["a" /* default */].getTsImgUrl(img);
 		await this.setMaterial(textureSrc);
 		this.dontCrop=true;
 		const { width, height } = this.model.texture.getBaseSize();
-		rect = main["a" /* default */].finalizeTextureRect(rect,width,height);
+		rect = mv3d["a" /* default */].finalizeTextureRect(rect,width,height);
 		this.textureRect = rect;
 		this.model.texture.crop(rect.x,rect.y,rect.width,rect.height);
 		this.updateScale();
@@ -8014,13 +7385,13 @@ class characters_Character extends babylon["TransformNode"]{
 		}
 		this._waitingForBitmap=true;
 		this.char.mv_sprite.updateBitmap();
-		await main["a" /* default */].waitBitmapLoaded(this.char.mv_sprite.bitmap);
+		await mv3d["a" /* default */].waitBitmapLoaded(this.char.mv_sprite.bitmap);
 		this._waitingForBitmap=false;
 	}
 
 	async waitTextureLoaded(texture=this.model.texture){
 		await this.waitBitmapLoaded();
-		await main["a" /* default */].waitTextureLoaded(texture);
+		await mv3d["a" /* default */].waitTextureLoaded(texture);
 	}
 
 	isImageChanged(){
@@ -8095,16 +7466,12 @@ class characters_Character extends babylon["TransformNode"]{
 		const xscale = this.spriteWidth;
 		const yscale = this.spriteHeight;
 		if(this.model.mesh){
-			if(this.model.shape===main["a" /* default */].enumShapes.SPRITE){
+			if(this.model.shape===mv3d["a" /* default */].enumShapes.SPRITE){
 				this.model.scaling.set(1,1,1);
 				this.model.mesh.scaling.set(xscale,yscale,yscale);
-			}else if(this.model.shape===main["a" /* default */].enumShapes.FLAT){
+			}else if(this.model.shape===mv3d["a" /* default */].enumShapes.FLAT){
 				this.model.scaling.set(xscale,yscale,yscale);
 				this.model.mesh.scaling.set(1,1,1);
-			}else if(this.model.shape===main["a" /* default */].enumShapes.MODEL){
-				this.model.scaling.set(xscale,yscale,xscale);
-				//const flip = this.getConfig('model_flip');
-				//this.model.mesh.scaling.set(1,1,flip?1:-1);
 			}else{
 				this.model.scaling.set(xscale,yscale,xscale);
 				this.model.mesh.scaling.set(1,1,1);
@@ -8113,17 +7480,12 @@ class characters_Character extends babylon["TransformNode"]{
 	}
 
 	getShape(){
-		return this.getConfig('shape', main["a" /* default */].enumShapes.SPRITE );
+		return this.getConfig('shape', mv3d["a" /* default */].enumShapes.SPRITE );
 	}
 	async updateShape(){
 		const shape = this.getShape();
-		if(shape===main["a" /* default */].enumShapes.MODEL){
-			await this.model.importModel(this.getConfig('model'), {
-				flip:this.getConfig('model_flip'),
-				alpha:this.getConfig('model_alpha'),
-				useInstance:this.useInstance(),
-				eventId:this.char._eventId,
-			});
+		if(shape===mv3d["a" /* default */].enumShapes.MODEL){
+			await this.model.importModel(this.getConfig('model'));
 		}else{
 			this.model.setMeshForShape(shape);
 		}
@@ -8131,13 +7493,7 @@ class characters_Character extends babylon["TransformNode"]{
 		this.dirtyNearbyCells();
 	}
 
-	useInstance(){
-		if(!this.isComplex){ return false; }
-		return this.getConfig('model_instance',!this.hasConfig("glow")&&!this.hasConfig('alpha'));
-	}
-
 	updateEmissive(){
-		if(this.useInstance()){ return; }
 		const materials = this.model.materials;
 		if(!materials.length){ return; }
 		const glow = this.getConfig('glow', new babylon["Color4"](0,0,0,0));
@@ -8181,7 +7537,6 @@ class characters_Character extends babylon["TransformNode"]{
 	}
 
 	setupMesh(){
-		if(!this.model.mesh){ return; }
 		if(this.isEmpty){
 			this.model.setEnabled(false);
 		}else{
@@ -8201,28 +7556,28 @@ class characters_Character extends babylon["TransformNode"]{
 
 	getDefaultConfigObject(){
 		if(this.isVehicle){
-			return main["a" /* default */][`${this.char._type.toUpperCase()}_SETTINGS`].conf;
+			return mv3d["a" /* default */][`${this.char._type.toUpperCase()}_SETTINGS`].conf;
 		}
 		if(this.char.isTile()){
-			return main["a" /* default */].EVENT_TILE_SETTINGS;
+			return mv3d["a" /* default */].EVENT_TILE_SETTINGS;
 		}else if(this.isEvent && this.char.isObjectCharacter()){
-			return main["a" /* default */].EVENT_OBJ_SETTINGS;
+			return mv3d["a" /* default */].EVENT_OBJ_SETTINGS;
 		}else{
-			return main["a" /* default */].EVENT_CHAR_SETTINGS;
+			return mv3d["a" /* default */].EVENT_CHAR_SETTINGS;
 		}
 	}
 
 	getActorConfigObject(){
 		const id = $gameParty._actors[ this.isFollower ? this.char._memberIndex : 0 ];
 		if(!id){ return {}; }
-		if(!(id in main["a" /* default */].ACTOR_SETTINGS)){
+		if(!(id in mv3d["a" /* default */].ACTOR_SETTINGS)){
 			const data = $dataActors[id];
-			main["a" /* default */].ACTOR_SETTINGS[id]=main["a" /* default */].readConfigurationFunctions(
-				main["a" /* default */].readConfigurationBlocksAndTags(data.note),
-				main["a" /* default */].eventConfigurationFunctions
+			mv3d["a" /* default */].ACTOR_SETTINGS[id]=mv3d["a" /* default */].readConfigurationFunctions(
+				mv3d["a" /* default */].readConfigurationBlocksAndTags(data.note),
+				mv3d["a" /* default */].eventConfigurationFunctions
 			);
 		}
-		return main["a" /* default */].ACTOR_SETTINGS[id];
+		return mv3d["a" /* default */].ACTOR_SETTINGS[id];
 	}
 
 	getConfig(key,dfault=undefined){
@@ -8258,10 +7613,9 @@ class characters_Character extends babylon["TransformNode"]{
 		if(!this.settings_event){
 			this.settings_event={};
 			const note = this.char.event().note;
-			this.settings_event._eventTileId=this.char._tileId;
-			main["a" /* default */].readConfigurationFunctions(
-				main["a" /* default */].readConfigurationTags(note),
-				main["a" /* default */].eventConfigurationFunctions,
+			mv3d["a" /* default */].readConfigurationFunctions(
+				mv3d["a" /* default */].readConfigurationTags(note),
+				mv3d["a" /* default */].eventConfigurationFunctions,
 				this.settings_event,
 			);
 
@@ -8276,10 +7630,9 @@ class characters_Character extends babylon["TransformNode"]{
 				comments+=command.parameters[0];
 			}
 		}
-		this.settings_event_page._eventTileId=this.char._tileId;
-		main["a" /* default */].readConfigurationFunctions(
-			main["a" /* default */].readConfigurationTags(comments),
-			main["a" /* default */].eventConfigurationFunctions,
+		mv3d["a" /* default */].readConfigurationFunctions(
+			mv3d["a" /* default */].readConfigurationTags(comments),
+			mv3d["a" /* default */].eventConfigurationFunctions,
 			this.settings_event_page,
 		);
 		this.updateShape();
@@ -8310,7 +7663,7 @@ class characters_Character extends babylon["TransformNode"]{
 				);
 			}
 			if('z' in pos){
-				this.z = Object(util["relativeNumber"])(main["a" /* default */].getWalkHeight(event.x,event.y),pos.z);
+				this.z = Object(util["relativeNumber"])(mv3d["a" /* default */].getWalkHeight(event.x,event.y),pos.z);
 			}
 			if(transient)delete settings.pos;
 		}
@@ -8353,13 +7706,13 @@ class characters_Character extends babylon["TransformNode"]{
 
 	configureHeight(){
 		this.isAbove = this.char._priorityType===2;
-		let height = Math.max(0, this.getConfig('height',this.isAbove&&!this.hasConfig('zlock')&&!this.isAirship?main["a" /* default */].EVENT_HEIGHT:0) );
+		let height = Math.max(0, this.getConfig('height',this.isAbove&&!this.hasConfig('zlock')&&!this.isAirship?mv3d["a" /* default */].EVENT_HEIGHT:0) );
 		this.blendElevation.setValue(height,0);
 		if(this.isEvent) this.z = this.platformHeight + height;
 	}
 
 	updateConfiguration(){
-		const shapes = main["a" /* default */].enumShapes;
+		const shapes = mv3d["a" /* default */].enumShapes;
 		if(this.model.shape===shapes.SPRITE){
 			this.spriteOrigin.pitch=0;
 			this.spriteOrigin.yaw=0;
@@ -8383,13 +7736,13 @@ class characters_Character extends babylon["TransformNode"]{
 		for(let ix=cx-1; ix<=cx+1; ++ix)
 		for(let iy=cy-1; iy<=cy+1; ++iy){
 			let x=ix, y=iy;
-			if(main["a" /* default */].loopHorizontal()){ x=x.mod(Math.ceil(main["a" /* default */].mapWidth()/main["a" /* default */].CELL_SIZE)); }
-			if(main["a" /* default */].loopVertical()){ y=y.mod(Math.ceil(main["a" /* default */].mapHeight()/main["a" /* default */].CELL_SIZE)); }
-			const cell = main["a" /* default */].cells[[x,y]];
+			if(mv3d["a" /* default */].loopHorizontal()){ x=x.mod(Math.ceil(mv3d["a" /* default */].mapWidth()/mv3d["a" /* default */].CELL_SIZE)); }
+			if(mv3d["a" /* default */].loopVertical()){ y=y.mod(Math.ceil(mv3d["a" /* default */].mapHeight()/mv3d["a" /* default */].CELL_SIZE)); }
+			const cell = mv3d["a" /* default */].cells[[x,y]];
 			if(!cell){ continue; }
 			if(!cell._needsIntensiveUpdate){
 				cell._needsIntensiveUpdate=true;
-				main["a" /* default */]._cellsNeedingIntensiveUpdate.push(cell);
+				mv3d["a" /* default */]._cellsNeedingIntensiveUpdate.push(cell);
 			}
 		}
 	}
@@ -8417,9 +7770,9 @@ class characters_Character extends babylon["TransformNode"]{
 		for(let _cx=this.cell.cx-1; _cx<=this.cell.cx+1; ++_cx)
 		for(let _cy=this.cell.cy-1; _cy<=this.cell.cy+1; ++_cy){
 			let cx=_cx, cy=_cy;
-			if(main["a" /* default */].loopHorizontal()){ cx=cx.mod(Math.ceil(main["a" /* default */].mapWidth()/main["a" /* default */].CELL_SIZE)); }
-			if(main["a" /* default */].loopVertical()){ cy=cy.mod(Math.ceil(main["a" /* default */].mapHeight()/main["a" /* default */].CELL_SIZE)); }
-			const cell = main["a" /* default */].cells[[cx,cy]];
+			if(mv3d["a" /* default */].loopHorizontal()){ cx=cx.mod(Math.ceil(mv3d["a" /* default */].mapWidth()/mv3d["a" /* default */].CELL_SIZE)); }
+			if(mv3d["a" /* default */].loopVertical()){ cy=cy.mod(Math.ceil(mv3d["a" /* default */].mapHeight()/mv3d["a" /* default */].CELL_SIZE)); }
+			const cell = mv3d["a" /* default */].cells[[cx,cy]];
 			if(!cell||!cell.mesh){ continue; }
 			const sphere = cell.mesh.getBoundingInfo().boundingSphere;
 			const dist = babylon["Vector3"].Distance(pos,sphere.centerWorld);
@@ -8459,8 +7812,8 @@ class characters_Character extends babylon["TransformNode"]{
 		const config = this.getConfig('flashlight',{
 			color:0xffffff,
 			intensity:1,
-			distance:main["a" /* default */].LIGHT_DIST,
-			angle:main["a" /* default */].LIGHT_ANGLE,
+			distance:mv3d["a" /* default */].LIGHT_DIST,
+			angle:mv3d["a" /* default */].LIGHT_ANGLE,
 		});
 		this.blendFlashlightColor = this.makeColorBlender('flashlightColor',config.color);
 		this.blendFlashlightIntensity = this.makeBlender('flashlightIntensity',config.intensity);
@@ -8469,16 +7822,16 @@ class characters_Character extends babylon["TransformNode"]{
 		this.blendFlashlightDistance.setValue(0,0); this.blendFlashlightDistance.setValue(lightDist,0.25);
 		this.blendFlashlightAngle = this.makeBlender('flashlightAngle',config.angle);
 		this.flashlight = new babylon["SpotLight"]('flashlight',babylon["Vector3"].Zero(),babylon["Vector3"].Zero(),
-			Object(util["degtorad"])(this.blendFlashlightAngle.targetValue()+main["a" /* default */].FLASHLIGHT_EXTRA_ANGLE),0,main["a" /* default */].scene);
+			Object(util["degtorad"])(this.blendFlashlightAngle.targetValue()+mv3d["a" /* default */].FLASHLIGHT_EXTRA_ANGLE),0,mv3d["a" /* default */].scene);
 		this.flashlight.renderPriority=2;
 		this.updateFlashlightExp();
 		this.flashlight.range = this.blendFlashlightDistance.targetValue();
-		this.flashlight.intensity=this.blendFlashlightIntensity.targetValue()*main["a" /* default */].FLASHLIGHT_INTENSITY_MULTIPLIER;
+		this.flashlight.intensity=this.blendFlashlightIntensity.targetValue()*mv3d["a" /* default */].FLASHLIGHT_INTENSITY_MULTIPLIER;
 		this.flashlight.diffuse.set(...this.blendFlashlightColor.targetComponents());
 		this.flashlight.specular.set(0,0,0);
 		//this.flashlight.projectionTexture = mv3d.getFlashlightTexture();
 		this.flashlight.direction.y=-1;
-		this.flashlightOrigin=new babylon["TransformNode"]('flashlight origin',main["a" /* default */].scene);
+		this.flashlightOrigin=new babylon["TransformNode"]('flashlight origin',mv3d["a" /* default */].scene);
 		this.flashlightOrigin.parent=this.lightOrigin;
 		this.flashlight.parent=this.flashlightOrigin;
 		this.blendFlashlightPitch = this.makeBlender('flashlightPitch',90);
@@ -8498,20 +7851,20 @@ class characters_Character extends babylon["TransformNode"]{
 		const config = this.getConfig('lamp',{
 			color:0xffffff,
 			intensity:1,
-			distance:main["a" /* default */].LIGHT_DIST,
+			distance:mv3d["a" /* default */].LIGHT_DIST,
 		});
 		this.blendLampColor = this.makeColorBlender('lampColor',config.color);
 		this.blendLampIntensity = this.makeBlender('lampIntensity',config.intensity);
 		this.blendLampDistance = this.makeBlender('lampDistance',config.distance);
 		const lightDist = this.blendLampDistance.targetValue();
 		this.blendLampDistance.setValue(0,0); this.blendLampDistance.setValue(lightDist,0.25);
-		this.lamp = new babylon["PointLight"]('lamp',babylon["Vector3"].Zero(),main["a" /* default */].scene);
+		this.lamp = new babylon["PointLight"]('lamp',babylon["Vector3"].Zero(),mv3d["a" /* default */].scene);
 		this.lamp.renderPriority=1;
 		this.lamp.diffuse.set(...this.blendLampColor.targetComponents());
 		this.lamp.specular.set(0,0,0);
 		this.lamp.intensity=this.blendLampIntensity.targetValue();
 		this.lamp.range=this.blendLampDistance.targetValue();
-		this.lampOrigin=new babylon["TransformNode"]('lamp origin',main["a" /* default */].scene);
+		this.lampOrigin=new babylon["TransformNode"]('lamp origin',mv3d["a" /* default */].scene);
 		this.lampOrigin.parent = this.lightOrigin;
 		this.lamp.parent=this.lampOrigin;
 		this.updateLightOffsets();
@@ -8529,13 +7882,13 @@ class characters_Character extends babylon["TransformNode"]{
 
 	updateLights(){
 		if(this.flashlight){
-			let flashlightYaw = 180+Object(util["relativeNumber"])( main["a" /* default */].dirToYaw( this.char.mv3d_direction(),main["a" /* default */].DIR8MOVE ), this.getConfig('flashlightYaw','+0'));
-			let firstPerson=this.isPlayer&&main["a" /* default */].is1stPerson();
+			let flashlightYaw = 180+Object(util["relativeNumber"])( mv3d["a" /* default */].dirToYaw( this.char.mv3d_direction(),mv3d["a" /* default */].DIR8MOVE ), this.getConfig('flashlightYaw','+0'));
+			let firstPerson=this.isPlayer&&mv3d["a" /* default */].is1stPerson();
 			if(this.isPlayer){
 				let flashlightPitch = this.getConfig('flashlightPitch',90);
 				if(firstPerson){
-					flashlightYaw=180+main["a" /* default */].blendCameraYaw.currentValue();
-					flashlightPitch=main["a" /* default */].blendCameraPitch.currentValue();
+					flashlightYaw=180+mv3d["a" /* default */].blendCameraYaw.currentValue();
+					flashlightPitch=mv3d["a" /* default */].blendCameraPitch.currentValue();
 				}
 				this.blendFlashlightPitch.setValue(flashlightPitch,firstPerson?0:0.25);
 			}
@@ -8546,9 +7899,9 @@ class characters_Character extends babylon["TransformNode"]{
 			|this.blendFlashlightDistance.update()|this.blendFlashlightAngle.update()
 			|this.blendFlashlightYaw.update()|this.blendFlashlightPitch.update()){
 				this.flashlight.diffuse.set(...this.blendFlashlightColor.currentComponents());
-				this.flashlight.intensity=this.blendFlashlightIntensity.currentValue()*main["a" /* default */].FLASHLIGHT_INTENSITY_MULTIPLIER;
+				this.flashlight.intensity=this.blendFlashlightIntensity.currentValue()*mv3d["a" /* default */].FLASHLIGHT_INTENSITY_MULTIPLIER;
 				this.flashlight.range=this.blendFlashlightDistance.currentValue();
-				this.flashlight.angle=Object(util["degtorad"])(this.blendFlashlightAngle.currentValue()+main["a" /* default */].FLASHLIGHT_EXTRA_ANGLE);
+				this.flashlight.angle=Object(util["degtorad"])(this.blendFlashlightAngle.currentValue()+mv3d["a" /* default */].FLASHLIGHT_EXTRA_ANGLE);
 				this.updateFlashlightExp();
 				this.updateFlashlightDirection();
 			}
@@ -8563,7 +7916,7 @@ class characters_Character extends babylon["TransformNode"]{
 		}
 	}
 
-	makeBlender(key,dfault,clazz=Blender){
+	makeBlender(key,dfault,clazz=blenders_Blender){
 		if(key in this.char.mv3d_blenders){
 			dfault = this.char.mv3d_blenders[key];
 		}else{
@@ -8596,18 +7949,16 @@ class characters_Character extends babylon["TransformNode"]{
 
 		const bitmapReady = this.isBitmapReady();
 
-		this.visible=bitmapReady&&!(this.mv_sprite._hiding||this.mv_sprite._hidden);
+		this.visible=bitmapReady&&this.mv_sprite.visible;
 		if(typeof this.char.isVisible === 'function'){
 			this.visible=this.visible&&this.char.isVisible();
 		}
 		const inRenderDist = this.char.mv3d_inRenderDist();
 		//this.disabled=!this.visible;
 		if(this.char.isTransparent() || !inRenderDist
-		|| (this.char._characterName||this.tileId)&&!this.model.textureLoaded&&!this.isComplex
-		|| main["a" /* default */].is1stPerson()&&this.isFollower&&this.char._realX===$gamePlayer._realX&&this.char._realY===$gamePlayer._realY){
+		|| (this.char._characterName||this.tileId)&&!this.model.textureLoaded&&!this.isComplex){
 			this.visible=false;
 		}
-
 		if(!this._isEnabled){
 			if(this.visible){ this.setEnabled(true); this.needsPositionUpdate=true; }
 		}else{
@@ -8665,7 +8016,7 @@ class characters_Character extends babylon["TransformNode"]{
 		this.model.update();
 
 		if(this.isPlayer){
-			if(this.model.mesh) this.model.mesh.visibility = +!main["a" /* default */].is1stPerson(true);
+			this.model.mesh.visibility = +!mv3d["a" /* default */].is1stPerson(true);
 		}
 
 		this.updateAlpha();
@@ -8687,16 +8038,15 @@ class characters_Character extends babylon["TransformNode"]{
 	}
 
 	updateAlpha(){
-		if(this.useInstance()){ return; }
 		const materials = this.model.materials;
 		if(!materials.length){ return; }
 		
 		this.bush = Boolean(this.char.bushDepth());
-		if(!this.isComplex && this.model.material){
+		if(this.model.material){
 			const material = this.model.material;
 			if(this.bush && this.hasBush()){
 				if(!material.opacityTexture){
-					const bushAlpha = main["a" /* default */].getBushAlphaTextureSync();
+					const bushAlpha = mv3d["a" /* default */].getBushAlphaTextureSync();
 					if(bushAlpha&&bushAlpha.isReady()){
 						material.opacityTexture=bushAlpha;
 					}
@@ -8710,14 +8060,14 @@ class characters_Character extends babylon["TransformNode"]{
 
 		const alpha = this.getConfig('alpha',1)*this.char.opacity()/255;
 		const _hasAlpha=this.hasConfig('alpha')||alpha<1;
-		const blendMode = main["a" /* default */].blendModes[this.char.blendMode()];
+		const blendMode = mv3d["a" /* default */].blendModes[this.char.blendMode()];
 		for(const material of materials){
 			if(!material._mv3d_orig_alpha){ material._mv3d_orig_alpha=material.alpha; }
 			let hasAlpha = _hasAlpha||material._mv3d_orig_alpha<1;
 			if(material.alphaMode!==blendMode){
 				material.alphaMode=blendMode;
 			}
-			if(blendMode!==main["a" /* default */].blendModes.NORMAL){
+			if(blendMode!==mv3d["a" /* default */].blendModes.NORMAL){
 				hasAlpha=true;
 			}
 			if(hasAlpha||material.opacityTexture){
@@ -8735,7 +8085,7 @@ class characters_Character extends babylon["TransformNode"]{
 			const offset = {
 				x: this.getConfig('lampXoff',0),
 				y: this.getConfig('lampYoff',0),
-				z: this.getConfig('lampZoff',main["a" /* default */].LAMP_HEIGHT),
+				z: this.getConfig('lampZoff',mv3d["a" /* default */].LAMP_HEIGHT),
 			}
 			this.lampOrigin.x=offset.x;
 			this.lampOrigin.y=offset.y;
@@ -8745,7 +8095,7 @@ class characters_Character extends babylon["TransformNode"]{
 			const offset = {
 				x: this.getConfig('flashlightXoff',0),
 				y: this.getConfig('flashlightYoff',0),
-				z: this.getConfig('flashlightZoff',main["a" /* default */].FLASHLIGHT_HEIGHT),
+				z: this.getConfig('flashlightZoff',mv3d["a" /* default */].FLASHLIGHT_HEIGHT),
 			}
 			this.flashlightOrigin.x=offset.x;
 			this.flashlightOrigin.y=offset.y;
@@ -8755,9 +8105,9 @@ class characters_Character extends babylon["TransformNode"]{
 
 	updatePositionOffsets(){
 		this.spriteOrigin.position.set(0,0,0);
-		if(this.model.shape===main["a" /* default */].enumShapes.FLAT){
+		if(this.model.shape===mv3d["a" /* default */].enumShapes.FLAT){
 			const elevation = this.blendElevation.currentValue();
-			const offsetDist = main["a" /* default */].LAYER_DIST*4;
+			const offsetDist = mv3d["a" /* default */].LAYER_DIST*4;
 			if(this.hasConfig('zlock')){
 				this.spriteOrigin.z = 0;
 			}else if(elevation){
@@ -8765,16 +8115,15 @@ class characters_Character extends babylon["TransformNode"]{
 			}else{
 				this.spriteOrigin.z = offsetDist;
 			}
-		}else if(this.model.shape===main["a" /* default */].enumShapes.SPRITE){
-			this.spriteOrigin.z = main["a" /* default */].LAYER_DIST*4 * (1-Math.max(0,Math.min(90,main["a" /* default */].blendCameraPitch.currentValue()))/90);
+		}else if(this.model.shape===mv3d["a" /* default */].enumShapes.SPRITE){
+			this.spriteOrigin.z = mv3d["a" /* default */].LAYER_DIST*4 * (1-Math.max(0,Math.min(90,mv3d["a" /* default */].blendCameraPitch.currentValue()))/90);
 		
-			const billboardOffset = new babylon["Vector2"](Math.sin(-main["a" /* default */].cameraNode.rotation.y),Math.cos(main["a" /* default */].cameraNode.rotation.y));
-			const spriteOffset = main["a" /* default */].SPRITE_OFFSET * Math.sin(Math.max(0,main["a" /* default */].cameraNode.rotation.x));
-			this.spriteOrigin.x=billboardOffset.x*spriteOffset;
-			this.spriteOrigin.y=billboardOffset.y*spriteOffset;
+			const billboardOffset = new babylon["Vector2"](Math.sin(-mv3d["a" /* default */].cameraNode.rotation.y),Math.cos(mv3d["a" /* default */].cameraNode.rotation.y));
+			this.spriteOrigin.x=billboardOffset.x*mv3d["a" /* default */].SPRITE_OFFSET;
+			this.spriteOrigin.y=billboardOffset.y*mv3d["a" /* default */].SPRITE_OFFSET;
 		}
 
-		if(this.isPlayer&&main["a" /* default */].is1stPerson()){
+		if(this.isPlayer&&mv3d["a" /* default */].is1stPerson()){
 			this.lightOrigin.x=0;
 			this.lightOrigin.y=0;
 		}else{
@@ -8791,15 +8140,15 @@ class characters_Character extends babylon["TransformNode"]{
 	updatePosition(){
 		this.updatePositionOffsets();
 
-		const loopPos = main["a" /* default */].loopCoords(this.char._realX,this.char._realY);
+		const loopPos = mv3d["a" /* default */].loopCoords(this.char._realX,this.char._realY);
 		this.x = loopPos.x;
 		this.y = loopPos.y;
 
 		if(!this.needsPositionUpdate) { return; }
 
-		const cellX=Math.floor(Math.round(this.char._realX)/main["a" /* default */].CELL_SIZE);
-		const cellY=Math.floor(Math.round(this.char._realY)/main["a" /* default */].CELL_SIZE);
-		const cell = main["a" /* default */].cells[[cellX,cellY]];
+		const cellX=Math.floor(Math.round(this.char._realX)/mv3d["a" /* default */].CELL_SIZE);
+		const cellY=Math.floor(Math.round(this.char._realY)/mv3d["a" /* default */].CELL_SIZE);
+		const cell = mv3d["a" /* default */].cells[[cellX,cellY]];
 		if(this.cell&&this.cell!==cell){
 			this.removeFromCell();
 		}
@@ -8846,7 +8195,7 @@ class characters_Character extends babylon["TransformNode"]{
 		this.platformChar = platform.char;
 
 		this.targetElevation = this.getTargetElevation(this.char._realX,this.char._realY,{platform});
-		let gravity = this.getConfig('gravity',main["a" /* default */].GRAVITY)/60;
+		let gravity = this.getConfig('gravity',mv3d["a" /* default */].GRAVITY)/60;
 
 		if(this.char.isJumping()){
 			let jumpProgress = 1-(this.char._jumpCount/(this.char._jumpPeak*2));
@@ -8864,12 +8213,12 @@ class characters_Character extends babylon["TransformNode"]{
 			}
 			if(this.z>this.targetElevation){
 				this.z-=gravity;
-				if(main["a" /* default */].tileCollision(this,this.char._realX,this.char._realY,false,false)){
+				if(mv3d["a" /* default */].tileCollision(this,this.char._realX,this.char._realY,false,false)){
 					this.z=this.platformHeight;
 				}
 			}else if(this.z<this.targetElevation){
 				this.z+=gravity
-				if(main["a" /* default */].tileCollision(this,this.char._realX,this.char._realY,false,false)){
+				if(mv3d["a" /* default */].tileCollision(this,this.char._realX,this.char._realY,false,false)){
 					this.z-=gravity;
 				}
 			}
@@ -8890,23 +8239,24 @@ class characters_Character extends babylon["TransformNode"]{
 		}
 
 		if(!opts.platform){ opts.platform = this.getPlatform(x,y,opts); }
-		const colliderZ = this.getPlatformFloat(x,y,{platform:opts.platform});
-		const platformZ = this.getPlatformFloat(x,y,{platform:this.getPlatform(x,y,{...opts,onlyPlatforms:true})});
-		let targetElevation = platformZ;
+		const platform = opts.platform;
+		let targetElevation;
+		if(this.hasFloat && !this.platformChar){
+			targetElevation = this.getPlatformFloat(x,y,{platform});
+		}else{
+			targetElevation = platform.z2;
+		}
 
 		targetElevation += this.blendElevation.currentValue()
 
 		if(this.isAirship && $gamePlayer.vehicle()===this.char){
-			targetElevation += main["a" /* default */].airshipHeight*this.char._altitude/this.char.maxAltitude();
+			targetElevation += mv3d["a" /* default */].loadData('airship_height',mv3d["a" /* default */].AIRSHIP_SETTINGS.height)*this.char._altitude/this.char.maxAltitude();
 		}
-
-		targetElevation = Math.max(targetElevation, colliderZ);
-
 		return targetElevation;
 	}
 
 	getPlatform(x=this.char._realX,y=this.char._realY,opts={}){
-		return main["a" /* default */].getPlatformForCharacter(this,x,y,opts);
+		return mv3d["a" /* default */].getPlatformForCharacter(this,x,y,opts);
 	}
 
 	getPlatformFloat(x=this.char._realX,y=this.char._realY,opts={}){
@@ -8915,19 +8265,19 @@ class characters_Character extends babylon["TransformNode"]{
 		let z = platform.z2;
 		if(this.hasFloat&&!platform.char){
 			const cHeight = this.getCHeight();
-			z += main["a" /* default */].getFloatHeight(Math.round(x),Math.round(y),this.z+Math.max(cHeight,main["a" /* default */].STAIR_THRESH),main["a" /* default */].STAIR_THRESH>=cHeight);
+			z += mv3d["a" /* default */].getFloatHeight(Math.round(x),Math.round(y),this.z+Math.max(cHeight,mv3d["a" /* default */].STAIR_THRESH),mv3d["a" /* default */].STAIR_THRESH>=cHeight);
 		}
 		return z;
 	}
 
 	updateShadow(){
-		let shadowVisible = Boolean(this.getConfig('shadow', this.model.shape!=main["a" /* default */].enumShapes.FLAT ));
+		let shadowVisible = Boolean(this.getConfig('shadow', this.model.shape!=mv3d["a" /* default */].enumShapes.FLAT ));
 
 		if(shadowVisible&&(this.isPlayer||this.isFollower)){
-			const myIndex = main["a" /* default */].characters.indexOf(this);
+			const myIndex = mv3d["a" /* default */].characters.indexOf(this);
 			if(myIndex>=0)
-			for (let i=myIndex+1; i<main["a" /* default */].characters.length; ++i){
-				const other = main["a" /* default */].characters[i];
+			for (let i=myIndex+1; i<mv3d["a" /* default */].characters.length; ++i){
+				const other = mv3d["a" /* default */].characters[i];
 				if(!other.shadow||!other.visible){ continue; }
 				if(other.char._realX===this.char._realX&&other.char._realY===this.char._realY){
 					shadowVisible=false;
@@ -8945,7 +8295,7 @@ class characters_Character extends babylon["TransformNode"]{
 		const shadowDist = Math.max(this.z - this.platformHeight, 0);
 		const shadowFadeDist = this.getConfig('shadowDist',4);
 		const shadowStrength = Math.max(0,1-Math.abs(shadowDist)/shadowFadeDist);
-		this.shadow.z = -shadowDist + main["a" /* default */].LAYER_DIST*3.5;
+		this.shadow.z = -shadowDist + mv3d["a" /* default */].LAYER_DIST*3.5;
 		this.shadow.x=this.spriteOrigin.x;this.shadow.y=this.spriteOrigin.y;
 		const shadowScale = this.getConfig('shadow',1);
 		this.shadow.scaling.setAll(shadowScale*shadowStrength);
@@ -8957,22 +8307,19 @@ class characters_Character extends babylon["TransformNode"]{
 	updateAnimations(){
 		if(this.char.isBalloonPlaying()){
 			if(!this._balloon){
-				this._balloon=main["a" /* default */].showBalloon(this);
+				this._balloon=mv3d["a" /* default */].showBalloon(this);
 			}
 			this._balloon.update();
 		}else{
 			this.disposeBalloon();
 		}
-		
-		if(main["a" /* default */].isMV){
-			for(const animation of this.char.mv_sprite._animationSprites){
-				if(animation.mv3d_animation){
-					animation.mv3d_animation.update();
-				}
+		for(const animation of this.char.mv_sprite._animationSprites){
+			if(animation.mv3d_animation){
+				animation.mv3d_animation.update();
 			}
-			if(this.char.mv_sprite._animationSprites.length){
-				this.needsMaterialUpdate=true;
-			}
+		}
+		if(this.char.mv_sprite._animationSprites.length){
+			this.needsMaterialUpdate=true;
 		}
 	}
 
@@ -8986,8 +8333,8 @@ class characters_Character extends babylon["TransformNode"]{
 	dispose(...args){
 		super.dispose(...args);
 		delete this.char.mv3d_sprite;
-		const index = main["a" /* default */].characters.indexOf(this);
-		main["a" /* default */].characters.splice(index,1);
+		const index = mv3d["a" /* default */].characters.indexOf(this);
+		mv3d["a" /* default */].characters.splice(index,1);
 		this.disposeBalloon();
 		this.removeFromCell();
 	}
@@ -9001,7 +8348,7 @@ class characters_Character extends babylon["TransformNode"]{
 	}
 
 	getCHeight(){
-		const dfault = this.model.shape===main["a" /* default */].enumShapes.FLAT||this.char._priorityType===0?0:this.spriteHeight;
+		const dfault = this.model.shape===mv3d["a" /* default */].enumShapes.FLAT||this.char._priorityType===0?0:this.spriteHeight;
 		let collide = this.getConfig('collide',dfault);
 		return collide===true ? dfault : Number(collide);
 	}
@@ -9027,7 +8374,7 @@ class characters_Character extends babylon["TransformNode"]{
 				const trigger = this.getConfig('trigger');
 				if(trigger){
 					return this.z-trigger.down;
-				}else if(main["a" /* default */].TRIGGER_INFINITE || this.isEmpty){
+				}else if(mv3d["a" /* default */].TRIGGER_INFINITE || this.isEmpty){
 					return -Infinity;
 				}else{
 					return this.getCollider().z1;
@@ -9037,7 +8384,7 @@ class characters_Character extends babylon["TransformNode"]{
 				const trigger = this.getConfig('trigger');
 				if(trigger){
 					return this.z-trigger.up;
-				}else if(main["a" /* default */].TRIGGER_INFINITE || this.isEmpty){
+				}else if(mv3d["a" /* default */].TRIGGER_INFINITE || this.isEmpty){
 					return Infinity;
 				}else{
 					return this.getCollider().z2;
@@ -9056,7 +8403,7 @@ class characters_Character extends babylon["TransformNode"]{
 		const trigger = this.getConfig('trigger');
 		if(trigger){
 			return {z1:z-trigger.down, z2:z+trigger.up};
-		}else if(main["a" /* default */].TRIGGER_INFINITE || this.isEmpty){
+		}else if(mv3d["a" /* default */].TRIGGER_INFINITE || this.isEmpty){
 			return {z1:-Infinity, z2: Infinity};
 		}else{
 			return this.getCollisionHeight();
@@ -9069,22 +8416,22 @@ Object(util["override"])(Sprite_Character.prototype,'characterPatternY',o=>funct
 	if(!sprite){ return o.apply(this,arguments); }
 	const dirfix = sprite.getConfig('dirfix', sprite.isEvent && sprite.char.isObjectCharacter());
 	const ddir=this._character.mv3d_direction();
-	const useDiagonal = !this._isBigCharacter&&this._characterIndex<4&&this._characterName.includes(main["a" /* default */].DIAG_SYMBOL);
+	const useDiagonal = !this._isBigCharacter&&this._characterIndex<4&&this._characterName.includes(mv3d["a" /* default */].DIAG_SYMBOL);
 	let dir;
-	if(dirfix||main["a" /* default */].isDisabled()){
+	if(dirfix||mv3d["a" /* default */].isDisabled()){
 		if(useDiagonal){ dir=ddir; }
 		else{ dir=this._character.direction(); }
 	}else if(useDiagonal){
-		dir = main["a" /* default */].transformFacing(ddir,main["a" /* default */].blendCameraYaw.currentValue(),true);
+		dir = mv3d["a" /* default */].transformFacing(ddir,mv3d["a" /* default */].blendCameraYaw.currentValue(),true);
 	}else{
-		dir = main["a" /* default */].transformFacing(ddir,main["a" /* default */].blendCameraYaw.currentValue(),false);
+		dir = mv3d["a" /* default */].transformFacing(ddir,mv3d["a" /* default */].blendCameraYaw.currentValue(),false);
 	}
 	if(dir%2){
 		return diagRow[dir];
 	}else{
 		return dir/2-1;
 	}
-},()=> !main["a" /* default */].isDisabled() || main["a" /* default */].DIR8MOVE&&main["a" /* default */].DIR8_2D);
+},()=> !mv3d["a" /* default */].isDisabled() || mv3d["a" /* default */].DIR8MOVE&&mv3d["a" /* default */].DIR8_2D);
 const diagRow={
 	3:4,
 	1:5,
@@ -9110,14 +8457,14 @@ Object(util["override"])(Game_CharacterBase.prototype,'tileId',o=>function(){
 	return this._tileId;
 });
 
-main["a" /* default */].Character = characters_Character;
+mv3d["a" /* default */].Character = characters_Character;
 
 
 Object(util["override"])(Game_CharacterBase.prototype,'isOnBush',o=>function(){
 	if(!this.mv3d_sprite){ return o.apply(this,arguments); }
 	const rx=Math.round(this._realX), ry=Math.round(this._realY);
-	const tileData=main["a" /* default */].getTileData(rx,ry);
-	const layers = main["a" /* default */].getTileLayers(rx,ry,this.mv3d_sprite.z+this.mv3d_sprite.getCHeight(),false);
+	const tileData=mv3d["a" /* default */].getTileData(rx,ry);
+	const layers = mv3d["a" /* default */].getTileLayers(rx,ry,this.mv3d_sprite.z+this.mv3d_sprite.getCHeight(),false);
 	const flags = $gameMap.tilesetFlags();
 	for( const l of layers ){
 		if( (flags[tileData[l]] & 0x40) !== 0 ){ return true; }
@@ -9125,12 +8472,12 @@ Object(util["override"])(Game_CharacterBase.prototype,'isOnBush',o=>function(){
 	return false;
 });
 // CONCATENATED MODULE: ./src/animations.js
-const animations_mv3d = window.mv3d;
 
 
 
 
-Object.assign(animations_mv3d,{
+
+Object.assign(mv3d["a" /* default */],{
 	showBalloon(char){
 		if(!char){ char=$gamePlayer.mv3d_sprite; }
 		return new animations_Balloon(char);
@@ -9139,15 +8486,15 @@ Object.assign(animations_mv3d,{
 
 class animations_AnimSprite extends babylon["TransformNode"]{
 	constructor(src,w,h,smooth){
-		super('animSprite',animations_mv3d.scene);
+		super('animSprite',mv3d["a" /* default */].scene);
 		this.cellWidth=w; this.cellHeight=h;
 		this.cellIndex=0;
 		this.isSmooth=smooth;
-		this.mesh = animations_mv3d.Meshes.BASIC.clone();
+		this.mesh = mv3d["a" /* default */].Meshes.BASIC.clone();
 		this.mesh.isPickable=false;
 		this.mesh.parent=this;
 		this.mesh.setEnabled(false);
-		this.material = new babylon["StandardMaterial"]('anim material',animations_mv3d.scene);
+		this.material = new babylon["StandardMaterial"]('anim material',mv3d["a" /* default */].scene);
 		this.mesh.material=this.material;
 		this.material.useAlphaFromDiffuseTexture=true;
 		//this.material.alphaCutOff = mv3d.ALPHA_CUTOFF;
@@ -9159,10 +8506,10 @@ class animations_AnimSprite extends babylon["TransformNode"]{
 		this.loadTexture(src)
 	}
 	async loadTexture(src){
-		this.texture = await animations_mv3d.createTexture(src);
+		this.texture = await mv3d["a" /* default */].createTexture(src);
 		this.texture.hasAlpha=true;
 		this.material.diffuseTexture=this.texture;
-		await animations_mv3d.waitTextureLoaded(this.texture);
+		await mv3d["a" /* default */].waitTextureLoaded(this.texture);
 		this.texture.updateSamplingMode( this.isSmooth
 			? babylon["Texture"].BILINEAR_SAMPLINGMODE
 			: babylon["Texture"].NEAREST_SAMPLINGMODE
@@ -9174,8 +8521,8 @@ class animations_AnimSprite extends babylon["TransformNode"]{
 	update(){
 		if(!this.textureLoaded){ return; }
 		if(!this.mesh.isEnabled()){ this.mesh.setEnabled(true); }
-		this.pitch = animations_mv3d.blendCameraPitch.currentValue()-90;
-		this.yaw = animations_mv3d.blendCameraYaw.currentValue();
+		this.pitch = mv3d["a" /* default */].blendCameraPitch.currentValue()-90;
+		this.yaw = mv3d["a" /* default */].blendCameraYaw.currentValue();
 		this.texture.crop(
 			this.cellIndex%this.cellCols*this.cellWidth,
 			Math.floor(this.cellIndex/this.cellCols)*this.cellHeight,
@@ -9186,7 +8533,7 @@ class animations_AnimSprite extends babylon["TransformNode"]{
 		super.dispose(false,true);
 	}
 }
-animations_mv3d.AnimSprite=animations_AnimSprite;
+mv3d["a" /* default */].AnimSprite=animations_AnimSprite;
 
 // Balloons
 class animations_Balloon extends animations_AnimSprite{
@@ -9204,23 +8551,7 @@ class animations_Balloon extends animations_AnimSprite{
 		super.update();
 	}
 }
-animations_mv3d.Balloon=animations_Balloon;
-
-const _condition_isMZ_and_enabled = ()=>animations_mv3d.isMZ && !animations_mv3d.isDisabled();
-
-Object(util["override"])(Sprite_Balloon.prototype,'setup',o=>function(){
-	o.apply(this,arguments);
-	if(this._target){
-		this._target._balloonSprite = this;
-	}
-},_condition_isMZ_and_enabled);
-
-Object(util["override"])(Game_CharacterBase.prototype,'endBalloon',o=>function(){
-	const balloons = SceneManager._scene._spriteset._balloonSprites;
-	if(!balloons||!balloons.find(b=>b.targetObject===this)){
-		o.apply(this,arguments);
-	}
-},_condition_isMZ_and_enabled);
+mv3d["a" /* default */].Balloon=animations_Balloon;
 
 // depth animations
 
@@ -9247,7 +8578,7 @@ class animations_DepthAnimation{
 	update(){
 		const char = this.char;
 		if(!char){ return; }
-		const cameraDirection = animations_mv3d.camera.getDirection(animations_mv3d.camera.getTarget());
+		const cameraDirection = mv3d["a" /* default */].camera.getDirection(mv3d["a" /* default */].camera.getTarget());
 		this.resetSpriteList();
 		const frameData = this.animation._animation.frames[this.animation.currentFrameIndex()];
 		if(frameData)
@@ -9255,7 +8586,7 @@ class animations_DepthAnimation{
 			const cell = this.animation._cellSprites[i];
 			if(!cell.visible || !cell.bitmap){ continue; }
 			const anim = this.getAnimationSprite(cell.bitmap._url);
-			anim.material.alphaMode = animations_mv3d.blendModes[cell.blendMode];
+			anim.material.alphaMode = mv3d["a" /* default */].blendModes[cell.blendMode];
 
 			anim.mesh.roll=Object(util["radtodeg"])(cell.rotation);
 			const scale = this.animation._mv3d_animationSettings.scale||1;
@@ -9303,7 +8634,7 @@ class animations_DepthAnimation{
 			//sprite.parent=this.char.spriteOrigin;
 			const settings = this.animation._mv3d_animationSettings
 			if(settings.depth==false&&settings.depth!=null){
-				sprite.mesh.renderingGroupId=animations_mv3d.enumRenderGroups.FRONT;
+				sprite.mesh.renderingGroupId=mv3d["a" /* default */].enumRenderGroups.FRONT;
 			}
 		}
 		return sprite;
@@ -9320,13 +8651,13 @@ class animations_DepthAnimation{
 	}
 }
 animations_DepthAnimation.list = [];
-animations_mv3d.Animation=animations_DepthAnimation;
+mv3d["a" /* default */].Animation=animations_DepthAnimation;
 
 function transformVectorForCharacter(vector,char){
-	if(!char.isEmpty&&char.shape===animations_mv3d.enumShapes.SPRITE){
-		return babylon["Vector3"].TransformCoordinates(vector,animations_mv3d.getUnscaledMatrix(char.model.mesh));
+	if(!char.isEmpty&&char.shape===mv3d["a" /* default */].enumShapes.SPRITE){
+		return babylon["Vector3"].TransformCoordinates(vector,mv3d["a" /* default */].getUnscaledMatrix(char.model.mesh));
 	}else{
-		return babylon["Vector3"].TransformCoordinates(vector,animations_mv3d.getTranslationMatrix(char.model.mesh));
+		return babylon["Vector3"].TransformCoordinates(vector,mv3d["a" /* default */].getTranslationMatrix(char.model.mesh));
 	}
 }
 
@@ -9336,23 +8667,21 @@ function transformVectorForCharacter(vector,char){
 const _start_animation = Sprite_Character.prototype.startAnimation;
 Sprite_Character.prototype.startAnimation = function(){
 	_start_animation.apply(this,arguments);
-	if(animations_mv3d.mapDisabled||!(SceneManager._scene instanceof Scene_Map)){ return; }
+	if(mv3d["a" /* default */].mapDisabled||!(SceneManager._scene instanceof Scene_Map)){ return; }
 	const animationSprite = this._animationSprites[this._animationSprites.length-1];
 	animationSprite._mv3d_animationSettings=this._character._mv3d_animationSettings;
 	delete this._character._mv3d_animationSettings;
 	if(animationSprite._mv3d_animationSettings){
 		animationSprite.mv3d_animation=new animations_DepthAnimation(animationSprite);
-		if(animationSprite._screenFlashSprite){
-			animations_mv3d.pixiContainer.addChild(animationSprite._screenFlashSprite);
-		}
+		mv3d["a" /* default */].pixiContainer.addChild(animationSprite._screenFlashSprite);
 		return;
 	}
-	animations_mv3d.pixiContainer.addChild(animationSprite);
+	mv3d["a" /* default */].pixiContainer.addChild(animationSprite);
 };
 
 const _animation_remove = Sprite_Animation.prototype.remove;
 Sprite_Animation.prototype.remove=function(){
-	if(!animations_mv3d.mapDisabled && this.mv3d_animation){
+	if(!mv3d["a" /* default */].mapDisabled && this.mv3d_animation){
 		if(this._screenFlashSprite){
 			this.addChild(this._screenFlashSprite);
 		}
@@ -9373,11 +8702,9 @@ Scene_Map.prototype.terminate=function(){
 const _animation_updateScreenFlash=Sprite_Animation.prototype.updateScreenFlash;
 Sprite_Animation.prototype.updateScreenFlash = function() {
 	_animation_updateScreenFlash.apply(this,arguments);
-	if(!animations_mv3d.mapDisabled&&(SceneManager._scene instanceof Scene_Map)){
-		if(this._screenFlashSprite){
-			this._screenFlashSprite.x = 0;
-			this._screenFlashSprite.y = 0;
-		}
+	if(!mv3d["a" /* default */].mapDisabled&&(SceneManager._scene instanceof Scene_Map)){
+		this._screenFlashSprite.x = 0;
+		this._screenFlashSprite.y = 0;
 	}
 };
 
@@ -9392,22 +8719,22 @@ function getAnimationOffset(animation){
 const _update_animation_sprites = Sprite_Character.prototype.updateAnimationSprites;
 Sprite_Character.prototype.updateAnimationSprites = function() {
 	_update_animation_sprites.apply(this,arguments);
-	if(animations_mv3d.mapDisabled||!this._animationSprites.length||!(SceneManager._scene instanceof Scene_Map)){ return; }
+	if(mv3d["a" /* default */].mapDisabled||!this._animationSprites.length||!(SceneManager._scene instanceof Scene_Map)){ return; }
 	if(!this._character.mv3d_sprite){ return; }
 	for (const animationSprite of this._animationSprites){
 		if(animationSprite.mv3d_animation){ continue; }
-		//if(animationSprite._animation.position===3){
-		//	animationSprite.update();
-		//	continue;
-		//}
+		if(animationSprite._animation.position===3){
+			animationSprite.update();
+			continue;
+		}
 
 		const offsetVector = new babylon["Vector3"](0, getAnimationOffset(animationSprite), 0);
 		const animationOrigin = transformVectorForCharacter(offsetVector,this._character.mv3d_sprite);
-		const pos = animations_mv3d.getScreenPosition(animationOrigin);
+		const pos = mv3d["a" /* default */].getScreenPosition(animationOrigin);
 		const dist = babylon["Vector3"].Distance(
-			BABYLON.Vector3.TransformCoordinates(animations_mv3d.camera.position,animations_mv3d.getTranslationMatrix(animations_mv3d.camera)),
+			BABYLON.Vector3.TransformCoordinates(mv3d["a" /* default */].camera.position,mv3d["a" /* default */].getTranslationMatrix(mv3d["a" /* default */].camera)),
 			animationOrigin);
-		const scale = animations_mv3d.camera.mode===mod_babylon["f" /* ORTHOGRAPHIC_CAMERA */] ? animations_mv3d.getScaleForDist() : animations_mv3d.getScaleForDist(dist);
+		const scale = mv3d["a" /* default */].camera.mode===mod_babylon["f" /* ORTHOGRAPHIC_CAMERA */] ? mv3d["a" /* default */].getScaleForDist() : mv3d["a" /* default */].getScaleForDist(dist);
 
 		animationSprite.behindCamera = pos.behindCamera;
 		animationSprite.update();
@@ -9423,7 +8750,7 @@ Sprite_Animation.prototype.updateCellSprite = function(sprite,cell) {
 	if(this.behindCamera){ sprite.visible=false; }
 };
 // CONCATENATED MODULE: ./src/parallax.js
-const parallax_mv3d = window.mv3d;
+
 
 
 Object(util["override"])(Game_Map.prototype,'setupParallax',o=>function(){
@@ -9454,7 +8781,7 @@ Object(util["override"])(Game_Map.prototype,'updateParallax',o=>function(){
 Object(util["override"])(Game_Map.prototype,'parallaxOx',o=>function(){
 	let ox = this.mv3d_parallaxX;
 	if(this._parallaxLoopX){
-		return ox - parallax_mv3d.blendCameraYaw.currentValue()*816/90;
+		return ox - mv3d["a" /* default */].blendCameraYaw.currentValue()*816/90;
 	}
 	return ox;
 });
@@ -9462,7 +8789,7 @@ Object(util["override"])(Game_Map.prototype,'parallaxOx',o=>function(){
 Object(util["override"])(Game_Map.prototype,'parallaxOy',o=>function(){
 	let oy = this.mv3d_parallaxY;
 	if(this._parallaxLoopY){
-		return oy - parallax_mv3d.blendCameraPitch.currentValue()*816/90;
+		return oy - mv3d["a" /* default */].blendCameraPitch.currentValue()*816/90;
 	}
 	return 0;
 });
@@ -9483,20 +8810,20 @@ Game_Map.prototype.updateScroll = function() {
 */
 
 Game_CharacterBase.prototype.mv3d_inRenderDist=function(){
-	const loopPos = parallax_mv3d.loopCoords(this.x,this.y);
-	return Math.abs(loopPos.x - parallax_mv3d.cameraStick.x)<=parallax_mv3d.renderDist
-	&& Math.abs(loopPos.y - parallax_mv3d.cameraStick.y)<=parallax_mv3d.renderDist;
+	const loopPos = mv3d["a" /* default */].loopCoords(this.x,this.y);
+	return Math.abs(loopPos.x - mv3d["a" /* default */].cameraStick.x)<=mv3d["a" /* default */].renderDist
+	&& Math.abs(loopPos.y - mv3d["a" /* default */].cameraStick.y)<=mv3d["a" /* default */].renderDist;
 };
 
 Object(util["override"])(Game_CharacterBase.prototype,'isNearTheScreen',o=>function(){
-	if(!parallax_mv3d.EVENTS_UPDATE_NEAR){ return o.apply(this,arguments); }
+	if(!mv3d["a" /* default */].EVENTS_UPDATE_NEAR){ return o.apply(this,arguments); }
 	return this.mv3d_inRenderDist() || o.apply(this,arguments);
 });
 
 
 Object(util["override"])(Game_Screen.prototype,'shake',o=>function(){
 	return 0;
-},()=> !parallax_mv3d.isDisabled() && SceneManager._scene instanceof Scene_Map );
+},()=> !mv3d["a" /* default */].isDisabled() && SceneManager._scene instanceof Scene_Map );
 
 Object(util["override"])(Game_CharacterBase.prototype,'screenX',o=>function(){
 	const sprite = this.mv3d_sprite;
@@ -9504,7 +8831,7 @@ Object(util["override"])(Game_CharacterBase.prototype,'screenX',o=>function(){
 	if(SceneManager.isNextScene(Scene_Battle) && this===$gamePlayer){
 		return Graphics.width/2;
 	}
-	return parallax_mv3d.getScreenPosition(sprite).x;
+	return mv3d["a" /* default */].getScreenPosition(sprite).x;
 });
 
 Object(util["override"])(Game_CharacterBase.prototype,'screenY',o=>function(){
@@ -9513,17 +8840,17 @@ Object(util["override"])(Game_CharacterBase.prototype,'screenY',o=>function(){
 	if(SceneManager.isNextScene(Scene_Battle) && this===$gamePlayer){
 		return Graphics.height/2;
 	}
-	return parallax_mv3d.getScreenPosition(sprite).y;
+	return mv3d["a" /* default */].getScreenPosition(sprite).y;
 });
 
 Game_CharacterBase.prototype.mv3d_screenWidth=function(){
 	const sprite = this.mv3d_sprite; if(!sprite)return this.mv3d_sprite?this.mv3d_sprite.width:0;
-	return sprite.spriteWidth*Object(util["tileWidth"])()*parallax_mv3d.getScaleForDist();
+	return sprite.spriteWidth*Object(util["tileWidth"])()*mv3d["a" /* default */].getScaleForDist();
 };
 
 Game_CharacterBase.prototype.mv3d_screenHeight=function(){
 	const sprite = this.mv3d_sprite; if(!sprite)return this.mv3d_sprite?this.mv3d_sprite.height:0;
-	return sprite.spriteHeight*Object(util["tileHeight"])()*parallax_mv3d.getScaleForDist();
+	return sprite.spriteHeight*Object(util["tileHeight"])()*mv3d["a" /* default */].getScaleForDist();
 };
 
 Game_CharacterBase.prototype.mv3d_screenBounds=function(){
@@ -9534,7 +8861,7 @@ Game_CharacterBase.prototype.mv3d_screenBounds=function(){
 		return new PIXI.Rectangle(this.screenX()-width/2,this.screenY()-height,width/2,height);
 	}
 	const bbox = sprite.mesh.getBoundingInfo().boundingBox;
-	const projections = bbox.vectorsWorld.map(v=>parallax_mv3d.getScreenPosition(v));
+	const projections = bbox.vectorsWorld.map(v=>mv3d["a" /* default */].getScreenPosition(v));
 	let minX=Graphics.width, minY=Graphics.height, maxX=0, maxY=0;
 	let pointsBehindCamera=0;
 	for (const projection of projections){
@@ -9548,50 +8875,10 @@ Game_CharacterBase.prototype.mv3d_screenBounds=function(){
 	rect.behindCamera = pointsBehindCamera<8;
 	return rect;
 };
-// CONCATENATED MODULE: ./src/features.js
-const features_mv3d = window.mv3d;
-
-features_mv3d.features={};
-
-features_mv3d.callFeature=function(name,method,...args){
-	if(!this.featureEnabled(name)){ return; }
-	const feature = this.features[name];
-	if(method in feature.methods){
-		feature.methods[method](...args);
-	}
-}
-
-features_mv3d.callFeatures=function(method,...args){
-	for(const name in this.features){
-		this.callFeature(name,method,...args);
-	}
-}
-
-features_mv3d.featureEnabled=function(name){
-	if( !(name in this.features) ){ return false; }
-	if(!this.features[name].enabled()){ return false; }
-	return true;
-}
-
-class Feature{
-	constructor(name,methods,condition=true){
-		Object.assign(this,{name,condition,methods});
-		features_mv3d.features[name]=this;
-	}
-	enabled(){
-		if(typeof this.condition==='function'){
-			return this.condition();
-		}
-		return Boolean(this.condition);
-	}
-}
-features_mv3d.Feature = Feature;
-
 // EXTERNAL MODULE: ./src/plugin_support/plugin_support.js
-var plugin_support = __webpack_require__(8);
+var plugin_support = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./src/index.js
-
 
 
 
@@ -9613,8 +8900,8 @@ var plugin_support = __webpack_require__(8);
 
 
 
-
-//import './premium/index.js';
+//features
+//import './feature-dynamicShadows.js';
 
 /***/ })
 /******/ ]);
