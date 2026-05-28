@@ -2,5 +2,5 @@
 null,
 {"id":1,"battlerName":"pedro","characterIndex":0,"characterName":"pedro","classId":1,"equips":[0,0,2,3,0],"faceIndex":0,"faceName":"pedro","traits":[],"initialLevel":5,"maxLevel":99,"name":"Cody","nickname":"","note":"","profile":""},
 {"id":2,"battlerName":"juana","characterIndex":0,"characterName":"juana","classId":4,"equips":[0,1,2,3,0],"faceIndex":0,"faceName":"juana","traits":[],"initialLevel":1,"maxLevel":99,"name":"Julia","nickname":"","note":"","profile":""},
-{"id":3,"battlerName":"Antonio","characterIndex":0,"characterName":"antonio","classId":2,"equips":[3,0,2,3,4],"faceIndex":0,"faceName":"antonio","traits":[],"initialLevel":1,"maxLevel":99,"name":"Leo","nickname":"","note":"","profile":""}
+{"id":3,"battlerName":"Antonio","characterIndex":0,"characterName":"antonio","classId":2,"equips":[3,0,2,3,4],"faceIndex":0,"faceName":"antonio","traits":[],"initialLevel":1,"maxLevel":99,"name":"Antonio","nickname":"","note":"","profile":""}
 ]
